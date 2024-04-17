@@ -1,0 +1,4 @@
+src/opencv2/
+.sconsign.dblite
+.vscode/
+src/*.obj
