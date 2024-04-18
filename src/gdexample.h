@@ -13,6 +13,7 @@ namespace godot
 
     private:
         double time_passed;
+        Ref<Image> godotImg;
 
     protected:
         static void _bind_methods();
@@ -22,6 +23,8 @@ namespace godot
         ~GDExample();
 
         void _process(double delta) override;
+
+        Ref<Image> get_godot_image();
     };
 
 }
