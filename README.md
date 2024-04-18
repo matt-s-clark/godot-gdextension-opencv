@@ -6,6 +6,8 @@ For a basic example of how to create a GDExtension, see the Godot documentation:
 
 For great videos on GDExtensions with C++, take a look at Mosen Zare's YouTube Tutorials: https://www.youtube.com/playlist?list=PLhixpuPeRv9aDdsZbhTpsXguYRvMgyVQ-
 
+Please be aware that OpenCV may contain patents that require licensing or credit. Please do your own research before using it in a commercial scenario.
+
 ## Prequisites
 
 You will need to install the following (version numbers are the ones I have working correctly):
