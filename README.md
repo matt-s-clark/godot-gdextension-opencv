@@ -12,7 +12,7 @@ Please be aware that OpenCV may contain patents that require licensing or credit
 
 You will need to install the following (version numbers are the ones I have working correctly):
 
-- Godot 4.2.1
+- Godot 4.2.2
 - OpenCV 4.9.0
 
 ## Windows (x64)
