@@ -1,32 +1,27 @@
 #ifndef GDEXAMPLE_H
 #define GDEXAMPLE_H
 
-#include <godot_cpp/classes/texture_rect.hpp>
 #include <godot_cpp/classes/image_texture.hpp>
 
-namespace godot
-{
+namespace godot {
 
-    class GDExample : public TextureRect
-    {
-        GDCLASS(GDExample, TextureRect)
+class GDExample : public RefCounted {
+	GDCLASS(GDExample, RefCounted)
 
-    private:
-        double time_passed;
-        Ref<Image> godotImg;
+private:
+	double time_passed;
+	Ref<Image> godotImg;
 
-    protected:
-        static void _bind_methods();
+protected:
+	static void _bind_methods();
 
-    public:
-        GDExample();
-        ~GDExample();
+public:
+	GDExample();
+	~GDExample();
 
-        void _process(double delta) override;
+	Ref<Image> get_godot_image();
+};
 
-        Ref<Image> get_godot_image();
-    };
-
-}
+} //namespace godot
 
 #endif
