@@ -5,8 +5,8 @@
 
 namespace godot {
 
-class GDExample : public RefCounted {
-	GDCLASS(GDExample, RefCounted)
+class CVMat : public RefCounted {
+	GDCLASS(CVMat, RefCounted)
 
 private:
 	double time_passed;
@@ -16,8 +16,8 @@ protected:
 	static void _bind_methods();
 
 public:
-	GDExample();
-	~GDExample();
+	CVMat();
+	~CVMat();
 
 	Ref<Image> get_godot_image();
 };

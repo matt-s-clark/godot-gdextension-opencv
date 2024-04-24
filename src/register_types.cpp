@@ -13,7 +13,7 @@ void initialize_opencv_module(ModuleInitializationLevel p_level) {
 		return;
 	}
 
-	ClassDB::register_class<GDExample>();
+	ClassDB::register_class<CVMat>();
 }
 
 void uninitialize_opencv_module(ModuleInitializationLevel p_level) {

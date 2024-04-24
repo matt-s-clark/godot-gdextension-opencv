@@ -8,11 +8,11 @@
 
 using namespace godot;
 
-void GDExample::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_godot_image"), &GDExample::get_godot_image);
+void CVMat::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_godot_image"), &CVMat::get_godot_image);
 }
 
-GDExample::GDExample() {
+CVMat::CVMat() {
 	// Initialize any variables here.
 	time_passed = 0.0;
 
@@ -40,10 +40,10 @@ GDExample::GDExample() {
 	UtilityFunctions::print(godotImg->get_height());
 }
 
-GDExample::~GDExample() {
+CVMat::~CVMat() {
 	// Add your cleanup here.
 }
 
-Ref<Image> GDExample::get_godot_image() {
+Ref<Image> CVMat::get_godot_image() {
 	return godotImg;
 }
