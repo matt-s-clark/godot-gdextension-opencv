@@ -8,6 +8,8 @@ For great videos on GDExtensions with C++, take a look at Mosen Zare's YouTube T
 
 Please be aware that OpenCV may contain patents that require licensing or credit. Please do your own research before using it in a commercial scenario.
 
+If you're not already on the Godot Discord channel I recommend you go and join it.
+
 ## Prequisites
 
 You will need to install the following (version numbers are the ones I have working correctly):
@@ -38,6 +40,10 @@ If a basic init doesn't work, you may need to do the following in the project ro
 To compile, make sure you are in the project root folder:
 
     scons platform=windows
+
+To clean your build folder, use the `--clean` argument, i.e.
+
+    scons platform=windows --clean
 
 Run the extension from Godot. It is best to run Godot from the command line to capture any potential error messages that would normally be missed. For example, C++ `cout` only outputs to the command line and not the Godot terminal.
 
