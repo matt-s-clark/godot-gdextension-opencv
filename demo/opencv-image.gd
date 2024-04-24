@@ -1,12 +1,14 @@
-extends GDExample
+extends TextureRect
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("READY!")
-	print(get_godot_image());
+	var gdExample = CVMat.new();
+	var tiltFiveIRCameraImage = gdExample.get_godot_image();
+	print(tiltFiveIRCameraImage);
 
-	texture = ImageTexture.create_from_image(get_godot_image());
+	texture = ImageTexture.create_from_image(tiltFiveIRCameraImage);
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
