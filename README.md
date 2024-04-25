@@ -10,6 +10,8 @@ Please be aware that OpenCV may contain patents that require licensing or credit
 
 If you're not already on the Godot Discord channel I recommend you go and join it.
 
+You can go to this Discord thread to get involved: https://discord.com/channels/212250894228652034/1232670118702485584
+
 ## Prequisites
 
 You will need to install the following (version numbers are the ones I have working correctly):
