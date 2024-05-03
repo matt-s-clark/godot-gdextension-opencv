@@ -1,21 +1,19 @@
 #include "CVImgCodecs.h"
-#include <godot_cpp/classes/resource_loader.hpp>
-#include <godot_cpp/core/class_db.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
 
 void CVImgCodecs::_bind_methods() {
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("imread", "filename"), &CVImgCodecs::imread);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("imread", "filename", "flags"), &CVImgCodecs::imread);
 }
 
-CVImgCodecs::CVImgCodecs() {
-}
+// CVImgCodecs::CVImgCodecs() {
+// }
 
-CVImgCodecs::~CVImgCodecs() {
-}
+// CVImgCodecs::~CVImgCodecs() {
+// }
 
-PackedByteArray CVImgCodecs::imread(const String &filename, const int flags) {
+Dictionary CVImgCodecs::imread(const String &filename, const int flags = cv::IMREAD_COLOR) {
 	// Default flags value = cv::IMREAD_COLOR
 
 	cv::String image_path(filename.utf8());
@@ -33,5 +31,14 @@ PackedByteArray CVImgCodecs::imread(const String &filename, const int flags) {
 	bytes.resize(sizear);
 	memcpy(bytes.ptrw(), loadedImage.data, sizear);
 
-	return bytes;
+	Vector2 gdSize;
+	gdSize.width = size.width;
+	gdSize.height = size.height;
+
+	Dictionary dict;
+	dict["size"] = gdSize;
+	dict["channels"] = loadedImage.channels();
+	dict["data"] = bytes;
+
+	return dict;
 }

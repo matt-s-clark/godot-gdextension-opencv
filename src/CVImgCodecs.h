@@ -2,6 +2,10 @@
 #define CV_IMGCODECS_H
 
 #include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/classes/resource_loader.hpp>
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/godot.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 
@@ -18,10 +22,10 @@ protected:
 	static void _bind_methods();
 
 public:
-	CVImgCodecs();
-	~CVImgCodecs();
+	// CVImgCodecs();
+	// ~CVImgCodecs();
 
-	static PackedByteArray imread(const String &filename, const int flags);
+	static Dictionary imread(const String &filename, const int flags);
 };
 
 } //namespace godot
