@@ -2,12 +2,13 @@
 #define CV_IMGCODECS_H
 
 #include <godot_cpp/classes/ref_counted.hpp>
+#include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 
 namespace godot {
 
-class CVImgCodecs : public RefCounted {
-	GDCLASS(CVImgCodecs, RefCounted)
+class CVImgCodecs : public Object {
+	GDCLASS(CVImgCodecs, Object)
 
 private:
 	// double time_passed;
@@ -17,10 +18,10 @@ protected:
 	static void _bind_methods();
 
 public:
-	// GDExample();
-	// ~GDExample();
+	CVImgCodecs();
+	~CVImgCodecs();
 
-	Ref<cv::Mat> imread(String &filename, int flags = cv::IMREAD_COLOR);
+	static PackedByteArray imread(const String &filename, const int flags);
 };
 
 } //namespace godot

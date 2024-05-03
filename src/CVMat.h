@@ -2,6 +2,7 @@
 #define GDEXAMPLE_H
 
 #include <godot_cpp/classes/image_texture.hpp>
+#include <opencv2/core.hpp>
 
 namespace godot {
 
@@ -9,8 +10,7 @@ class CVMat : public RefCounted {
 	GDCLASS(CVMat, RefCounted)
 
 private:
-	double time_passed;
-	Ref<Image> godotImg;
+	cv::Mat rawMat;
 
 protected:
 	static void _bind_methods();

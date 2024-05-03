@@ -1,5 +1,6 @@
 #include "register_types.h"
 
+#include "CVImgCodecs.h"
 #include "CVMat.h"
 
 #include <gdextension_interface.h>
@@ -14,6 +15,7 @@ void initialize_opencv_module(ModuleInitializationLevel p_level) {
 	}
 
 	ClassDB::register_class<CVMat>();
+	ClassDB::register_class<CVImgCodecs>();
 }
 
 void uninitialize_opencv_module(ModuleInitializationLevel p_level) {
