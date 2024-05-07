@@ -22,8 +22,8 @@ protected:
 	static void _bind_methods();
 
 public:
-	// CVImgCodecs();
-	// ~CVImgCodecs();
+	CVImgCodecs();
+	~CVImgCodecs();
 
 	static Dictionary imread(const String &filename, const int flags);
 };

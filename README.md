@@ -19,6 +19,8 @@ You will need to install the following (version numbers are the ones I have work
 - Godot 4.2.2
 - OpenCV 4.9.0
 
+Copy the `opencv.gdextension` file to `demo/bin`.
+
 ## Windows (x64)
 
 You will need to manually copy the OpenCV files into the `src` folder of this project and make sure `SConstruct` references everything correctly. Pay particular attention to the following lines:
@@ -50,3 +52,21 @@ To clean your build folder, use the `--clean` argument, i.e.
 Run the extension from Godot. It is best to run Godot from the command line to capture any potential error messages that would normally be missed. For example, C++ `cout` only outputs to the command line and not the Godot terminal.
 
 Follow the Godot C++ [GDExtension tutorial](https://docs.godotengine.org/en/4.2/tutorials/scripting/gdextension/gdextension_cpp_example.html#) for details on how to test the `GDExample` component.
+
+## MacOS (Intel)
+
+Download OpenCV from the [releases page](https://opencv.org/releases/) and unpack.
+
+Create a soft link `src/opencv2` to the library folder `opencv2.framework/Versions/Current/Header`.
+
+### Compilation and Running
+
+To compile, make sure you are in the project root folder:
+
+    scons platform=macos arch=x86_64
+
+To run, make sure you include the `DYLD_LIBRARY_PATH` to your opencv dylib files if they are not in a system Library folder (i.e. you built them from source).
+
+    export DYLD_LIBRARY_PATH='/Users/matt/vscode/gto/build_opencv/lib'
+
+If you don't, you may experience `Error: dlopen` messages where the linker looks for files in the wrong place.

@@ -2,8 +2,6 @@
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
 
 using namespace godot;
 
