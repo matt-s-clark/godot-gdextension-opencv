@@ -15,7 +15,8 @@ env = SConscript("godot-cpp/SConstruct")
 # set this path to your library files. This is the location of dll, dylib and so files.
 opencv_library_path = [
     'src/opencv2/x64/vc16/lib',
-    '../build_opencv/lib'
+    '../build_opencv/lib',
+    '/usr/local/lib'
 ]
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
@@ -34,8 +35,12 @@ opencv_library_files = {
         'opencv_world490d'
     ],
     'macos': [
-        'libopencv_core.409.dylib',
-        'libopencv_imgcodecs.409.dylib'
+        'libopencv_core.dylib',
+        'libopencv_imgcodecs.dylib'
+    ],
+    'linux': [
+        'libopencv_core.so',
+        'libopencv_imgcodecs.so'
     ]
 }
 
