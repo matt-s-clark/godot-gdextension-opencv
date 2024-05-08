@@ -10,7 +10,7 @@ Please be aware that OpenCV may contain patents that require licensing or credit
 
 If you're not already on the Godot Discord channel I recommend you go and join it.
 
-You can go to this Discord thread to get involved: https://discord.com/channels/212250894228652034/1232670118702485584
+You can go to this Discord thread to get involved with this project: https://discord.com/channels/212250894228652034/1232670118702485584
 
 ## Prequisites
 
@@ -61,12 +61,34 @@ Create a soft link `src/opencv2` to the library folder `opencv2.framework/Versio
 
 ### Compilation and Running
 
+Set the `opencv_library_path` to point to your OpenCV library files (\*.dylib).
+
 To compile, make sure you are in the project root folder:
 
     scons platform=macos arch=x86_64
 
-To run, make sure you include the `DYLD_LIBRARY_PATH` to your opencv dylib files if they are not in a system Library folder (i.e. you built them from source).
+To run, make sure you include the `DYLD_LIBRARY_PATH` to your opencv dylib files if they are not in a system Library folder (i.e. you built them from source). On the command line where you will run Godot from:
 
     export DYLD_LIBRARY_PATH='/Users/matt/vscode/gto/build_opencv/lib'
 
 If you don't, you may experience `Error: dlopen` messages where the linker looks for files in the wrong place.
+
+Start Godot from the command line:
+
+    cd demo
+    /Applications/Godot.app/Contents/MacOS/Godot -e
+
+You may want to set some extra Godot parameters to start the editor somewhere convenient. For example:
+
+    /Applications/Godot\ 4.2.2.app/Contents/MacOS/Godot -e --screen 1 --position 0,0 -w --resolution 3240x2160
+
+# Troubleshooting
+
+If you have trouble compiling or running the gdextension, here are some suggestions:
+
+- Set up an independent OpenCV project to make sure the installed OpenCV library is working correctly.
+- Make sure you have the SConstruct variables set up correctly. Pay particular attention to:
+  - `opencv_library_path`
+  - `opencv_header_files`
+  - `opencv_library_files`
+- Set your version of Godot and OpenCV to match the prerequisites specified above before switching to a different version.
