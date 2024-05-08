@@ -3,3 +3,4 @@ src/opencv2/
 .vscode/
 src/*.obj
 build/
+*.os

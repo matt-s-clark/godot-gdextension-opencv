@@ -26,7 +26,8 @@ opencv_header_files = [
     "src/opencv2/include",
     "../opencv-4.9.0/modules/core/include",
     "../opencv-4.9.0/modules/imgcodecs/include",
-    "../build_opencv"
+    "../build_opencv",
+    "/usr/local/include/opencv4"
 ]
 
 opencv_library_files = {
