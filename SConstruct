@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import shutil
 
 env = SConscript("godot-cpp/SConstruct")
 
@@ -51,6 +52,9 @@ env.Append(LIBS=opencv_library_files[env["platform"]])
 
 sources = Glob("src/*.cpp")
 
+
+# Create SharedLibrary
+
 if env["platform"] == "macos":
     library = env.SharedLibrary(
         "demo/bin/libgdopencv.{}.{}.framework/libgdopencv.{}.{}".format(
@@ -65,3 +69,19 @@ else:
     )
 
 Default(library)
+
+
+# Copy gdextension file
+
+source_path = 'opencv.gdextension'
+target_path = 'demo/bin/opencv.gdextension'
+
+
+def copy_extension(target, source, env):
+    print(f"Copying {source[0]} to {target[0]}")
+    shutil.copy(str(source[0]), str(target[0]))
+
+
+env.Command(target=target_path, source=source_path, action=copy_extension)
+
+Default(target_path)
