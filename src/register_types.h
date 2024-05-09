@@ -1,6 +1,9 @@
 #ifndef GDEXAMPLE_REGISTER_TYPES_H
 #define GDEXAMPLE_REGISTER_TYPES_H
 
+#include "CVImgCodecs.h"
+#include "CVMat.h"
+
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;

@@ -12,7 +12,7 @@ CVImgCodecs::CVImgCodecs() {
 CVImgCodecs::~CVImgCodecs() {
 }
 
-Dictionary CVImgCodecs::imread(const String &filename, const int flags = cv::IMREAD_COLOR) {
+Ref<CVMat> CVImgCodecs::imread(const String &filename, const int flags = cv::IMREAD_COLOR) {
 	// Default flags value = cv::IMREAD_COLOR
 
 	cv::String image_path(filename.utf8());
@@ -39,5 +39,10 @@ Dictionary CVImgCodecs::imread(const String &filename, const int flags = cv::IMR
 	dict["channels"] = loadedImage.channels();
 	dict["data"] = bytes;
 
-	return dict;
+	// return dict;
+
+	Ref<CVMat> my_mat;
+	my_mat.instantiate();
+
+	return my_mat;
 }

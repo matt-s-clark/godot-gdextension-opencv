@@ -1,6 +1,7 @@
 #ifndef CV_IMGCODECS_H
 #define CV_IMGCODECS_H
 
+#include "CVMat.h"
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -25,7 +26,7 @@ public:
 	CVImgCodecs();
 	~CVImgCodecs();
 
-	static Dictionary imread(const String &filename, const int flags);
+	static Ref<CVMat> imread(const String &filename, const int flags);
 };
 
 } //namespace godot
