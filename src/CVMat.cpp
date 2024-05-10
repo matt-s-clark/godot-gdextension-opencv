@@ -10,7 +10,7 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_image"), &CVMat::get_image);
 	ClassDB::bind_method(D_METHOD("get_rows"), &CVMat::get_rows);
 	ClassDB::bind_method(D_METHOD("get_cols"), &CVMat::get_cols);
-	ClassDB::bind_method(D_METHOD("convert_to"), &CVMat::convert_to);
+	ClassDB::bind_method(D_METHOD("convert_to", "rtype"), &CVMat::convert_to);
 }
 
 // TODO: Determine if this class should be RefCounted
@@ -20,13 +20,18 @@ CVMat::CVMat() {
 }
 
 CVMat::~CVMat() {
-	// Add your cleanup here.
+	try {
+		rawMat.release();
+	} catch (std::exception &stde) {
+		UtilityFunctions::push_error(stde.what());
+	}
 }
 
 Ref<Image> CVMat::get_image() {
 	try {
 		if (rawMat.rows == 0 || rawMat.cols == 0) {
 			UtilityFunctions::push_error("Mat is empty, returning empty image");
+			return image;
 		}
 		if (image.is_null() || image->is_empty()) {
 			cv::Mat rgbMat;

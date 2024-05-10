@@ -16,9 +16,6 @@ class CVImgCodecs : public Object {
 	GDCLASS(CVImgCodecs, Object)
 
 private:
-	// double time_passed;
-	// Ref<Image> godotImg;
-
 protected:
 	static void _bind_methods();
 
@@ -26,7 +23,7 @@ public:
 	CVImgCodecs();
 	~CVImgCodecs();
 
-	static Ref<CVMat> imread(const String &filename, const int flags);
+	static Ref<CVMat> imread(const String filename, const int flags);
 };
 
 } //namespace godot

@@ -8,7 +8,7 @@ func _ready():
 	print(matLoad);
 	
 	var gdExample = CVMat.new();
-	var tiltFiveIRCameraImage:Image = gdExample.get_image();
+	var tiltFiveIRCameraImage:Image = matLoad.get_image();
 	print(tiltFiveIRCameraImage);
 	
 	if not tiltFiveIRCameraImage.is_empty():
