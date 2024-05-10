@@ -42,7 +42,8 @@ opencv_library_files = {
     ],
     'linux': [
         'libopencv_core.so',
-        'libopencv_imgcodecs.so'
+        'libopencv_imgcodecs.so',
+        'libopencv_imgproc.so'
     ]
 }
 

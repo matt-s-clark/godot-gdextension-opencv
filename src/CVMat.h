@@ -20,7 +20,16 @@ public:
 	CVMat();
 	~CVMat();
 
-	Ref<Image> get_godot_image();
+	Ref<Image> image;
+    Ref<Image> get_image();
+
+    int get_rows();
+    int get_cols();
+
+    cv::Mat get_mat();
+    void set_mat( cv::Mat _mat );
+
+    void convert_to( int rtype );
 };
 
 } //namespace godot
