@@ -20,49 +20,37 @@ CVMat::CVMat() {
 }
 
 CVMat::~CVMat() {
-	try {
-		rawMat.release();
-	} catch (std::exception &stde) {
-		UtilityFunctions::push_error(stde.what());
-	}
+	SAFECALL(rawMat.release());
 }
 
 Ref<Image> CVMat::get_image() {
-	try {
-		if (rawMat.rows == 0 || rawMat.cols == 0) {
-			UtilityFunctions::push_error("Mat is empty, returning empty image");
-			return image;
-		}
-		if (image.is_null() || image->is_empty()) {
-			cv::Mat rgbMat;
+	if (rawMat.rows == 0 || rawMat.cols == 0) {
+		UtilityFunctions::push_error("Mat is empty, returning empty image");
+		return image;
+	}
+	if (image.is_null() || image->is_empty()) {
+		cv::Mat rgbMat;
 
-			cv::cvtColor(rawMat, rgbMat, cv::COLOR_BGR2RGB);
-			rgbMat.convertTo(rgbMat, CV_8U);
+		SAFECALL(cv::cvtColor(rawMat, rgbMat, cv::COLOR_BGR2RGB));
+		rgbMat.convertTo(rgbMat, CV_8U);
 
-			int sizear = rgbMat.cols * rgbMat.rows * rgbMat.channels();
+		int sizear = rgbMat.cols * rgbMat.rows * rgbMat.channels();
 
-			// TODO: Conversion to image should depend on type
+		// TODO: Conversion to image should depend on type
 
-			PackedByteArray bytes;
-			bytes.resize(sizear);
-			memcpy(bytes.ptrw(), rgbMat.data, sizear);
+		PackedByteArray bytes;
+		bytes.resize(sizear);
+		memcpy(bytes.ptrw(), rgbMat.data, sizear);
 
-			image = Image::create_from_data(rgbMat.cols, rgbMat.rows, false,
-					Image::Format::FORMAT_RGB8, bytes);
-		}
-	} catch (std::exception &stde) {
-		UtilityFunctions::push_error(stde.what());
+		image = Image::create_from_data(rgbMat.cols, rgbMat.rows, false,
+				Image::Format::FORMAT_RGB8, bytes);
 	}
 
 	return image;
 }
 
 void CVMat::convert_to(int rtype) {
-	try {
-		rawMat.convertTo(rawMat, rtype);
-	} catch (std::exception &stde) {
-		UtilityFunctions::push_error(stde.what());
-	}
+	SAFECALL(rawMat.convertTo(rawMat, rtype));
 }
 
 int CVMat::get_rows() {

@@ -2,6 +2,7 @@
 #define CV_IMGCODECS_H
 
 #include "CVMat.h"
+#include "Macros.h"
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/core/class_db.hpp>

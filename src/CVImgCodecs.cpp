@@ -15,13 +15,9 @@ CVImgCodecs::~CVImgCodecs() {
 Ref<CVMat> CVImgCodecs::imread(const String filename, const int flags = cv::IMREAD_COLOR) {
 	cv::Mat outMat;
 	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
+	const char *path = filename.utf8().get_data();
 
-	try {
-		const char *path = filename.utf8().get_data();
-		outMat = cv::imread(path, flags);
-	} catch (std::exception &stde) {
-		UtilityFunctions::push_error(stde.what());
-	}
+	SAFECALL(outMat = cv::imread(path, flags));
 
 	output->set_mat(outMat);
 

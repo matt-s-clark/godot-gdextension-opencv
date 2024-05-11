@@ -1,6 +1,7 @@
 #ifndef GDEXAMPLE_H
 #define GDEXAMPLE_H
 
+#include "Macros.h"
 #include <godot_cpp/classes/image_texture.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>

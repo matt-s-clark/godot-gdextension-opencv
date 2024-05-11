@@ -17,22 +17,14 @@ CVVideoCapture::~CVVideoCapture() {
 }
 
 void CVVideoCapture::open(int index, int api) {
-	try {
-		rawCap.open(index, api);
-	} catch (std::exception &stde) {
-		UtilityFunctions::push_error(stde.what());
-	}
+	SAFECALL(rawCap.open(index, api));
 }
 
 Ref<CVMat> CVVideoCapture::read() {
 	cv::Mat outMat;
 	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
 
-	try {
-		rawCap.read(outMat);
-	} catch (std::exception &stde) {
-		UtilityFunctions::push_error(stde.what());
-	}
+	SAFECALL(rawCap.read(outMat));
 
 	output->set_mat(outMat);
 
@@ -42,19 +34,11 @@ Ref<CVMat> CVVideoCapture::read() {
 bool CVVideoCapture::is_opened() {
 	bool output = false;
 
-	try {
-		output = rawCap.isOpened();
-	} catch (std::exception &stde) {
-		UtilityFunctions::push_error(stde.what());
-	}
+	SAFECALL(output = rawCap.isOpened());
 
 	return output;
 }
 
 void CVVideoCapture::release() {
-	try {
-		rawCap.release();
-	} catch (std::exception &stde) {
-		UtilityFunctions::push_error(stde.what());
-	}
+	SAFECALL(rawCap.release());
 }
