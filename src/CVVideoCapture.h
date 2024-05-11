@@ -10,6 +10,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
+#include <stdio.h>
 
 namespace godot {
 
@@ -26,7 +27,7 @@ public:
 	CVVideoCapture();
 	~CVVideoCapture();
 
-	void open(int index, int api);
+	void open(Variant source, int api, Variant parameters);
 	void release();
 	Ref<CVMat> read();
 

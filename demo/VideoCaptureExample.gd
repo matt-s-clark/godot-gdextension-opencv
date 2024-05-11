@@ -6,18 +6,19 @@ var cap:CVVideoCapture
 
 func _ready():
 	cap = CVVideoCapture.new()
-	cap.open(0,0)
+	cap.open(0, 0, null)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if cap.is_opened():
 		var mat = cap.read()
-		var tex: ImageTexture = ImageTexture.create_from_image(mat.get_image())
-		video_feed.texture = tex
+		if mat.get_cols() > 0:
+			var tex: ImageTexture = ImageTexture.create_from_image(mat.get_image())
+			video_feed.texture = tex
 
 
 func _on_open_pressed():
-	cap.open(0,0)
+	cap.open(0, 0, null)
 
 
 func _on_release_pressed():
