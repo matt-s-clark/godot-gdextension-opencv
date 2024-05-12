@@ -37,6 +37,17 @@ void CVVideoCapture::open(Variant source, int api, Variant params) {
 	}
 }
 
+Ref<CVMat> CVVideoCapture::retrieve(int flag) {
+	cv::Mat outMat;
+	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
+
+	SAFECALL(rawCap.retrieve(outMat, flag));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
 Ref<CVMat> CVVideoCapture::read() {
 	cv::Mat outMat;
 	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
@@ -56,6 +67,52 @@ bool CVVideoCapture::is_opened() {
 	return output;
 }
 
+String CVVideoCapture::getBackendName() {
+	String output;
+
+	SAFECALL(output = rawCap.getBackendName().c_str());
+
+	return output;
+}
+
+bool CVVideoCapture::grab() {
+	bool output = false;
+
+	SAFECALL(output = rawCap.grab());
+
+	return output;
+}
+
+bool CVVideoCapture::getExceptionMode() {
+	bool output = false;
+
+	SAFECALL(output = rawCap.getExceptionMode());
+
+	return output;
+}
+
+float CVVideoCapture::get(int propId) {
+	float output;
+
+	// Output type of the value changed from double to float
+	SAFECALL(output = rawCap.get(propId));
+
+	return output;
+}
+
+bool CVVideoCapture::set(int propId, float value) {
+	bool output = false;
+
+	// Input type of the value changed from double to float
+	SAFECALL(rawCap.set(propId, value));
+
+	return output;
+}
+
 void CVVideoCapture::release() {
 	SAFECALL(rawCap.release());
+}
+
+void CVVideoCapture::setExceptionMode(bool enable) {
+	SAFECALL(rawCap.setExceptionMode(enable));
 }
