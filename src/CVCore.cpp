@@ -3,35 +3,35 @@
 using namespace godot;
 
 void CVCore::_bind_methods() {
-	ClassDB::bind_static_method( "CVCore", D_METHOD( "add" ), &CVCore::add, "mat1",
-                                 "mat2", "mask", "dType" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "subtract" ), &CVCore::subtract,
-                                 "mat1", "mat2", "mask", "dType" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "max" ), &CVCore::max, "mat1",
-                                 "mat2" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "min" ), &CVCore::min, "mat1",
-                                 "mat2" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "absdiff" ), &CVCore::absdiff,
-                                 "mat1", "mat2" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "vconcat" ), &CVCore::vconcat,
-                                 "mat1", "mat2" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "hconcat" ), &CVCore::hconcat,
-                                 "mat1", "mat2" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "bitwise_and" ),
-                                 &CVCore::bitwise_and, "mat1", "mat2", "mask" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "bitwise_or" ), &CVCore::bitwise_or,
-                                 "mat1", "mat2", "mask" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "bitwise_xor" ),
-                                 &CVCore::bitwise_xor, "mat1", "mat2", "mask" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "bitwise_not" ),
-                                 &CVCore::bitwise_not, "mat", "mask" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "convertFp16" ),
-                                 &CVCore::convertFp16, "mat" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "exp" ), &CVCore::exp, "mat" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "log" ), &CVCore::log, "mat" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "sqrt" ), &CVCore::sqrt, "mat" );
-    ClassDB::bind_static_method( "CVCore", D_METHOD( "transpose" ), &CVCore::transpose,
-                                 "mat" );
+	ClassDB::bind_static_method("CVCore", D_METHOD("add"), &CVCore::add, "mat1",
+			"mat2", "mask", "dType");
+	ClassDB::bind_static_method("CVCore", D_METHOD("subtract"), &CVCore::subtract,
+			"mat1", "mat2", "mask", "dType");
+	ClassDB::bind_static_method("CVCore", D_METHOD("max"), &CVCore::max, "mat1",
+			"mat2");
+	ClassDB::bind_static_method("CVCore", D_METHOD("min"), &CVCore::min, "mat1",
+			"mat2");
+	ClassDB::bind_static_method("CVCore", D_METHOD("absdiff"), &CVCore::absdiff,
+			"mat1", "mat2");
+	ClassDB::bind_static_method("CVCore", D_METHOD("vconcat"), &CVCore::vconcat,
+			"mat1", "mat2");
+	ClassDB::bind_static_method("CVCore", D_METHOD("hconcat"), &CVCore::hconcat,
+			"mat1", "mat2");
+	ClassDB::bind_static_method("CVCore", D_METHOD("bitwise_and"),
+			&CVCore::bitwise_and, "mat1", "mat2", "mask");
+	ClassDB::bind_static_method("CVCore", D_METHOD("bitwise_or"), &CVCore::bitwise_or,
+			"mat1", "mat2", "mask");
+	ClassDB::bind_static_method("CVCore", D_METHOD("bitwise_xor"),
+			&CVCore::bitwise_xor, "mat1", "mat2", "mask");
+	ClassDB::bind_static_method("CVCore", D_METHOD("bitwise_not"),
+			&CVCore::bitwise_not, "mat", "mask");
+	ClassDB::bind_static_method("CVCore", D_METHOD("convertFp16"),
+			&CVCore::convertFp16, "mat");
+	ClassDB::bind_static_method("CVCore", D_METHOD("exp"), &CVCore::exp, "mat");
+	ClassDB::bind_static_method("CVCore", D_METHOD("log"), &CVCore::log, "mat");
+	ClassDB::bind_static_method("CVCore", D_METHOD("sqrt"), &CVCore::sqrt, "mat");
+	ClassDB::bind_static_method("CVCore", D_METHOD("transpose"), &CVCore::transpose,
+			"mat");
 }
 
 CVCore::CVCore() {

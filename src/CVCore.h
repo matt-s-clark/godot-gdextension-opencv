@@ -4,9 +4,9 @@
 #include "CVMat.h"
 #include "Macros.h"
 #include <godot_cpp/classes/image_texture.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
 #include <opencv2/imgproc.hpp>
 
 namespace godot {
@@ -16,13 +16,13 @@ class CVCore : public Object {
 
 private:
 	static Ref<CVMat> arithmetic_wrapper(void (*func)(cv::InputArray, cv::InputArray,
-											   cv::OutputArray, cv::InputArray, int),
+												 cv::OutputArray, cv::InputArray, int),
 			Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask, int dtype);
 	static Ref<CVMat> mat_in_mat_in_mat_out_wrapper(void (*func)(cv::InputArray, cv::InputArray,
-														  cv::OutputArray),
+															cv::OutputArray),
 			Ref<CVMat> mat1, Ref<CVMat> mat2);
 	static Ref<CVMat> bitwise_wrapper(void (*func)(cv::InputArray, cv::InputArray,
-											cv::OutputArray, cv::InputArray),
+											  cv::OutputArray, cv::InputArray),
 			Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask);
 	static Ref<CVMat> mat_in_mat_out_wrapper(void (*func)(cv::InputArray, cv::OutputArray),
 			Ref<CVMat> mat);

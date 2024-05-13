@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Examples/CoreExample.gd" id="1_o7ldv"]
 
-[node name="VideoCaptureExample" type="Control"]
+[node name="CoreExample" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

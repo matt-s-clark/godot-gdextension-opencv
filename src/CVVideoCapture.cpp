@@ -7,6 +7,13 @@ void CVVideoCapture::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("release"), &CVVideoCapture::release);
 	ClassDB::bind_method(D_METHOD("read"), &CVVideoCapture::read);
 	ClassDB::bind_method(D_METHOD("is_opened"), &CVVideoCapture::is_opened);
+	ClassDB::bind_method(D_METHOD("get", "propId"), &CVVideoCapture::get);
+	ClassDB::bind_method(D_METHOD("get_backend_name"), &CVVideoCapture::getBackendName);
+	ClassDB::bind_method(D_METHOD("get_exception_mode"), &CVVideoCapture::getExceptionMode);
+	ClassDB::bind_method(D_METHOD("grab"), &CVVideoCapture::grab);
+	ClassDB::bind_method(D_METHOD("retrieve", "flag"), &CVVideoCapture::retrieve);
+	ClassDB::bind_method(D_METHOD("set", "propId", "value"), &CVVideoCapture::set);
+	ClassDB::bind_method(D_METHOD("set_exception_mode", "enable"), &CVVideoCapture::setExceptionMode);
 }
 
 CVVideoCapture::CVVideoCapture() {
