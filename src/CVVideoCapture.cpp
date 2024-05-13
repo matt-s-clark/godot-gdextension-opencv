@@ -46,7 +46,8 @@ void CVVideoCapture::open(Variant source, int api, Variant params) {
 
 Ref<CVMat> CVVideoCapture::retrieve(int flag) {
 	cv::Mat outMat;
-	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
+	Ref<CVMat> output;
+	output.instantiate();
 
 	SAFECALL(rawCap.retrieve(outMat, flag));
 
@@ -57,7 +58,8 @@ Ref<CVMat> CVVideoCapture::retrieve(int flag) {
 
 Ref<CVMat> CVVideoCapture::read() {
 	cv::Mat outMat;
-	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
+	Ref<CVMat> output;
+	output.instantiate();
 
 	SAFECALL(rawCap.read(outMat));
 

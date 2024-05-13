@@ -16,7 +16,7 @@ void CVMat::_bind_methods() {
 // TODO: Determine if this class should be RefCounted
 
 CVMat::CVMat() {
-	image = Ref<Image>(memnew(Image));
+	image.instantiate();
 }
 
 CVMat::~CVMat() {

@@ -53,10 +53,11 @@ Ref<CVMat> CVCore::arithmetic_wrapper(void (*func)(cv::InputArray, cv::InputArra
 											  cv::OutputArray, cv::InputArray, int),
 		Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask, int dtype) {
 	cv::Mat outMat;
-	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
+	Ref<CVMat> output;
+	output.instantiate();
 
 	if (mask.is_null()) {
-		mask = Ref<CVMat>(memnew(CVMat));
+		mask.instantiate();
 	}
 
 	SAFECALL(func(mat1->get_mat(), mat2->get_mat(), outMat, mask->get_mat(), dtype));
@@ -91,7 +92,8 @@ Ref<CVMat> CVCore::mat_in_mat_in_mat_out_wrapper(void (*func)(cv::InputArray, cv
 														 cv::OutputArray),
 		Ref<CVMat> mat1, Ref<CVMat> mat2) {
 	cv::Mat outMat;
-	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
+	Ref<CVMat> output;
+	output.instantiate();
 
 	SAFECALL(func(mat1->get_mat(), mat2->get_mat(), outMat));
 
@@ -115,10 +117,11 @@ Ref<CVMat> CVCore::bitwise_xor(Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask
 
 Ref<CVMat> CVCore::bitwise_not(Ref<CVMat> mat, Ref<CVMat> mask) {
 	cv::Mat outMat;
-	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
+	Ref<CVMat> output;
+	output.instantiate();
 
 	if (mask.is_null()) {
-		mask = Ref<CVMat>(memnew(CVMat));
+		mask.instantiate();
 	}
 
 	SAFECALL(cv::bitwise_not(mat->get_mat(), outMat, mask->get_mat()));
@@ -132,10 +135,11 @@ Ref<CVMat> CVCore::bitwise_wrapper(void (*func)(cv::InputArray, cv::InputArray,
 										   cv::OutputArray, cv::InputArray),
 		Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask) {
 	cv::Mat outMat;
-	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
+	Ref<CVMat> output;
+	output.instantiate();
 
 	if (mask.is_null()) {
-		mask = Ref<CVMat>(memnew(CVMat));
+		mask.instantiate();
 	}
 
 	SAFECALL(func(mat1->get_mat(), mat2->get_mat(), outMat, mask->get_mat()));
@@ -169,7 +173,8 @@ Ref<CVMat> CVCore::transpose(Ref<CVMat> mat) {
 Ref<CVMat> CVCore::mat_in_mat_out_wrapper(void (*func)(cv::InputArray, cv::OutputArray),
 		Ref<CVMat> mat) {
 	cv::Mat outMat;
-	Ref<CVMat> output = Ref<CVMat>(memnew(CVMat));
+	Ref<CVMat> output;
+	output.instantiate();
 
 	SAFECALL(func(mat->get_mat(), outMat));
 
