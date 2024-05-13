@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bmm7p71qjj4yv"]
 
-[ext_resource type="Script" path="res://VideoCaptureExample.gd" id="1_s04h2"]
+[ext_resource type="Script" path="res://Examples/VideoCaptureExample.gd" id="1_s04h2"]
 
 [node name="VideoCaptureExample" type="Control"]
 layout_mode = 3

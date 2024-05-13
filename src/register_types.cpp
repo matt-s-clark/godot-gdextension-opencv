@@ -12,6 +12,7 @@ void initialize_opencv_module(ModuleInitializationLevel p_level) {
 	}
 
 	ClassDB::register_class<CVMat>();
+	ClassDB::register_class<CVCore>();
 	ClassDB::register_class<CVImgCodecs>();
 	ClassDB::register_class<CVVideoCapture>();
 }

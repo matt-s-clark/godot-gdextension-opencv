@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck8hdhcrx3130"]
+
+[ext_resource type="Script" path="res://Examples/CoreExample.gd" id="1_o7ldv"]
+
+[node name="VideoCaptureExample" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_o7ldv")
+
+[node name="VideoFeed" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.5
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VideoFeed2" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VideoFeed3" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VideoFeed4" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Interface" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -68.0
+offset_bottom = 66.0
+grow_horizontal = 0
+
+[node name="Open" type="Button" parent="Interface"]
+layout_mode = 2
+text = "Open"
+
+[node name="Release" type="Button" parent="Interface"]
+layout_mode = 2
+text = "Release"
+
+[connection signal="pressed" from="Interface/Open" to="." method="_on_open_pressed"]
+[connection signal="pressed" from="Interface/Release" to="." method="_on_release_pressed"]

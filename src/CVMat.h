@@ -1,5 +1,5 @@
-#ifndef GDEXAMPLE_H
-#define GDEXAMPLE_H
+#ifndef GDMAT_H
+#define GDMAT_H
 
 #include "Macros.h"
 #include <godot_cpp/classes/image_texture.hpp>
