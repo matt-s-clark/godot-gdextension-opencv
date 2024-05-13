@@ -8,6 +8,7 @@ func _ready():
 	cap = CVVideoCapture.new()
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 	
+	print(cap)
 	print(cap.get_backend_name())
 	print(cap.get(0))
 	print(cap.get_exception_mode())

@@ -68,3 +68,7 @@ void CVMat::set_mat(cv::Mat _mat) {
 cv::Mat CVMat::get_mat() {
 	return rawMat;
 }
+
+String CVMat::_to_string() const {
+	return UtilityFunctions::str("[ CVMat instance (", String((Variant)rawMat.cols), ", ", String((Variant)rawMat.rows), ") ]");
+}

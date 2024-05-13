@@ -125,3 +125,7 @@ void CVVideoCapture::release() {
 void CVVideoCapture::setExceptionMode(bool enable) {
 	SAFECALL(rawCap.setExceptionMode(enable));
 }
+
+String CVVideoCapture::_to_string() const {
+	return "[ CVVideoCapture instance ]";
+}

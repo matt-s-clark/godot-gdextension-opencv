@@ -7,6 +7,7 @@ void CVImgCodecs::_bind_methods() {
 }
 
 CVImgCodecs::CVImgCodecs() {
+	UtilityFunctions::push_warning("This module should not be initialized, something is wrong");
 }
 
 CVImgCodecs::~CVImgCodecs() {
@@ -23,4 +24,8 @@ Ref<CVMat> CVImgCodecs::imread(const String filename, const int flags = cv::IMRE
 	output->set_mat(outMat);
 
 	return output;
+}
+
+String CVImgCodecs::_to_string() const {
+	return "[ CVImgCodecs Module ]";
 }

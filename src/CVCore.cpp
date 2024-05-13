@@ -35,6 +35,7 @@ void CVCore::_bind_methods() {
 }
 
 CVCore::CVCore() {
+	UtilityFunctions::push_warning("This module should not be initialized, something is wrong");
 }
 
 CVCore::~CVCore() {
@@ -181,4 +182,8 @@ Ref<CVMat> CVCore::mat_in_mat_out_wrapper(void (*func)(cv::InputArray, cv::Outpu
 	output->set_mat(outMat);
 
 	return output;
+}
+
+String CVCore::_to_string() const {
+	return "[ CVCore Module ]";
 }
