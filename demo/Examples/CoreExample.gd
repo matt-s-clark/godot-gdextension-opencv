@@ -10,11 +10,10 @@ var firstFrame:CVMat
 
 func _ready():
 	cap = CVVideoCapture.new()
-	cap.open(0, 0, null)
+	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 	
 	firstFrame = cap.read()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if cap.is_opened():
 		var mat = cap.read()
@@ -29,12 +28,9 @@ func _process(_delta):
 			video_feed_3.texture = ImageTexture.create_from_image(subMat.get_image())
 			video_feed_4.texture = ImageTexture.create_from_image(maxMat.get_image())
 
-
 func _on_open_pressed():
-	cap.open(0, 0, null)
-	
+	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 	firstFrame = cap.read()
-
 
 func _on_release_pressed():
 	cap.release()
