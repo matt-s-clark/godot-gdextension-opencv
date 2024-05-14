@@ -7,13 +7,22 @@
 using namespace godot;
 
 void CVMat::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_image"), &CVMat::get_image);
-	ClassDB::bind_method(D_METHOD("get_rows"), &CVMat::get_rows);
-	ClassDB::bind_method(D_METHOD("get_cols"), &CVMat::get_cols);
-	ClassDB::bind_method(D_METHOD("convert_to", "rtype"), &CVMat::convert_to);
-}
+	ClassDB::bind_method(
+			D_METHOD("get_image"),
+			&CVMat::get_image);
 
-// TODO: Determine if this class should be RefCounted
+	ClassDB::bind_method(
+			D_METHOD("get_rows"),
+			&CVMat::get_rows);
+
+	ClassDB::bind_method(
+			D_METHOD("get_cols"),
+			&CVMat::get_cols);
+
+	ClassDB::bind_method(
+			D_METHOD("convert_to", "rtype"),
+			&CVMat::convert_to);
+}
 
 CVMat::CVMat() {
 	image.instantiate();

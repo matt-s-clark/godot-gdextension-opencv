@@ -43,7 +43,7 @@ If a basic init doesn't work, you may need to do the following in the project ro
 
 To compile, make sure you are in the project root folder:
 
-    scons platform=windows
+    scons platform=windows disable_exceptions=false
 
 To clean your build folder, use the `--clean` argument, i.e.
 
@@ -65,7 +65,7 @@ Set the `opencv_library_path` to point to your OpenCV library files (\*.dylib).
 
 To compile, make sure you are in the project root folder:
 
-    scons platform=macos arch=x86_64
+    scons platform=macos arch=x86_64 disable_exceptions=false
 
 To run, make sure you include the `DYLD_LIBRARY_PATH` to your opencv dylib files if they are not in a system Library folder (i.e. you built them from source). On the command line where you will run Godot from:
 

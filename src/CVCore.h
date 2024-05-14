@@ -15,16 +15,40 @@ class CVCore : public Object {
 	GDCLASS(CVCore, Object)
 
 private:
-	static Ref<CVMat> arithmetic_wrapper(void (*func)(cv::InputArray, cv::InputArray,
-												 cv::OutputArray, cv::InputArray, int),
-			Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask, int dtype);
-	static Ref<CVMat> mat_in_mat_in_mat_out_wrapper(void (*func)(cv::InputArray, cv::InputArray,
-															cv::OutputArray),
-			Ref<CVMat> mat1, Ref<CVMat> mat2);
-	static Ref<CVMat> bitwise_wrapper(void (*func)(cv::InputArray, cv::InputArray,
-											  cv::OutputArray, cv::InputArray),
-			Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask);
-	static Ref<CVMat> mat_in_mat_out_wrapper(void (*func)(cv::InputArray, cv::OutputArray),
+	static Ref<CVMat> arithmetic_wrapper(
+			void (*func)(
+					cv::InputArray,
+					cv::InputArray,
+					cv::OutputArray,
+					cv::InputArray,
+					int),
+			Ref<CVMat> mat1,
+			Ref<CVMat> mat2,
+			Ref<CVMat> mask,
+			int dtype);
+
+	static Ref<CVMat> mat_in_mat_in_mat_out_wrapper(
+			void (*func)(
+					cv::InputArray,
+					cv::InputArray,
+					cv::OutputArray),
+			Ref<CVMat> mat1,
+			Ref<CVMat> mat2);
+
+	static Ref<CVMat> bitwise_wrapper(
+			void (*func)(
+					cv::InputArray,
+					cv::InputArray,
+					cv::OutputArray,
+					cv::InputArray),
+			Ref<CVMat> mat1,
+			Ref<CVMat> mat2,
+			Ref<CVMat> mask);
+
+	static Ref<CVMat> mat_in_mat_out_wrapper(
+			void (*func)(
+					cv::InputArray,
+					cv::OutputArray),
 			Ref<CVMat> mat);
 
 protected:
