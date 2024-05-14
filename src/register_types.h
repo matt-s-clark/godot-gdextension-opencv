@@ -1,8 +1,10 @@
 #ifndef GDEXAMPLE_REGISTER_TYPES_H
 #define GDEXAMPLE_REGISTER_TYPES_H
 
+#include "CVCore.h"
 #include "CVImgCodecs.h"
 #include "CVMat.h"
+#include "CVVideoCapture.h"
 
 #include <godot_cpp/core/class_db.hpp>
 
