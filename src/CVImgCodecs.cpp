@@ -22,7 +22,7 @@ Ref<CVMat> CVImgCodecs::imread(
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
-	const char *path = filename.utf8().get_data();
+	cv::String path(filename.utf8());
 
 	SAFECALL(outMat = cv::imread(path, flags));
 
