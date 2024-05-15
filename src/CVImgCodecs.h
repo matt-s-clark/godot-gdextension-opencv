@@ -2,6 +2,7 @@
 #define CV_IMGCODECS_H
 
 #include "CVMat.h"
+#include "Macros.h"
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -16,17 +17,15 @@ class CVImgCodecs : public Object {
 	GDCLASS(CVImgCodecs, Object)
 
 private:
-	// double time_passed;
-	// Ref<Image> godotImg;
-
 protected:
 	static void _bind_methods();
+	String _to_string() const;
 
 public:
 	CVImgCodecs();
 	~CVImgCodecs();
 
-	static Ref<CVMat> imread(const String &filename, const int flags);
+	static Ref<CVMat> imread(const String filename, const int flags);
 };
 
 } //namespace godot

@@ -8,10 +8,11 @@ func _ready():
 	print(matLoad);
 	
 	var gdExample = CVMat.new();
-	var tiltFiveIRCameraImage = gdExample.get_godot_image();
+	var tiltFiveIRCameraImage:Image = matLoad.get_image();
 	print(tiltFiveIRCameraImage);
-#
-	texture = ImageTexture.create_from_image(tiltFiveIRCameraImage);
+	
+	if not tiltFiveIRCameraImage.is_empty():
+		texture = ImageTexture.create_from_image(tiltFiveIRCameraImage);
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

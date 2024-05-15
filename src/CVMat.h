@@ -1,6 +1,7 @@
-#ifndef GDEXAMPLE_H
-#define GDEXAMPLE_H
+#ifndef GDMAT_H
+#define GDMAT_H
 
+#include "Macros.h"
 #include <godot_cpp/classes/image_texture.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -15,12 +16,22 @@ private:
 
 protected:
 	static void _bind_methods();
+	String _to_string() const;
 
 public:
 	CVMat();
 	~CVMat();
 
-	Ref<Image> get_godot_image();
+	Ref<Image> image;
+	Ref<Image> get_image();
+
+	int get_rows();
+	int get_cols();
+
+	cv::Mat get_mat();
+	void set_mat(cv::Mat _mat);
+
+	void convert_to(int rtype);
 };
 
 } //namespace godot

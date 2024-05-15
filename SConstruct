@@ -27,6 +27,8 @@ opencv_header_files = [
     "src/opencv2/include",
     "../opencv-4.9.0/modules/core/include",
     "../opencv-4.9.0/modules/imgcodecs/include",
+    "../opencv-4.9.0/modules/imgproc/include",
+    "../opencv-4.9.0/modules/videoio/include",
     "../build_opencv",
     "/usr/local/include/opencv4"
 ]
@@ -38,11 +40,15 @@ opencv_library_files = {
     ],
     'macos': [
         'libopencv_core.dylib',
-        'libopencv_imgcodecs.dylib'
+        'libopencv_imgcodecs.dylib',
+        'libopencv_imgproc.dylib',
+        'libopencv_videoio.dylib'
     ],
     'linux': [
         'libopencv_core.so',
-        'libopencv_imgcodecs.so'
+        'libopencv_imgcodecs.so',
+        'libopencv_imgproc.so',
+        'libopencv_videoio.so'
     ]
 }
 

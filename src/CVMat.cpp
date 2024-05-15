@@ -2,45 +2,82 @@
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <opencv2/imgproc.hpp>
 
 using namespace godot;
 
 void CVMat::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_godot_image"), &CVMat::get_godot_image);
+	ClassDB::bind_method(
+			D_METHOD("get_image"),
+			&CVMat::get_image);
+
+	ClassDB::bind_method(
+			D_METHOD("get_rows"),
+			&CVMat::get_rows);
+
+	ClassDB::bind_method(
+			D_METHOD("get_cols"),
+			&CVMat::get_cols);
+
+	ClassDB::bind_method(
+			D_METHOD("convert_to", "rtype"),
+			&CVMat::convert_to);
 }
 
-// TODO: Determine if this class should be RefCounted
-
 CVMat::CVMat() {
-	// Initialize any variables here.
-
-	std::string image_path = "aruco-capture.png";
-	std::cout << "Image Path: " << image_path << std::endl;
-	rawMat = cv::imread(image_path, cv::IMREAD_COLOR);
+	image.instantiate();
 }
 
 CVMat::~CVMat() {
-	// Add your cleanup here.
+	SAFECALL(rawMat.release());
 }
 
-Ref<Image> CVMat::get_godot_image() {
-	cv::Size size = rawMat.size();
-	int height = size.height;
-	int width = size.width;
+Ref<Image> CVMat::get_image() {
+	if (rawMat.rows == 0 || rawMat.cols == 0) {
+		UtilityFunctions::push_error("Mat is empty, returning empty image");
+		return image;
+	}
+	if (image.is_null() || image->is_empty()) {
+		cv::Mat rgbMat;
 
-	int sizear = width * height * rawMat.channels();
+		SAFECALL(cv::cvtColor(rawMat, rgbMat, cv::COLOR_BGR2RGB));
+		rgbMat.convertTo(rgbMat, CV_8U);
 
-	UtilityFunctions::print(rawMat.channels());
-	UtilityFunctions::print(sizear);
+		int sizear = rgbMat.cols * rgbMat.rows * rgbMat.channels();
 
-	PackedByteArray bytes;
-	bytes.resize(sizear);
-	memcpy(bytes.ptrw(), rawMat.data, sizear);
+		// TODO: Conversion to image should depend on type
 
-	Ref<Image> godotImg = Image::create_from_data(width, height, false, Image::FORMAT_RGB8, bytes);
+		PackedByteArray bytes;
+		bytes.resize(sizear);
+		memcpy(bytes.ptrw(), rgbMat.data, sizear);
 
-	UtilityFunctions::print(bytes.decode_double(0));
-	UtilityFunctions::print(godotImg->get_height());
+		image = Image::create_from_data(rgbMat.cols, rgbMat.rows, false,
+				Image::Format::FORMAT_RGB8, bytes);
+	}
 
-	return godotImg;
+	return image;
+}
+
+void CVMat::convert_to(int rtype) {
+	SAFECALL(rawMat.convertTo(rawMat, rtype));
+}
+
+int CVMat::get_rows() {
+	return rawMat.rows;
+}
+
+int CVMat::get_cols() {
+	return rawMat.cols;
+}
+
+void CVMat::set_mat(cv::Mat _mat) {
+	rawMat = _mat;
+}
+
+cv::Mat CVMat::get_mat() {
+	return rawMat;
+}
+
+String CVMat::_to_string() const {
+	return UtilityFunctions::str("[ CVMat instance (", String((Variant)rawMat.cols), ", ", String((Variant)rawMat.rows), ") ]");
 }
