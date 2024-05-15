@@ -22,16 +22,18 @@ public:
 	CVMat();
 	~CVMat();
 
-	Ref<Image> image;
+	Variant get_at(int row, int col);
+	int channels() const;
+	void convert_to(int rtype);
 	Ref<Image> get_image();
-
 	int get_rows();
 	int get_cols();
-
 	cv::Mat get_mat();
+	Ref<Image> image;
+	void set_at(int row, int col, Variant value);
+	void set_read_only(int input);
 	void set_mat(cv::Mat _mat);
-
-	void convert_to(int rtype);
+	int type() const;
 };
 
 } //namespace godot

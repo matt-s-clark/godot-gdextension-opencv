@@ -17,7 +17,7 @@ func _ready():
 func _process(_delta):
 	if cap.is_opened():
 		var mat = cap.read()
-		if mat.get_cols() > 0:
+		if mat.cols > 0:
 			var transMat := CVCore.transpose(mat)
 			var andMat := CVCore.bitwise_and(mat, firstFrame, null)
 			var subMat := CVCore.subtract(mat, firstFrame, null, 0)

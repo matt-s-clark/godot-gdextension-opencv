@@ -16,7 +16,7 @@ func _ready():
 func _process(_delta):
 	if cap.is_opened():
 		var mat = cap.read()
-		if mat.get_cols() > 0:
+		if mat.cols > 0:
 			var tex: ImageTexture = ImageTexture.create_from_image(mat.get_image())
 			video_feed.texture = tex
 
