@@ -1,6 +1,6 @@
 # Godot GDExtension for OpenCV
 
-This project is currently only being worked on for a Windows x64 environment. For any other environment types, you will need to update your SCons parameters as necessary and copy in the relevant libraries.
+This project has been updated and tested on Linux, Windows and MacOS. It is still very early in development, but it may provide a good template for anyone adding OpenCV to their GDExtensions. Go to the "Godot T5 OpenCV" YouTube channel for updates and news - https://www.youtube.com/channel/UC1Bt3NJuaLWa0KqJt91Bh4A 
 
 For a basic example of how to create a GDExtension, see the Godot documentation: https://docs.godotengine.org/en/4.2/tutorials/scripting/gdextension/gdextension_cpp_example.html#
 
