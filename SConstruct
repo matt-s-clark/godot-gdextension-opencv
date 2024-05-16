@@ -42,13 +42,15 @@ opencv_library_files = {
         'libopencv_core.dylib',
         'libopencv_imgcodecs.dylib',
         'libopencv_imgproc.dylib',
-        'libopencv_videoio.dylib'
+        'libopencv_videoio.dylib',
+        'libopencv_objdetect.dylib'
     ],
     'linux': [
         'libopencv_core.so',
         'libopencv_imgcodecs.so',
         'libopencv_imgproc.so',
-        'libopencv_videoio.so'
+        'libopencv_videoio.so',
+        'libopencv_objdetect.so'
     ]
 }
 
