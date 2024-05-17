@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/image_texture.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
 
 namespace godot {
 
