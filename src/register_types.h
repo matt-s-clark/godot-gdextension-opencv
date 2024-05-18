@@ -4,6 +4,7 @@
 #include "CVCascadeClassifier.h"
 #include "CVCore.h"
 #include "CVImgCodecs.h"
+#include "CVImgProc.h"
 #include "CVMat.h"
 #include "CVRect.h"
 #include "CVVideoCapture.h"

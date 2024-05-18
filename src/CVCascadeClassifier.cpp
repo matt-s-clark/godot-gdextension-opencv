@@ -32,85 +32,53 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 	std::vector<cv::Rect> objects;
 	std::vector<int> numDetections, rejectLevels;
 	std::vector<double> levelWeights;
-	cv::Mat mat;
 	double scaleFactor = 1.1;
 	int minNeighbors = 3, flags = 0;
-	cv::Size minSize = cv::Size(), maxSize = cv::Size();
+	Vector2 minSize = Vector2(-1, -1), maxSize = Vector2(-1, -1);
+	cv::Size minSizeSize = cv::Size(), maxSizeSize = cv::Size();
 	bool outputRejectLevels = false;
 
-	if (aditional_parameters.has("scale_factor")) {
-		if (aditional_parameters["scale_factor"].get_type() == Variant::Type::FLOAT) {
-			scaleFactor = aditional_parameters["scale_factor"];
-		} else {
-			UtilityFunctions::push_warning("scale_factor expected to be of type FLOAT, ignoring property");
-		}
+	GETADITIONALPROPERTY(aditional_parameters, scaleFactor, "scale_factor", Variant::FLOAT, "FLOAT");
+	GETADITIONALPROPERTY(aditional_parameters, minNeighbors, "min_neighbors", Variant::INT, "INT");
+	GETADITIONALPROPERTY(aditional_parameters, flags, "flags", Variant::INT, "INT");
+	GETADITIONALPROPERTY(aditional_parameters, minSize, "min_size", Variant::VECTOR2, "VECTOR2");
+	GETADITIONALPROPERTY(aditional_parameters, maxSize, "max_size", Variant::VECTOR2, "VECTOR2");
+	GETADITIONALPROPERTY(aditional_parameters, outputRejectLevels, "output_reject_levels", Variant::BOOL, "Bool");
+
+	if (minSize.x >= 0 && minSize.y >= 0) {
+		minSizeSize = cv::Size(minSize.x, minSize.y);
+	} else {
+		UtilityFunctions::push_warning("min_size expected to have positive values, ignoring property");
 	}
 
-	if (aditional_parameters.has("min_neighbors")) {
-		if (aditional_parameters["min_neighbors"].get_type() == Variant::Type::INT) {
-			minNeighbors = aditional_parameters["min_neighbors"];
-		} else {
-			UtilityFunctions::push_warning("min_neighbors expected to be of type INT, ignoring property");
-		}
+	if (maxSize.x >= 0 && maxSize.y >= 0) {
+		maxSizeSize = cv::Size(maxSize.x, maxSize.y);
+	} else {
+		UtilityFunctions::push_warning("max_size expected to have positive values, ignoring property");
 	}
-
-	if (aditional_parameters.has("flags")) {
-		if (aditional_parameters["flags"].get_type() == Variant::Type::INT) {
-			flags = aditional_parameters["flags"];
-		} else {
-			UtilityFunctions::push_warning("flags expected to be of type INT, ignoring property");
-		}
-	}
-
-	if (aditional_parameters.has("min_size")) {
-		if (aditional_parameters["min_size"].get_type() == Variant::Type::VECTOR2) {
-			Vector2 temp = aditional_parameters["min_size"];
-			minSize = cv::Size(temp.x, temp.y);
-		} else {
-			UtilityFunctions::push_warning("min_size expected to be of type VECTOR2, ignoring property");
-		}
-	}
-
-	if (aditional_parameters.has("max_size")) {
-		if (aditional_parameters["max_size"].get_type() == Variant::Type::VECTOR2) {
-			Vector2 temp = aditional_parameters["max_size"];
-			maxSize = cv::Size(temp.x, temp.y);
-		} else {
-			UtilityFunctions::push_warning("max_size expected to be of type VECTOR2, ignoring property");
-		}
-	}
-
-	if (aditional_parameters.has("output_reject_levels")) {
-		if (aditional_parameters["output_reject_levels"].get_type() == Variant::Type::BOOL) {
-			outputRejectLevels = aditional_parameters["output_reject_levels"];
-		} else {
-			UtilityFunctions::push_warning("output_reject_levels expected to be of type BOOL, ignoring property");
-		}
-	}
-
-	SAFECALL(cv::cvtColor(image->get_mat(), mat, cv::COLOR_BGR2GRAY));
-	SAFECALL(cv::equalizeHist(mat, mat));
 
 	if (outputRejectLevels) {
-		SAFECALL(rawClassifier.detectMultiScale(mat,
+		SAFECALL(rawClassifier.detectMultiScale(
+				image->get_mat(),
 				objects,
 				rejectLevels,
 				levelWeights,
 				scaleFactor,
 				minNeighbors,
 				flags,
-				minSize,
-				maxSize,
+				minSizeSize,
+				maxSizeSize,
 				outputRejectLevels));
 	} else {
-		SAFECALL(rawClassifier.detectMultiScale(mat,
+		SAFECALL(rawClassifier.detectMultiScale(
+				image->get_mat(),
 				objects,
 				numDetections,
 				scaleFactor,
 				minNeighbors,
 				flags,
-				minSize,
-				maxSize));
+				minSizeSize,
+				maxSizeSize));
 	}
 
 	Array objectsOut;
@@ -119,10 +87,6 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 		tempRect.instantiate();
 		tempRect->set_rect(obj);
 		objectsOut.push_back(tempRect);
-
-		cv::Mat temp = image->get_mat();
-		cv::rectangle(temp, obj, cv::Scalar(0, 255, 0));
-		image->set_mat(temp);
 	}
 
 	if (outputRejectLevels) {

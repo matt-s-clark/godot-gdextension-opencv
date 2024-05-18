@@ -17,6 +17,7 @@ void initialize_opencv_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<CVImgCodecs>();
 	ClassDB::register_class<CVVideoCapture>();
 	ClassDB::register_class<CVCascadeClassifier>();
+	ClassDB::register_class<CVImgProc>();
 }
 
 void uninitialize_opencv_module(ModuleInitializationLevel p_level) {

@@ -16,15 +16,21 @@ func _process(_delta):
 		var mat = cap.read()
 		if mat.cols > 0:
 			if not haar.empty():
-				var result : Dictionary = haar.detect_multi_scale(mat, {
+				var temp := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, 0)
+				
+				temp = CVImgProc.equalize_hist(temp)
+				
+				var result : Dictionary = haar.detect_multi_scale(temp, {
 					"scale_factor":1.2,
 					"min_neighbors":10,
 					"flags":0,
 					"min_size":Vector2(1, 1),
-					"max_size":Vector2(500, 500),
+					"max_size":Vector2(1000, 1000),
 					"output_reject_levels":true
 				})
-				print(result)
+				
+				for i in result["objects"]:
+					CVImgProc.rectangle(mat, {"rec":i, "thickness":2, "color":Color.REBECCA_PURPLE})
 			var tex: ImageTexture = ImageTexture.create_from_image(mat.get_image())
 			video_feed.texture = tex
 
