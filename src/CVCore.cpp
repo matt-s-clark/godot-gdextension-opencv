@@ -81,6 +81,29 @@ void CVCore::_bind_methods() {
 	ClassDB::bind_static_method(
 			get_class_static(),
 			D_METHOD("transpose", "mat"), &CVCore::transpose);
+
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("addWeighted",
+					"src1",
+					"alpha",
+					"src2",
+					"beta",
+					"gamma",
+					"dtype"),
+			&CVCore::addWeighted);
+
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("dft", "src", "additional_parameters"), &CVCore::dft);
+
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("getOptimalDFTSize", "vecsize"), &CVCore::getOptimalDFTSize);
+
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("normalize", "src", "additional_parameters"), &CVCore::normalize);
 }
 
 CVCore::CVCore() {
@@ -276,6 +299,76 @@ Ref<CVMat> CVCore::mat_in_mat_out_wrapper(
 	output.instantiate();
 
 	SAFECALL(func(mat->get_mat(), outMat));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+Ref<CVMat> CVCore::addWeighted(
+		Ref<CVMat> src1,
+		double alpha,
+		Ref<CVMat> src2,
+		double beta,
+		double gamma,
+		int dtype) {
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFECALL(cv::addWeighted(
+			src1->get_mat(),
+			alpha,
+			src2->get_mat(),
+			beta,
+			gamma,
+			outMat,
+			dtype));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+Ref<CVMat> CVCore::dft(Ref<CVMat> src, Dictionary additional_parameters) {
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+	int flags = 0, nonZeroRows = 0;
+
+	GETADITIONALPROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
+	GETADITIONALPROPERTY(additional_parameters, nonZeroRows, "non_zero_rows", Variant::INT, "INT");
+
+	SAFECALL(cv::dft(src->get_mat(), outMat, flags, nonZeroRows));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+int CVCore::getOptimalDFTSize(int vecsize) {
+	int output = -1;
+
+	SAFECALL(cv::getOptimalDFTSize(vecsize));
+
+	return output;
+}
+
+Ref<CVMat> CVCore::normalize(Ref<CVMat> src, Dictionary additional_parameters) {
+	cv::Mat outMat;
+	cv::InputArray maskMat = cv::noArray();
+	Ref<CVMat> output, mask;
+	output.instantiate();
+	float alpha = 1.0, beta = 0.0;
+	int norm_type = 4, dtype = -1;
+
+	GETADITIONALPROPERTY(additional_parameters, alpha, "alpha", Variant::FLOAT, "FLOAT");
+	GETADITIONALPROPERTY(additional_parameters, beta, "beta", Variant::FLOAT, "FLOAT");
+	GETADITIONALPROPERTY(additional_parameters, norm_type, "norm_type", Variant::INT, "INT");
+	GETADITIONALPROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
+	GETADITIONALPROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
+
+	SAFECALL(cv::normalize(src->get_mat(), outMat, alpha, beta, norm_type, dtype, maskMat));
 
 	output->set_mat(outMat);
 

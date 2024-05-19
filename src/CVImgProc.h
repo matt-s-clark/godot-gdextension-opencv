@@ -28,7 +28,7 @@ public:
 
 	static Ref<CVMat> cvt_color(Ref<CVMat> src, int code, int dstCn);
 	static Ref<CVMat> equalize_hist(Ref<CVMat> src);
-	static void rectangle(Ref<CVMat> img, Dictionary aditional_parameters);
+	static void rectangle(Ref<CVMat> img, Dictionary additional_parameters);
 };
 
 } //namespace godot

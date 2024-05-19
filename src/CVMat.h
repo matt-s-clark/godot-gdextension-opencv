@@ -34,6 +34,9 @@ public:
 	void set_read_only(int input);
 	void set_mat(cv::Mat _mat);
 	int type() const;
+
+	static Ref<CVMat> ones (int rows, int cols, int type);
+	static Ref<CVMat> zeros (int rows, int cols, int type);
 };
 
 } //namespace godot

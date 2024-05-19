@@ -13,7 +13,7 @@ void CVImgProc::_bind_methods() {
 			&CVImgProc::equalize_hist);
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("rectangle", "img", "aditional_parameters"),
+			D_METHOD("rectangle", "img", "additional_parameters"),
 			&CVImgProc::rectangle);
 }
 
@@ -48,19 +48,19 @@ Ref<CVMat> CVImgProc::equalize_hist(Ref<CVMat> src) {
 	return output;
 }
 
-void CVImgProc::rectangle(Ref<CVMat> img, Dictionary aditional_parameters) {
+void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 	Ref<CVRect> rect;
 	Vector2 pt1 = Vector2(-1, -1), pt2 = Vector2(-1, -1);
 	Color color = Color(0, 255, 0);
 	int thickness = 1, lineType = 8, shift = 0;
 
-	GETADITIONALPROPERTY(aditional_parameters, rect, "rec", Variant::OBJECT, "CVRECT");
-	GETADITIONALPROPERTY(aditional_parameters, pt1, "pt1", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(aditional_parameters, pt2, "pt2", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(aditional_parameters, color, "color", Variant::COLOR, "COLOR");
-	GETADITIONALPROPERTY(aditional_parameters, thickness, "thickness", Variant::INT, "INT");
-	GETADITIONALPROPERTY(aditional_parameters, lineType, "line_type", Variant::INT, "INT");
-	GETADITIONALPROPERTY(aditional_parameters, shift, "shift", Variant::INT, "INT");
+	GETADITIONALPROPERTY(additional_parameters, rect, "rec", Variant::OBJECT, "CVRECT");
+	GETADITIONALPROPERTY(additional_parameters, pt1, "pt1", Variant::VECTOR2, "VECTOR2");
+	GETADITIONALPROPERTY(additional_parameters, pt2, "pt2", Variant::VECTOR2, "VECTOR2");
+	GETADITIONALPROPERTY(additional_parameters, color, "color", Variant::COLOR, "COLOR");
+	GETADITIONALPROPERTY(additional_parameters, thickness, "thickness", Variant::INT, "INT");
+	GETADITIONALPROPERTY(additional_parameters, lineType, "line_type", Variant::INT, "INT");
+	GETADITIONALPROPERTY(additional_parameters, shift, "shift", Variant::INT, "INT");
 
 	if (!rect.is_null()) {
 		SAFECALL(cv::rectangle(

@@ -59,22 +59,26 @@ public:
 	CVCore();
 	~CVCore();
 
-	static Ref<CVMat> add(Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask, int dtype);
-	static Ref<CVMat> subtract(Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask, int dtype);
-	static Ref<CVMat> max(Ref<CVMat> mat1, Ref<CVMat> mat2);
-	static Ref<CVMat> min(Ref<CVMat> mat1, Ref<CVMat> mat2);
 	static Ref<CVMat> absdiff(Ref<CVMat> mat1, Ref<CVMat> mat2);
-	static Ref<CVMat> vconcat(Ref<CVMat> mat1, Ref<CVMat> mat2);
-	static Ref<CVMat> hconcat(Ref<CVMat> mat1, Ref<CVMat> mat2);
+	static Ref<CVMat> add(Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask, int dtype);
+	static Ref<CVMat> addWeighted (Ref<CVMat> src1, double alpha, Ref<CVMat> src2, double beta, double gamma, int dtype);
 	static Ref<CVMat> bitwise_and(Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask);
 	static Ref<CVMat> bitwise_or(Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask);
-	static Ref<CVMat> bitwise_xor(Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask);
 	static Ref<CVMat> bitwise_not(Ref<CVMat> mat, Ref<CVMat> mask);
+	static Ref<CVMat> bitwise_xor(Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask);
 	static Ref<CVMat> convertFp16(Ref<CVMat> mat);
+	static Ref<CVMat> dft (Ref<CVMat> src, Dictionary additional_parameters);
 	static Ref<CVMat> exp(Ref<CVMat> mat);
+	static int getOptimalDFTSize (int vecsize);
+	static Ref<CVMat> hconcat(Ref<CVMat> mat1, Ref<CVMat> mat2);
 	static Ref<CVMat> log(Ref<CVMat> mat);
+	static Ref<CVMat> max(Ref<CVMat> mat1, Ref<CVMat> mat2);
+	static Ref<CVMat> min(Ref<CVMat> mat1, Ref<CVMat> mat2);
+	static Ref<CVMat> normalize (Ref<CVMat> src, Dictionary additional_parameters);
+	static Ref<CVMat> subtract(Ref<CVMat> mat1, Ref<CVMat> mat2, Ref<CVMat> mask, int dtype);
 	static Ref<CVMat> sqrt(Ref<CVMat> mat);
 	static Ref<CVMat> transpose(Ref<CVMat> mat);
+	static Ref<CVMat> vconcat(Ref<CVMat> mat1, Ref<CVMat> mat2);
 };
 
 } //namespace godot

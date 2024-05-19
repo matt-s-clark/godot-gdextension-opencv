@@ -26,7 +26,7 @@ public:
 	CVCascadeClassifier();
 	~CVCascadeClassifier();
 
-	Dictionary detect_multi_scale(Ref<CVMat> image, Dictionary aditional_parameters);
+	Dictionary detect_multi_scale(Ref<CVMat> image, Dictionary additional_parameters);
 	bool empty() const;
 	int get_feature_type() const;
 	bool load(const String filename);

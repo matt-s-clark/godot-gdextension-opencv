@@ -39,6 +39,15 @@ void CVMat::_bind_methods() {
 			&CVMat::set_read_only);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "cols"), "set_read_only", "get_cols");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "rows"), "set_read_only", "get_rows");
+
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("zeros", "rows", "cols", "type"),
+			&CVMat::zeros);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("ones", "rows", "cols", "type"),
+			&CVMat::ones);
 }
 
 CVMat::CVMat() {
@@ -110,7 +119,7 @@ void CVMat::set_at(int row, int col, Variant value) {
 	Variant output;
 
 	SAFECALL(
-			switch (rawMat.type()%8) {
+			switch (rawMat.type() % 8) {
 				case CV_8U:
 					output = rawMat.at<uchar>(row, col) = value;
 					break;
@@ -173,6 +182,30 @@ cv::Mat CVMat::get_mat() {
 
 void CVMat::set_read_only(int input) {
 	UtilityFunctions::push_warning("This property is a read only");
+}
+
+Ref<CVMat> CVMat::ones(int rows, int cols, int type) {
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFECALL(outMat = cv::Mat::ones(rows, cols, type));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+Ref<CVMat> CVMat::zeros(int rows, int cols, int type) {
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFECALL(outMat = cv::Mat::zeros(rows, cols, type));
+
+	output->set_mat(outMat);
+
+	return output;
 }
 
 String CVMat::_to_string() const {

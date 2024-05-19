@@ -6,7 +6,7 @@ void CVCascadeClassifier::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("detect_multi_scale",
 					"image",
-					"aditional_parameters"),
+					"additional_parameters"),
 			&CVCascadeClassifier::detect_multi_scale);
 	ClassDB::bind_method(
 			D_METHOD("empty"),
@@ -27,7 +27,7 @@ CVCascadeClassifier::~CVCascadeClassifier() {
 
 Dictionary CVCascadeClassifier::detect_multi_scale(
 		Ref<CVMat> image,
-		Dictionary aditional_parameters) {
+		Dictionary additional_parameters) {
 	Dictionary output;
 	std::vector<cv::Rect> objects;
 	std::vector<int> numDetections, rejectLevels;
@@ -38,22 +38,22 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 	cv::Size minSizeSize = cv::Size(), maxSizeSize = cv::Size();
 	bool outputRejectLevels = false;
 
-	GETADITIONALPROPERTY(aditional_parameters, scaleFactor, "scale_factor", Variant::FLOAT, "FLOAT");
-	GETADITIONALPROPERTY(aditional_parameters, minNeighbors, "min_neighbors", Variant::INT, "INT");
-	GETADITIONALPROPERTY(aditional_parameters, flags, "flags", Variant::INT, "INT");
-	GETADITIONALPROPERTY(aditional_parameters, minSize, "min_size", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(aditional_parameters, maxSize, "max_size", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(aditional_parameters, outputRejectLevels, "output_reject_levels", Variant::BOOL, "Bool");
+	GETADITIONALPROPERTY(additional_parameters, scaleFactor, "scale_factor", Variant::FLOAT, "FLOAT");
+	GETADITIONALPROPERTY(additional_parameters, minNeighbors, "min_neighbors", Variant::INT, "INT");
+	GETADITIONALPROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
+	GETADITIONALPROPERTY(additional_parameters, minSize, "min_size", Variant::VECTOR2, "VECTOR2");
+	GETADITIONALPROPERTY(additional_parameters, maxSize, "max_size", Variant::VECTOR2, "VECTOR2");
+	GETADITIONALPROPERTY(additional_parameters, outputRejectLevels, "output_reject_levels", Variant::BOOL, "Bool");
 
 	if (minSize.x >= 0 && minSize.y >= 0) {
 		minSizeSize = cv::Size(minSize.x, minSize.y);
-	} else {
+	} else if (!(minSize.x == -1 && minSize.y == -1)) {
 		UtilityFunctions::push_warning("min_size expected to have positive values, ignoring property");
 	}
 
 	if (maxSize.x >= 0 && maxSize.y >= 0) {
 		maxSizeSize = cv::Size(maxSize.x, maxSize.y);
-	} else {
+	} else if (!(maxSize.x == -1 && maxSize.y == -1)) {
 		UtilityFunctions::push_warning("max_size expected to have positive values, ignoring property");
 	}
 

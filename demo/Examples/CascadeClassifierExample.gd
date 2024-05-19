@@ -22,10 +22,8 @@ func _process(_delta):
 				
 				var result : Dictionary = haar.detect_multi_scale(temp, {
 					"scale_factor":1.2,
-					"min_neighbors":10,
+					"min_neighbors":5,
 					"flags":0,
-					"min_size":Vector2(1, 1),
-					"max_size":Vector2(1000, 1000),
 					"output_reject_levels":true
 				})
 				
