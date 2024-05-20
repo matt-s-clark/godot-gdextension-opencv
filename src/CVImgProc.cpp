@@ -15,6 +15,42 @@ void CVImgProc::_bind_methods() {
 			get_class_static(),
 			D_METHOD("rectangle", "img", "additional_parameters"),
 			&CVImgProc::rectangle);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("bilateral_filter", "src", "d", "sigmaColor", "sigmaSpace", "borderType"),
+			&CVImgProc::bilateral_filter);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("blur", "src", "ksize", "additional_parameters"),
+			&CVImgProc::blur);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("dilate", "src", "kernel", "additional_parameters"),
+			&CVImgProc::dilate);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("erode", "src", "kernel", "additional_parameters"),
+			&CVImgProc::erode);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("gaussian_blur", "src", "ksize", "sigmaX", "additional_parameters"),
+			&CVImgProc::gaussian_blur);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("get_structuring_element", "shape", "ksize", "anchor"),
+			&CVImgProc::get_structuring_element);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("median_blur", "src", "ksize"),
+			&CVImgProc::median_blur);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("morphology_ex", "src", "op", "kernel", "additional_parameters"),
+			&CVImgProc::morphology_ex);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("threshold", "src", "thresh", "maxval", "type"),
+			&CVImgProc::threshold);
 }
 
 CVImgProc::CVImgProc() {
@@ -226,6 +262,30 @@ Ref<CVMat> CVImgProc::median_blur(Ref<CVMat> src, int ksize) {
 	output.instantiate();
 
 	SAFECALL(cv::medianBlur(src->get_mat(), matOut, ksize));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+
+Ref<CVMat> CVImgProc::adaptive_threshold(Ref<CVMat> src, float maxValue, int adaptiveMethod, int thresholdType, int blockSize, float C) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFECALL(cv::adaptiveThreshold(src->get_mat(), matOut, maxValue, adaptiveMethod, thresholdType, blockSize, C));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+
+Ref<CVMat> CVImgProc::threshold(Ref<CVMat> src, float thresh, float maxval, int type) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFECALL(cv::threshold(src->get_mat(), matOut, thresh, maxval, type));
 
 	output->set_mat(matOut);
 

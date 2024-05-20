@@ -26,6 +26,7 @@ public:
 	CVImgProc();
 	~CVImgProc();
 
+	static Ref<CVMat> adaptive_threshold(Ref<CVMat> src, float maxValue, int adaptiveMethod, int thresholdType, int blockSize, float C);
 	static Ref<CVMat> bilateral_filter(Ref<CVMat> src, int d, double sigmaColor, double sigmaSpace, int borderType);
 	static Ref<CVMat> blur(Ref<CVMat> src, Vector2 ksize, Dictionary additional_parameters);
 	static Ref<CVMat> cvt_color(Ref<CVMat> src, int code, int dstCn);
@@ -37,6 +38,7 @@ public:
 	static Ref<CVMat> median_blur(Ref<CVMat> src, int ksize);
 	static Ref<CVMat> morphology_ex(Ref<CVMat> src, int op, Ref<CVMat> kernel, Dictionary additional_parameters);
 	static void rectangle(Ref<CVMat> img, Dictionary additional_parameters);
+	static Ref<CVMat> threshold(Ref<CVMat> src, float thresh, float maxval, int type);
 };
 
 } //namespace godot
