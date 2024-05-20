@@ -808,3 +808,20 @@ enum ColorConversionCodes {
   COLOR_BayerGR2RGBA = COLOR_BayerGB2BGRA,
   COLOR_COLORCVT_MAX = 143
 }
+
+enum MorphShapes {
+  MORPH_RECT = 0 ,
+  MORPH_CROSS = 1 ,
+  MORPH_ELLIPSE = 2
+}
+
+enum MorphTypes {
+  MORPH_ERODE = 0 ,
+  MORPH_DILATE = 1 ,
+  MORPH_OPEN = 2 ,
+  MORPH_CLOSE = 3 ,
+  MORPH_GRADIENT = 4 ,
+  MORPH_TOPHAT = 5 ,
+  MORPH_BLACKHAT = 6 ,
+  MORPH_HITMISS = 7
+}
