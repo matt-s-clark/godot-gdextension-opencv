@@ -5,7 +5,13 @@ extends Control
 @onready var video_feed_3 = %VideoFeed3
 @onready var video_feed_4 = %VideoFeed4
 
+@onready var thresh_value_container = $Interface/ThreshValueContainer
+
 var cap:CVVideoCapture
+var thresh := 120
+var kernel_size := 5 
+var kernel2_size := 5 
+var use_adaptative := false
 
 func _ready():
 	cap = CVVideoCapture.new()
@@ -18,13 +24,45 @@ func _process(delta):
 		var mat = cap.read()
 		if mat.cols > 0:
 			var gray := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, 0)
-			var th := CVImgProc.threshold(gray, 120, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
-			var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(20, 20), Vector2(-1, -1))
-			var gr := CVImgProc.morphology_ex(th, CVConsts.MorphTypes.MORPH_GRADIENT, kernel, {})
-			var kernel2 = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(50, 50), Vector2(-1, -1))
-			var hm := CVImgProc.morphology_ex(gr, CVConsts.MorphTypes.MORPH_DILATE, kernel2, {"interactions":10})
+			gray = CVImgProc.gaussian_blur(gray, Vector2(3, 3), 0, {})
+			var th : CVMat
+			
+			if use_adaptative:
+				th = CVImgProc.adaptive_threshold(gray, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV, CVConsts.AdaptiveThresholdTypes.ADAPTIVE_THRESH_GAUSSIAN_C, 301, 2)
+			else:
+				th = CVImgProc.threshold(gray, thresh, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
+			
+			var kernel2 = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(kernel2_size, kernel2_size), Vector2(-1, -1))
+			var cl := CVImgProc.morphology_ex(th, CVConsts.MorphTypes.MORPH_CLOSE, kernel2, {})
+			var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel_size, kernel_size), Vector2(-1, -1))
+			var gr := CVImgProc.morphology_ex(cl, CVConsts.MorphTypes.MORPH_GRADIENT, kernel, {})
 			video_feed.texture = ImageTexture.create_from_image(mat.get_image())
 			video_feed_2.texture = ImageTexture.create_from_image(th.get_image())
-			video_feed_3.texture = ImageTexture.create_from_image(gr.get_image())
-			video_feed_4.texture = ImageTexture.create_from_image(hm.get_image())
+			video_feed_3.texture = ImageTexture.create_from_image(cl.get_image())
+			video_feed_4.texture = ImageTexture.create_from_image(gr.get_image())
+			
 
+
+func _on_thresh_value_value_changed(value):
+	thresh = value
+
+
+func _on_kernel_size_value_value_changed(value):
+	kernel_size = value
+
+
+func _on_kernel_size_value_2_value_changed(value):
+	kernel2_size = value
+
+
+func _on_use_adaptative_toggled(toggled_on):
+	use_adaptative = toggled_on
+	thresh_value_container.visible = !toggled_on
+
+
+func _on_open_pressed():
+	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
+
+
+func _on_release_pressed():
+	cap.release()

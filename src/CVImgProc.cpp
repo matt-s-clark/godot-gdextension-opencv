@@ -49,6 +49,10 @@ void CVImgProc::_bind_methods() {
 			&CVImgProc::morphology_ex);
 	ClassDB::bind_static_method(
 			get_class_static(),
+			D_METHOD("adaptive_threshold", "src", "maxValue", "adaptiveMethod", "thresholdType", "blockSize", "C"),
+			&CVImgProc::adaptive_threshold);
+	ClassDB::bind_static_method(
+			get_class_static(),
 			D_METHOD("threshold", "src", "thresh", "maxval", "type"),
 			&CVImgProc::threshold);
 }
@@ -231,7 +235,7 @@ Ref<CVMat> CVImgProc::get_structuring_element(int shape, Vector2 ksize, Vector2 
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(cv::getStructuringElement(shape, cv::Size(ksize.x, ksize.y), cv::Point(anchor.x, anchor.y)));
+	SAFECALL(matOut = cv::getStructuringElement(shape, cv::Size(ksize.x, ksize.y), cv::Point(anchor.x, anchor.y)));
 
 	output->set_mat(matOut);
 
