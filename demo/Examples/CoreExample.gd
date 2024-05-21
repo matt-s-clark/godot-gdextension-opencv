@@ -19,8 +19,8 @@ func _process(_delta):
 		var mat = cap.read()
 		if mat.cols > 0:
 			var transMat := CVCore.transpose(mat)
-			var andMat := CVCore.bitwise_and(mat, firstFrame, null)
-			var subMat := CVCore.subtract(mat, firstFrame, null, 0)
+			var andMat := CVCore.bitwise_and(mat, firstFrame, {})
+			var subMat := CVCore.subtract(mat, firstFrame, {})
 			var maxMat := CVCore.max(mat, firstFrame)
 			
 			video_feed.texture = ImageTexture.create_from_image(transMat.get_image())

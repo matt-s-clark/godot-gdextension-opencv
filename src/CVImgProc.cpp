@@ -5,7 +5,7 @@ using namespace godot;
 void CVImgProc::_bind_methods() {
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("cvt_color", "src", "code", "dstCn"),
+			D_METHOD("cvt_color", "src", "code", "additional_parameters"),
 			&CVImgProc::cvt_color);
 	ClassDB::bind_static_method(
 			get_class_static(),
@@ -17,7 +17,7 @@ void CVImgProc::_bind_methods() {
 			&CVImgProc::rectangle);
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("bilateral_filter", "src", "d", "sigmaColor", "sigmaSpace", "borderType"),
+			D_METHOD("bilateral_filter", "src", "d", "sigmaColor", "sigmaSpace", "additional_parameters"),
 			&CVImgProc::bilateral_filter);
 	ClassDB::bind_static_method(
 			get_class_static(),
@@ -37,7 +37,7 @@ void CVImgProc::_bind_methods() {
 			&CVImgProc::gaussian_blur);
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("get_structuring_element", "shape", "ksize", "anchor"),
+			D_METHOD("get_structuring_element", "shape", "ksize", "additional_parameters"),
 			&CVImgProc::get_structuring_element);
 	ClassDB::bind_static_method(
 			get_class_static(),
@@ -64,10 +64,14 @@ CVImgProc::CVImgProc() {
 CVImgProc::~CVImgProc() {
 }
 
-Ref<CVMat> CVImgProc::cvt_color(Ref<CVMat> src, int code, int dstCn) {
+Ref<CVMat> CVImgProc::cvt_color(Ref<CVMat> src, int code, Dictionary additional_parameters) {
 	cv::Mat matOut;
 	Ref<CVMat> output;
 	output.instantiate();
+
+	int dstCn = 0;
+
+	GETADITIONALPROPERTY(additional_parameters, dstCn, "dst_cn", Variant::INT, "INT");
 
 	SAFECALL(cv::cvtColor(src->get_mat(), matOut, code, dstCn));
 
@@ -125,10 +129,14 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 	}
 }
 
-Ref<CVMat> CVImgProc::bilateral_filter(Ref<CVMat> src, int d, double sigmaColor, double sigmaSpace, int borderType) {
+Ref<CVMat> CVImgProc::bilateral_filter(Ref<CVMat> src, int d, double sigmaColor, double sigmaSpace, Dictionary additional_parameters) {
 	cv::Mat matOut;
 	Ref<CVMat> output;
 	output.instantiate();
+
+	int borderType = 4;
+
+	GETADITIONALPROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 
 	SAFECALL(cv::bilateralFilter(src->get_mat(), matOut, d, sigmaColor, sigmaSpace, borderType));
 
@@ -230,10 +238,14 @@ Ref<CVMat> CVImgProc::morphology_ex(Ref<CVMat> src, int op, Ref<CVMat> kernel, D
 	return output;
 }
 
-Ref<CVMat> CVImgProc::get_structuring_element(int shape, Vector2 ksize, Vector2 anchor) {
+Ref<CVMat> CVImgProc::get_structuring_element(int shape, Vector2 ksize, Dictionary additional_parameters) {
 	cv::Mat matOut;
 	Ref<CVMat> output;
 	output.instantiate();
+
+	Vector2 anchor = Vector2(-1, -1);
+
+	GETADITIONALPROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
 
 	SAFECALL(matOut = cv::getStructuringElement(shape, cv::Size(ksize.x, ksize.y), cv::Point(anchor.x, anchor.y)));
 

@@ -18,12 +18,11 @@ func _ready():
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if cap.is_opened():
 		var mat = cap.read()
 		if mat.cols > 0:
-			var gray := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, 0)
+			var gray := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, {})
 			gray = CVImgProc.gaussian_blur(gray, Vector2(3, 3), 0, {})
 			var th : CVMat
 			
@@ -32,9 +31,9 @@ func _process(delta):
 			else:
 				th = CVImgProc.threshold(gray, thresh, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
 			
-			var kernel2 = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(kernel2_size, kernel2_size), Vector2(-1, -1))
+			var kernel2 = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(kernel2_size, kernel2_size), {})
 			var cl := CVImgProc.morphology_ex(th, CVConsts.MorphTypes.MORPH_CLOSE, kernel2, {})
-			var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel_size, kernel_size), Vector2(-1, -1))
+			var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel_size, kernel_size), {})
 			var gr := CVImgProc.morphology_ex(cl, CVConsts.MorphTypes.MORPH_GRADIENT, kernel, {})
 			video_feed.texture = ImageTexture.create_from_image(mat.get_image())
 			video_feed_2.texture = ImageTexture.create_from_image(th.get_image())

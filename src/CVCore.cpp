@@ -5,12 +5,12 @@ using namespace godot;
 void CVCore::_bind_methods() {
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("add", "mat1", "mat2", "mask", "dType"),
+			D_METHOD("add", "mat1", "mat2", "additional_parameters"),
 			&CVCore::add);
 
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("subtract", "mat1", "mat2", "mask", "dType"),
+			D_METHOD("subtract", "mat1", "mat2", "additional_parameters"),
 			&CVCore::subtract);
 
 	ClassDB::bind_static_method(
@@ -40,28 +40,28 @@ void CVCore::_bind_methods() {
 
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("bitwise_and", "mat1", "mat2", "mask"),
+			D_METHOD("bitwise_and", "mat1", "mat2", "additional_parameters"),
 			&CVCore::bitwise_and);
 
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("bitwise_or", "mat1", "mat2", "mask"),
+			D_METHOD("bitwise_or", "mat1", "mat2", "additional_parameters"),
 			&CVCore::bitwise_or);
 
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("bitwise_xor", "mat1", "mat2", "mask"),
+			D_METHOD("bitwise_xor", "mat1", "mat2", "additional_parameters"),
 			&CVCore::bitwise_xor);
 
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("bitwise_not", "mat", "mask"),
+			D_METHOD("bitwise_not", "mat", "additional_parameters"),
 			&CVCore::bitwise_not);
 
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("convertFp16", "mat"),
-			&CVCore::convertFp16);
+			D_METHOD("convert_fp16", "mat"),
+			&CVCore::convert_fp16);
 
 	ClassDB::bind_static_method(
 			get_class_static(),
@@ -84,14 +84,14 @@ void CVCore::_bind_methods() {
 
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("addWeighted",
+			D_METHOD("add_weighted",
 					"src1",
 					"alpha",
 					"src2",
 					"beta",
 					"gamma",
-					"dtype"),
-			&CVCore::addWeighted);
+					"additional_parameters"),
+			&CVCore::add_weighted);
 
 	ClassDB::bind_static_method(
 			get_class_static(),
@@ -99,7 +99,7 @@ void CVCore::_bind_methods() {
 
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("getOptimalDFTSize", "vecsize"), &CVCore::getOptimalDFTSize);
+			D_METHOD("get_optimal_dft_size", "vecsize"), &CVCore::get_optimal_dft_size);
 
 	ClassDB::bind_static_method(
 			get_class_static(),
@@ -117,17 +117,15 @@ CVCore::~CVCore() {
 Ref<CVMat> CVCore::add(
 		Ref<CVMat> mat1,
 		Ref<CVMat> mat2,
-		Ref<CVMat> mask,
-		int dtype) {
-	return arithmetic_wrapper(&cv::add, mat1, mat2, mask, dtype);
+		Dictionary additional_parameters) {
+	return arithmetic_wrapper(&cv::add, mat1, mat2, additional_parameters);
 }
 
 Ref<CVMat> CVCore::subtract(
 		Ref<CVMat> mat1,
 		Ref<CVMat> mat2,
-		Ref<CVMat> mask,
-		int dtype) {
-	return arithmetic_wrapper(&cv::subtract, mat1, mat2, mask, dtype);
+		Dictionary additional_parameters) {
+	return arithmetic_wrapper(&cv::subtract, mat1, mat2, additional_parameters);
 }
 
 Ref<CVMat> CVCore::arithmetic_wrapper(
@@ -138,11 +136,16 @@ Ref<CVMat> CVCore::arithmetic_wrapper(
 				cv::InputArray, int),
 		Ref<CVMat> mat1,
 		Ref<CVMat> mat2,
-		Ref<CVMat> mask,
-		int dtype) {
+		Dictionary additional_parameters) {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
+
+	Ref<CVMat> mask;
+	int dtype = -1;
+
+	GETADITIONALPROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
+	GETADITIONALPROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
 
 	if (mask.is_null()) {
 		mask.instantiate();
@@ -208,30 +211,34 @@ Ref<CVMat> CVCore::mat_in_mat_in_mat_out_wrapper(
 Ref<CVMat> CVCore::bitwise_and(
 		Ref<CVMat> mat1,
 		Ref<CVMat> mat2,
-		Ref<CVMat> mask) {
-	return bitwise_wrapper(&cv::bitwise_and, mat1, mat2, mask);
+		Dictionary additional_parameters) {
+	return bitwise_wrapper(&cv::bitwise_and, mat1, mat2, additional_parameters);
 }
 
 Ref<CVMat> CVCore::bitwise_or(
 		Ref<CVMat> mat1,
 		Ref<CVMat> mat2,
-		Ref<CVMat> mask) {
-	return bitwise_wrapper(&cv::bitwise_or, mat1, mat2, mask);
+		Dictionary additional_parameters) {
+	return bitwise_wrapper(&cv::bitwise_or, mat1, mat2, additional_parameters);
 }
 
 Ref<CVMat> CVCore::bitwise_xor(
 		Ref<CVMat> mat1,
 		Ref<CVMat> mat2,
-		Ref<CVMat> mask) {
-	return bitwise_wrapper(&cv::bitwise_xor, mat1, mat2, mask);
+		Dictionary additional_parameters) {
+	return bitwise_wrapper(&cv::bitwise_xor, mat1, mat2, additional_parameters);
 }
 
 Ref<CVMat> CVCore::bitwise_not(
 		Ref<CVMat> mat,
-		Ref<CVMat> mask) {
+		Dictionary additional_parameters) {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
+
+	Ref<CVMat> mask;
+
+	GETADITIONALPROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
 
 	if (mask.is_null()) {
 		mask.instantiate();
@@ -252,10 +259,14 @@ Ref<CVMat> CVCore::bitwise_wrapper(
 				cv::InputArray),
 		Ref<CVMat> mat1,
 		Ref<CVMat> mat2,
-		Ref<CVMat> mask) {
+		Dictionary additional_parameters) {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
+
+	Ref<CVMat> mask;
+
+	GETADITIONALPROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
 
 	if (mask.is_null()) {
 		mask.instantiate();
@@ -269,7 +280,7 @@ Ref<CVMat> CVCore::bitwise_wrapper(
 }
 
 // Mat in mat out
-Ref<CVMat> CVCore::convertFp16(Ref<CVMat> mat) {
+Ref<CVMat> CVCore::convert_fp16(Ref<CVMat> mat) {
 	return mat_in_mat_out_wrapper(&cv::convertFp16, mat);
 }
 
@@ -305,16 +316,20 @@ Ref<CVMat> CVCore::mat_in_mat_out_wrapper(
 	return output;
 }
 
-Ref<CVMat> CVCore::addWeighted(
+Ref<CVMat> CVCore::add_weighted(
 		Ref<CVMat> src1,
 		double alpha,
 		Ref<CVMat> src2,
 		double beta,
 		double gamma,
-		int dtype) {
+		Dictionary additional_parameters) {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
+
+	int dtype = -1;
+
+	GETADITIONALPROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
 
 	SAFECALL(cv::addWeighted(
 			src1->get_mat(),
@@ -346,7 +361,7 @@ Ref<CVMat> CVCore::dft(Ref<CVMat> src, Dictionary additional_parameters) {
 	return output;
 }
 
-int CVCore::getOptimalDFTSize(int vecsize) {
+int CVCore::get_optimal_dft_size(int vecsize) {
 	int output = -1;
 
 	SAFECALL(cv::getOptimalDFTSize(vecsize));
@@ -356,7 +371,6 @@ int CVCore::getOptimalDFTSize(int vecsize) {
 
 Ref<CVMat> CVCore::normalize(Ref<CVMat> src, Dictionary additional_parameters) {
 	cv::Mat outMat;
-	cv::InputArray maskMat = cv::noArray();
 	Ref<CVMat> output, mask;
 	output.instantiate();
 	float alpha = 1.0, beta = 0.0;
@@ -368,7 +382,11 @@ Ref<CVMat> CVCore::normalize(Ref<CVMat> src, Dictionary additional_parameters) {
 	GETADITIONALPROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
 	GETADITIONALPROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
 
-	SAFECALL(cv::normalize(src->get_mat(), outMat, alpha, beta, norm_type, dtype, maskMat));
+	if (mask.is_null()) {
+		mask.instantiate();
+	}
+
+	SAFECALL(cv::normalize(src->get_mat(), outMat, alpha, beta, norm_type, dtype, mask->get_mat()));
 
 	output->set_mat(outMat);
 

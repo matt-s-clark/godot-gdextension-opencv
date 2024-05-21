@@ -54,7 +54,7 @@ CVVideoCapture::~CVVideoCapture() {
 	release();
 }
 
-void CVVideoCapture::open(Variant source, int api, Variant params) {
+void CVVideoCapture::open(Variant source, int api_preference, Variant params) {
 	std::vector<int> p;
 	Array parameters = params;
 
@@ -68,19 +68,23 @@ void CVVideoCapture::open(Variant source, int api, Variant params) {
 	}
 
 	if (source.get_type() == Variant::Type::INT) {
-		SAFECALL(rawCap.open(source, api, p));
+		SAFECALL(rawCap.open(source, api_preference, p));
 	} else if ((source.get_type() == Variant::Type::STRING)) {
 		const cv::String path(((String)source).utf8());
-		SAFECALL(rawCap.open(path, api, p));
+		SAFECALL(rawCap.open(path, api_preference, p));
 	} else {
 		UtilityFunctions::push_error("Invalid input: Expected integer or string.");
 	}
 }
 
-Ref<CVMat> CVVideoCapture::retrieve(int flag) {
+Ref<CVMat> CVVideoCapture::retrieve(Dictionary additional_parameters) {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
+
+	int flag = 0;
+
+	GETADITIONALPROPERTY(additional_parameters, flag, "flag", Variant::INT, "INT");
 
 	SAFECALL(rawCap.retrieve(outMat, flag));
 

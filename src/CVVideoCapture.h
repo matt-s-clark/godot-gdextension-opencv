@@ -33,10 +33,10 @@ public:
 	bool getExceptionMode();
 	bool grab();
 	bool is_opened();
-	void open(Variant source, int api, Variant parameters);
+	void open(Variant source, int api_preference, Variant parameters);
 	Ref<CVMat> read();
 	void release();
-	Ref<CVMat> retrieve(int flag);
+	Ref<CVMat> retrieve(Dictionary additional_parameters);
 	bool set(int propId, float value);
 	void setExceptionMode(bool enable);
 };

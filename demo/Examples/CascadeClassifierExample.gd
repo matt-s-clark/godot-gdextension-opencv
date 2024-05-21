@@ -16,7 +16,7 @@ func _process(_delta):
 		var mat = cap.read()
 		if mat.cols > 0:
 			if not haar.empty():
-				var temp := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, 0)
+				var temp := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, {})
 				
 				temp = CVImgProc.equalize_hist(temp)
 				
