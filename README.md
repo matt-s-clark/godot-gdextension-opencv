@@ -53,7 +53,7 @@ Run the extension from Godot. It is best to run Godot from the command line to c
 
 Follow the Godot C++ [GDExtension tutorial](https://docs.godotengine.org/en/4.2/tutorials/scripting/gdextension/gdextension_cpp_example.html#) for details on how to test the `GDExample` component.
 
-## MacOS (Intel)
+## MacOS (ARM)
 
 Download OpenCV from the [releases page](https://opencv.org/releases/) and unpack.
 
@@ -65,7 +65,7 @@ Set the `opencv_library_path` to point to your OpenCV library files (\*.dylib).
 
 To compile, make sure you are in the project root folder:
 
-    scons platform=macos arch=x86_64 disable_exceptions=false
+    scons platform=macos arch=arm64 disable_exceptions=false
 
 To run, make sure you include the `DYLD_LIBRARY_PATH` to your opencv dylib files if they are not in a system Library folder (i.e. you built them from source). On the command line where you will run Godot from:
 
@@ -81,6 +81,14 @@ Start Godot from the command line:
 You may want to set some extra Godot parameters to start the editor somewhere convenient. For example:
 
     /Applications/Godot\ 4.2.2.app/Contents/MacOS/Godot -e --screen 1 --position 0,0 -w --resolution 3240x2160
+
+## MacOS (Intel)
+
+Intel setup is the same as for ARM, except the scons `arch` parameter when compiling.
+
+To compile, make sure you are in the project root folder:
+
+    scons platform=macos arch=x86_64 disable_exceptions=false
 
 # Troubleshooting
 
