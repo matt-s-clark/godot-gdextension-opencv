@@ -1,6 +1,7 @@
 #ifndef GDEXAMPLE_REGISTER_TYPES_H
 #define GDEXAMPLE_REGISTER_TYPES_H
 
+#include "CVArucoHelper.h"
 #include "CVCore.h"
 #include "CVImgCodecs.h"
 #include "CVMat.h"

@@ -8,3 +8,9 @@
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_aqk41")
+
+[node name="MarkerHighlight" type="ColorRect" parent="TextureRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.756863, 0.258824, 0.34902, 0.690196)
