@@ -51,7 +51,7 @@ CVRect::~CVRect() {
 Variant CVRect::area() const {
 	Variant output;
 
-	SAFECALL(output = rawRect.area());
+	SAFE_CALL(output = rawRect.area());
 
 	return output;
 }
@@ -59,7 +59,7 @@ Variant CVRect::area() const {
 bool CVRect::empty() {
 	bool output;
 
-	SAFECALL(output = rawRect.empty());
+	SAFE_CALL(output = rawRect.empty());
 
 	return output;
 }

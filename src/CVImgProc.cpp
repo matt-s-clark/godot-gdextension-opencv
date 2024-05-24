@@ -71,9 +71,9 @@ Ref<CVMat> CVImgProc::cvt_color(Ref<CVMat> src, int code, Dictionary additional_
 
 	int dstCn = 0;
 
-	GETADITIONALPROPERTY(additional_parameters, dstCn, "dst_cn", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, dstCn, "dst_cn", Variant::INT, "INT");
 
-	SAFECALL(cv::cvtColor(src->get_mat(), matOut, code, dstCn));
+	SAFE_CALL(cv::cvtColor(src->get_mat(), matOut, code, dstCn));
 
 	output->set_mat(matOut);
 
@@ -85,7 +85,7 @@ Ref<CVMat> CVImgProc::equalize_hist(Ref<CVMat> src) {
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(cv::equalizeHist(src->get_mat(), matOut));
+	SAFE_CALL(cv::equalizeHist(src->get_mat(), matOut));
 
 	output->set_mat(matOut);
 
@@ -98,16 +98,16 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 	Color color = Color(0, 255, 0);
 	int thickness = 1, lineType = 8, shift = 0;
 
-	GETADITIONALPROPERTY(additional_parameters, rect, "rec", Variant::OBJECT, "CVRECT");
-	GETADITIONALPROPERTY(additional_parameters, pt1, "pt1", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(additional_parameters, pt2, "pt2", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(additional_parameters, color, "color", Variant::COLOR, "COLOR");
-	GETADITIONALPROPERTY(additional_parameters, thickness, "thickness", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, lineType, "line_type", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, shift, "shift", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, rect, "rec", Variant::OBJECT, "CVRECT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, pt1, "pt1", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, pt2, "pt2", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, color, "color", Variant::COLOR, "COLOR");
+	GET_ADITIONAL_PROPERTY(additional_parameters, thickness, "thickness", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, lineType, "line_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, shift, "shift", Variant::INT, "INT");
 
 	if (!rect.is_null()) {
-		SAFECALL(cv::rectangle(
+		SAFE_CALL(cv::rectangle(
 				img->get_mat(),
 				rect->get_rect(),
 				cv::Scalar(color.b, color.g, color.r) * 255,
@@ -116,7 +116,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 				shift));
 
 	} else if (pt1.x >= 0 && pt2.x >= 0 && pt1.y >= 0 && pt2.y >= 0) {
-		SAFECALL(cv::rectangle(
+		SAFE_CALL(cv::rectangle(
 				img->get_mat(),
 				cv::Point((int)pt1.x, (int)pt1.y),
 				cv::Point((int)pt2.x, (int)pt2.y),
@@ -136,9 +136,9 @@ Ref<CVMat> CVImgProc::bilateral_filter(Ref<CVMat> src, int d, double sigmaColor,
 
 	int borderType = 4;
 
-	GETADITIONALPROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 
-	SAFECALL(cv::bilateralFilter(src->get_mat(), matOut, d, sigmaColor, sigmaSpace, borderType));
+	SAFE_CALL(cv::bilateralFilter(src->get_mat(), matOut, d, sigmaColor, sigmaSpace, borderType));
 
 	output->set_mat(matOut);
 
@@ -153,10 +153,10 @@ Ref<CVMat> CVImgProc::blur(Ref<CVMat> src, Vector2 ksize, Dictionary additional_
 	int borderType = 4;
 	Vector2 anchor = Vector2(-1, -1);
 
-	GETADITIONALPROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
 
-	SAFECALL(cv::blur(src->get_mat(), matOut, cv::Size(ksize.x, ksize.y), cv::Point(anchor.x, anchor.y), borderType));
+	SAFE_CALL(cv::blur(src->get_mat(), matOut, cv::Size(ksize.x, ksize.y), cv::Point(anchor.x, anchor.y), borderType));
 
 	output->set_mat(matOut);
 
@@ -172,16 +172,16 @@ Ref<CVMat> CVImgProc::dilate(Ref<CVMat> src, Ref<CVMat> kernel, Dictionary addit
 	Vector2 anchor = Vector2(-1, -1), borderValue = Vector2(-1, -1);
 	cv::Scalar borderValueScalar = cv::morphologyDefaultBorderValue();
 
-	GETADITIONALPROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, interactions, "interactions", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(additional_parameters, borderValue, "border_value", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, interactions, "interactions", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderValue, "border_value", Variant::VECTOR2, "VECTOR2");
 
 	if (borderValue.x != -1 && borderValue.y != -1) {
 		borderValueScalar = cv::Scalar(borderValue.x, borderValue.y);
 	}
 
-	SAFECALL(cv::dilate(src->get_mat(), matOut, kernel->get_mat(), cv::Point(anchor.x, anchor.y), interactions, borderType, borderValueScalar));
+	SAFE_CALL(cv::dilate(src->get_mat(), matOut, kernel->get_mat(), cv::Point(anchor.x, anchor.y), interactions, borderType, borderValueScalar));
 
 	output->set_mat(matOut);
 
@@ -197,16 +197,16 @@ Ref<CVMat> CVImgProc::erode(Ref<CVMat> src, Ref<CVMat> kernel, Dictionary additi
 	Vector2 anchor = Vector2(-1, -1), borderValue = Vector2(-1, -1);
 	cv::Scalar borderValueScalar = cv::morphologyDefaultBorderValue();
 
-	GETADITIONALPROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, interactions, "interactions", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(additional_parameters, borderValue, "border_value", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, interactions, "interactions", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderValue, "border_value", Variant::VECTOR2, "VECTOR2");
 
 	if (borderValue.x != -1 && borderValue.y != -1) {
 		borderValueScalar = cv::Scalar(borderValue.x, borderValue.y);
 	}
 
-	SAFECALL(cv::erode(src->get_mat(), matOut, kernel->get_mat(), cv::Point(anchor.x, anchor.y), interactions, borderType, borderValueScalar));
+	SAFE_CALL(cv::erode(src->get_mat(), matOut, kernel->get_mat(), cv::Point(anchor.x, anchor.y), interactions, borderType, borderValueScalar));
 
 	output->set_mat(matOut);
 
@@ -222,16 +222,16 @@ Ref<CVMat> CVImgProc::morphology_ex(Ref<CVMat> src, int op, Ref<CVMat> kernel, D
 	Vector2 anchor = Vector2(-1, -1), borderValue = Vector2(-1, -1);
 	cv::Scalar borderValueScalar = cv::morphologyDefaultBorderValue();
 
-	GETADITIONALPROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, interactions, "interactions", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(additional_parameters, borderValue, "border_value", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, interactions, "interactions", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderValue, "border_value", Variant::VECTOR2, "VECTOR2");
 
 	if (borderValue.x != -1 && borderValue.y != -1) {
 		borderValueScalar = cv::Scalar(borderValue.x, borderValue.y);
 	}
 
-	SAFECALL(cv::morphologyEx(src->get_mat(), matOut, op, kernel->get_mat(), cv::Point(anchor.x, anchor.y), interactions, borderType, borderValueScalar));
+	SAFE_CALL(cv::morphologyEx(src->get_mat(), matOut, op, kernel->get_mat(), cv::Point(anchor.x, anchor.y), interactions, borderType, borderValueScalar));
 
 	output->set_mat(matOut);
 
@@ -245,9 +245,9 @@ Ref<CVMat> CVImgProc::get_structuring_element(int shape, Vector2 ksize, Dictiona
 
 	Vector2 anchor = Vector2(-1, -1);
 
-	GETADITIONALPROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
 
-	SAFECALL(matOut = cv::getStructuringElement(shape, cv::Size(ksize.x, ksize.y), cv::Point(anchor.x, anchor.y)));
+	SAFE_CALL(matOut = cv::getStructuringElement(shape, cv::Size(ksize.x, ksize.y), cv::Point(anchor.x, anchor.y)));
 
 	output->set_mat(matOut);
 
@@ -262,10 +262,10 @@ Ref<CVMat> CVImgProc::gaussian_blur(Ref<CVMat> src, Vector2 ksize, float sigmaX,
 	float sigmaY = 0;
 	int borderType = 4;
 
-	GETADITIONALPROPERTY(additional_parameters, sigmaY, "sigma_y", Variant::FLOAT, "FLOAT");
-	GETADITIONALPROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, sigmaY, "sigma_y", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 
-	SAFECALL(cv::GaussianBlur(src->get_mat(), matOut, cv::Size(ksize.x, ksize.y), sigmaX, sigmaY, borderType));
+	SAFE_CALL(cv::GaussianBlur(src->get_mat(), matOut, cv::Size(ksize.x, ksize.y), sigmaX, sigmaY, borderType));
 
 	output->set_mat(matOut);
 
@@ -277,7 +277,7 @@ Ref<CVMat> CVImgProc::median_blur(Ref<CVMat> src, int ksize) {
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(cv::medianBlur(src->get_mat(), matOut, ksize));
+	SAFE_CALL(cv::medianBlur(src->get_mat(), matOut, ksize));
 
 	output->set_mat(matOut);
 
@@ -289,7 +289,7 @@ Ref<CVMat> CVImgProc::adaptive_threshold(Ref<CVMat> src, float maxValue, int ada
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(cv::adaptiveThreshold(src->get_mat(), matOut, maxValue, adaptiveMethod, thresholdType, blockSize, C));
+	SAFE_CALL(cv::adaptiveThreshold(src->get_mat(), matOut, maxValue, adaptiveMethod, thresholdType, blockSize, C));
 
 	output->set_mat(matOut);
 
@@ -301,7 +301,7 @@ Ref<CVMat> CVImgProc::threshold(Ref<CVMat> src, float thresh, float maxval, int 
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(cv::threshold(src->get_mat(), matOut, thresh, maxval, type));
+	SAFE_CALL(cv::threshold(src->get_mat(), matOut, thresh, maxval, type));
 
 	output->set_mat(matOut);
 

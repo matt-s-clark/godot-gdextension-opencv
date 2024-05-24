@@ -26,9 +26,9 @@ Ref<CVMat> CVImgCodecs::imread(
 
 	int flags = cv::IMREAD_COLOR;
 
-	GETADITIONALPROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
 
-	SAFECALL(outMat = cv::imread(path, flags));
+	SAFE_CALL(outMat = cv::imread(path, flags));
 
 	output->set_mat(outMat);
 

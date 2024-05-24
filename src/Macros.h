@@ -1,11 +1,11 @@
-#define SAFECALL(func)                             \
+#define SAFE_CALL(func)                             \
 	try {                                          \
 		func;                                      \
 	} catch (std::exception & stde) {              \
 		UtilityFunctions::push_error(stde.what()); \
 	}
 
-#define GETADITIONALPROPERTY(list, variable, propertyName, type, warningType)                                                                    \
+#define GET_ADITIONAL_PROPERTY(list, variable, propertyName, type, warningType)                                                                    \
 	if (list.has(propertyName)) {                                                                                                                \
 		if (list[propertyName].get_type() == type) {                                                                                             \
 			variable = list[propertyName];                                                                                                       \

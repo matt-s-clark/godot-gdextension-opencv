@@ -144,14 +144,14 @@ Ref<CVMat> CVCore::arithmetic_wrapper(
 	Ref<CVMat> mask;
 	int dtype = -1;
 
-	GETADITIONALPROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
-	GETADITIONALPROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
+	GET_ADITIONAL_PROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
 
 	if (mask.is_null()) {
 		mask.instantiate();
 	}
 
-	SAFECALL(func(mat1->get_mat(), mat2->get_mat(), outMat, mask->get_mat(), dtype));
+	SAFE_CALL(func(mat1->get_mat(), mat2->get_mat(), outMat, mask->get_mat(), dtype));
 
 	output->set_mat(outMat);
 
@@ -200,7 +200,7 @@ Ref<CVMat> CVCore::mat_in_mat_in_mat_out_wrapper(
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(func(mat1->get_mat(), mat2->get_mat(), outMat));
+	SAFE_CALL(func(mat1->get_mat(), mat2->get_mat(), outMat));
 
 	output->set_mat(outMat);
 
@@ -238,13 +238,13 @@ Ref<CVMat> CVCore::bitwise_not(
 
 	Ref<CVMat> mask;
 
-	GETADITIONALPROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
+	GET_ADITIONAL_PROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
 
 	if (mask.is_null()) {
 		mask.instantiate();
 	}
 
-	SAFECALL(cv::bitwise_not(mat->get_mat(), outMat, mask->get_mat()));
+	SAFE_CALL(cv::bitwise_not(mat->get_mat(), outMat, mask->get_mat()));
 
 	output->set_mat(outMat);
 
@@ -266,13 +266,13 @@ Ref<CVMat> CVCore::bitwise_wrapper(
 
 	Ref<CVMat> mask;
 
-	GETADITIONALPROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
+	GET_ADITIONAL_PROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
 
 	if (mask.is_null()) {
 		mask.instantiate();
 	}
 
-	SAFECALL(func(mat1->get_mat(), mat2->get_mat(), outMat, mask->get_mat()));
+	SAFE_CALL(func(mat1->get_mat(), mat2->get_mat(), outMat, mask->get_mat()));
 
 	output->set_mat(outMat);
 
@@ -309,7 +309,7 @@ Ref<CVMat> CVCore::mat_in_mat_out_wrapper(
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(func(mat->get_mat(), outMat));
+	SAFE_CALL(func(mat->get_mat(), outMat));
 
 	output->set_mat(outMat);
 
@@ -329,9 +329,9 @@ Ref<CVMat> CVCore::add_weighted(
 
 	int dtype = -1;
 
-	GETADITIONALPROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
 
-	SAFECALL(cv::addWeighted(
+	SAFE_CALL(cv::addWeighted(
 			src1->get_mat(),
 			alpha,
 			src2->get_mat(),
@@ -351,10 +351,10 @@ Ref<CVMat> CVCore::dft(Ref<CVMat> src, Dictionary additional_parameters) {
 	output.instantiate();
 	int flags = 0, nonZeroRows = 0;
 
-	GETADITIONALPROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, nonZeroRows, "non_zero_rows", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, nonZeroRows, "non_zero_rows", Variant::INT, "INT");
 
-	SAFECALL(cv::dft(src->get_mat(), outMat, flags, nonZeroRows));
+	SAFE_CALL(cv::dft(src->get_mat(), outMat, flags, nonZeroRows));
 
 	output->set_mat(outMat);
 
@@ -364,7 +364,7 @@ Ref<CVMat> CVCore::dft(Ref<CVMat> src, Dictionary additional_parameters) {
 int CVCore::get_optimal_dft_size(int vecsize) {
 	int output = -1;
 
-	SAFECALL(cv::getOptimalDFTSize(vecsize));
+	SAFE_CALL(cv::getOptimalDFTSize(vecsize));
 
 	return output;
 }
@@ -376,17 +376,17 @@ Ref<CVMat> CVCore::normalize(Ref<CVMat> src, Dictionary additional_parameters) {
 	float alpha = 1.0, beta = 0.0;
 	int norm_type = 4, dtype = -1;
 
-	GETADITIONALPROPERTY(additional_parameters, alpha, "alpha", Variant::FLOAT, "FLOAT");
-	GETADITIONALPROPERTY(additional_parameters, beta, "beta", Variant::FLOAT, "FLOAT");
-	GETADITIONALPROPERTY(additional_parameters, norm_type, "norm_type", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
+	GET_ADITIONAL_PROPERTY(additional_parameters, alpha, "alpha", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, beta, "beta", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, norm_type, "norm_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
 
 	if (mask.is_null()) {
 		mask.instantiate();
 	}
 
-	SAFECALL(cv::normalize(src->get_mat(), outMat, alpha, beta, norm_type, dtype, mask->get_mat()));
+	SAFE_CALL(cv::normalize(src->get_mat(), outMat, alpha, beta, norm_type, dtype, mask->get_mat()));
 
 	output->set_mat(outMat);
 

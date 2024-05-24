@@ -55,7 +55,7 @@ CVMat::CVMat() {
 }
 
 CVMat::~CVMat() {
-	SAFECALL(rawMat.release());
+	SAFE_CALL(rawMat.release());
 }
 
 Ref<Image> CVMat::get_image() {
@@ -66,7 +66,7 @@ Ref<Image> CVMat::get_image() {
 	if (image.is_null() || image->is_empty()) {
 		cv::Mat rgbMat;
 
-		SAFECALL(cv::cvtColor(rawMat, rgbMat, cv::COLOR_BGR2RGB));
+		SAFE_CALL(cv::cvtColor(rawMat, rgbMat, cv::COLOR_BGR2RGB));
 		rgbMat.convertTo(rgbMat, CV_8U);
 
 		int sizear = rgbMat.cols * rgbMat.rows * rgbMat.channels();
@@ -87,7 +87,7 @@ Ref<Image> CVMat::get_image() {
 Variant CVMat::get_at(int row, int col) {
 	Variant output = 0;
 
-	SAFECALL(
+	SAFE_CALL(
 			switch (rawMat.type() % 8) {
 				case CV_8U:
 					output = rawMat.at<uchar>(row, col);
@@ -118,7 +118,7 @@ Variant CVMat::get_at(int row, int col) {
 void CVMat::set_at(int row, int col, Variant value) {
 	Variant output;
 
-	SAFECALL(
+	SAFE_CALL(
 			switch (rawMat.type() % 8) {
 				case CV_8U:
 					output = rawMat.at<uchar>(row, col) = value;
@@ -147,7 +147,7 @@ void CVMat::set_at(int row, int col, Variant value) {
 int CVMat::channels() const {
 	int output = -1;
 
-	SAFECALL(output = rawMat.channels());
+	SAFE_CALL(output = rawMat.channels());
 
 	return output;
 }
@@ -155,13 +155,13 @@ int CVMat::channels() const {
 int CVMat::type() const {
 	int output = -1;
 
-	SAFECALL(output = rawMat.type());
+	SAFE_CALL(output = rawMat.type());
 
 	return output;
 }
 
 void CVMat::convert_to(int rtype) {
-	SAFECALL(rawMat.convertTo(rawMat, rtype));
+	SAFE_CALL(rawMat.convertTo(rawMat, rtype));
 }
 
 int CVMat::get_rows() {
@@ -189,7 +189,7 @@ Ref<CVMat> CVMat::ones(int rows, int cols, int type) {
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(outMat = cv::Mat::ones(rows, cols, type));
+	SAFE_CALL(outMat = cv::Mat::ones(rows, cols, type));
 
 	output->set_mat(outMat);
 
@@ -201,7 +201,7 @@ Ref<CVMat> CVMat::zeros(int rows, int cols, int type) {
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(outMat = cv::Mat::zeros(rows, cols, type));
+	SAFE_CALL(outMat = cv::Mat::zeros(rows, cols, type));
 
 	output->set_mat(outMat);
 

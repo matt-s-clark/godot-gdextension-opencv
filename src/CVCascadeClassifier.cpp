@@ -38,12 +38,12 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 	cv::Size minSizeSize = cv::Size(), maxSizeSize = cv::Size();
 	bool outputRejectLevels = false;
 
-	GETADITIONALPROPERTY(additional_parameters, scaleFactor, "scale_factor", Variant::FLOAT, "FLOAT");
-	GETADITIONALPROPERTY(additional_parameters, minNeighbors, "min_neighbors", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
-	GETADITIONALPROPERTY(additional_parameters, minSize, "min_size", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(additional_parameters, maxSize, "max_size", Variant::VECTOR2, "VECTOR2");
-	GETADITIONALPROPERTY(additional_parameters, outputRejectLevels, "output_reject_levels", Variant::BOOL, "Bool");
+	GET_ADITIONAL_PROPERTY(additional_parameters, scaleFactor, "scale_factor", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, minNeighbors, "min_neighbors", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, minSize, "min_size", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, maxSize, "max_size", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, outputRejectLevels, "output_reject_levels", Variant::BOOL, "Bool");
 
 	if (minSize.x >= 0 && minSize.y >= 0) {
 		minSizeSize = cv::Size(minSize.x, minSize.y);
@@ -58,7 +58,7 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 	}
 
 	if (outputRejectLevels) {
-		SAFECALL(rawClassifier.detectMultiScale(
+		SAFE_CALL(rawClassifier.detectMultiScale(
 				image->get_mat(),
 				objects,
 				rejectLevels,
@@ -70,7 +70,7 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 				maxSizeSize,
 				outputRejectLevels));
 	} else {
-		SAFECALL(rawClassifier.detectMultiScale(
+		SAFE_CALL(rawClassifier.detectMultiScale(
 				image->get_mat(),
 				objects,
 				numDetections,
@@ -120,7 +120,7 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 bool CVCascadeClassifier::empty() const {
 	bool output;
 
-	SAFECALL(output = rawClassifier.empty());
+	SAFE_CALL(output = rawClassifier.empty());
 
 	return output;
 }
@@ -128,7 +128,7 @@ bool CVCascadeClassifier::empty() const {
 int CVCascadeClassifier::get_feature_type() const {
 	int output;
 
-	SAFECALL(output = rawClassifier.getFeatureType());
+	SAFE_CALL(output = rawClassifier.getFeatureType());
 
 	return output;
 }
@@ -138,7 +138,7 @@ bool CVCascadeClassifier::load(const String filename) {
 
 	cv::String path(filename.utf8());
 
-	SAFECALL(output = rawClassifier.load(path));
+	SAFE_CALL(output = rawClassifier.load(path));
 
 	return output;
 }
