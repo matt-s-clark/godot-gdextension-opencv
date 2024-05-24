@@ -4,7 +4,7 @@ extends TextureRect
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("READY NOW!")
-	var matLoad = CVImgCodecs.imread("aruco-capture.png", 1);
+	var matLoad = CVImgCodecs.imread("aruco-capture.png", {});
 	print(matLoad);
 	
 	var gdExample = CVMat.new();
