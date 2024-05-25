@@ -22,6 +22,20 @@ func test_cap_camera():
 	assert_string_contains(frame.to_string(), "CVMat instance")
 	assert_ne(frame.cols , 0, "Cols != 0")
 	assert_ne(frame.rows , 0, "Rows != 0")
+	
+func test_cap_grab_and_retrieve():
+	var cap = CVVideoCapture.new()
+	cap.open(0, 0, null)
+	
+	var grabed := cap.grab()
+	
+	assert_eq(grabed, true)
+	
+	var frame := cap.retrieve({})
+	
+	assert_string_contains(frame.to_string(), "CVMat instance")
+	assert_ne(frame.cols , 0, "Cols != 0")
+	assert_ne(frame.rows , 0, "Rows != 0")
 
 func test_cap_file():
 	var cap = CVVideoCapture.new()

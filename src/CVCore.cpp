@@ -364,7 +364,7 @@ Ref<CVMat> CVCore::dft(Ref<CVMat> src, Dictionary additional_parameters) {
 int CVCore::get_optimal_dft_size(int vecsize) {
 	int output = -1;
 
-	SAFE_CALL(cv::getOptimalDFTSize(vecsize));
+	SAFE_CALL(output = cv::getOptimalDFTSize(vecsize));
 
 	return output;
 }

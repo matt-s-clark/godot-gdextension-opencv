@@ -87,6 +87,11 @@ Ref<Image> CVMat::get_image() {
 Variant CVMat::get_at(int row, int col) {
 	Variant output = 0;
 
+	if (row >= rawMat.rows || col >= rawMat.cols) {
+		UtilityFunctions::push_error("Value out of bounds");
+		return output;
+	}
+
 	SAFE_CALL(
 			switch (rawMat.type() % 8) {
 				case CV_8U:
@@ -116,27 +121,30 @@ Variant CVMat::get_at(int row, int col) {
 }
 
 void CVMat::set_at(int row, int col, Variant value) {
-	Variant output;
+	if (row >= rawMat.rows || col >= rawMat.cols) {
+		UtilityFunctions::push_error("Value out of bounds");
+		return;
+	}
 
 	SAFE_CALL(
 			switch (rawMat.type() % 8) {
 				case CV_8U:
-					output = rawMat.at<uchar>(row, col) = value;
+					rawMat.at<uchar>(row, col) = value;
 					break;
 				case CV_8S:
-					output = rawMat.at<schar>(row, col) = value;
+					rawMat.at<schar>(row, col) = value;
 					break;
 				case CV_16U:
-					output = rawMat.at<ushort>(row, col) = value;
+					rawMat.at<ushort>(row, col) = value;
 					break;
 				case CV_16S:
-					output = rawMat.at<short>(row, col) = value;
+					rawMat.at<short>(row, col) = value;
 					break;
 				case CV_32S:
-					output = rawMat.at<int>(row, col) = value;
+					rawMat.at<int>(row, col) = value;
 					break;
 				case CV_32F:
-					output = rawMat.at<float>(row, col) = value;
+					rawMat.at<float>(row, col) = value;
 					break;
 				case CV_64F:
 					rawMat.at<double>(row, col) = value;
