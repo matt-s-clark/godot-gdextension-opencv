@@ -14,6 +14,8 @@ func after_all():
 func test_general():
 	var rect := CVRect.new()
 	
+	assert_eq(rect.empty(), true)
+	
 	rect.x = 5
 	rect.y = 5
 	rect.height = 3
@@ -21,3 +23,7 @@ func test_general():
 	
 	assert_eq(rect.area(), 9)
 	assert_eq(rect.empty(), false)
+	assert_eq(rect.tl(), Vector2(5, 5))
+	assert_eq(rect.br(), Vector2(8, 8))
+	assert_eq(rect.contains(Vector2(6, 6)), true)
+	assert_eq(rect.contains(Vector2(9, 9)), false)

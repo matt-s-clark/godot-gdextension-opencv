@@ -23,6 +23,8 @@ public:
 	~CVRect();
 
 	Variant area() const;
+	Vector2 br();
+	bool contains(Vector2 point);
 	bool empty();
 	Variant get_height();
 	cv::Rect get_rect();
@@ -34,6 +36,7 @@ public:
 	void set_width(Variant value);
 	void set_x(Variant value);
 	void set_y(Variant value);
+	Vector2 tl();
 };
 
 } //namespace godot

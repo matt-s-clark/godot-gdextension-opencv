@@ -40,6 +40,16 @@ void CVRect::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "y"), "set_y", "get_y");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "width"), "set_width", "get_width");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "height"), "set_height", "get_height");
+
+	ClassDB::bind_method(
+			D_METHOD("contains", "point"),
+			&CVRect::contains);
+	ClassDB::bind_method(
+			D_METHOD("br"),
+			&CVRect::br);
+	ClassDB::bind_method(
+			D_METHOD("tl"),
+			&CVRect::tl);
 }
 
 CVRect::CVRect() {
@@ -62,6 +72,26 @@ bool CVRect::empty() {
 	SAFE_CALL(output = rawRect.empty());
 
 	return output;
+}
+
+bool CVRect::contains(Vector2 point) {
+	bool output;
+
+	SAFE_CALL(output = rawRect.contains(cv::Point2i(point.x, point.y)));
+
+	return output;
+}
+
+Vector2 CVRect::br() {
+	cv::Point br = rawRect.br();
+
+	return Vector2(br.x, br.y);
+}
+
+Vector2 CVRect::tl() {
+	cv::Point tl = rawRect.tl();
+
+	return Vector2(tl.x, tl.y);
 }
 
 Variant CVRect::get_height() {
