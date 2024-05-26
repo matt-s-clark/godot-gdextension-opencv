@@ -50,6 +50,10 @@ void CVRect::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("tl"),
 			&CVRect::tl);
+
+	ClassDB::bind_method(
+			D_METHOD("set_values", "x", "y", "width", "height"),
+			&CVRect::set_values);
 }
 
 CVRect::CVRect() {
@@ -92,6 +96,13 @@ Vector2 CVRect::tl() {
 	cv::Point tl = rawRect.tl();
 
 	return Vector2(tl.x, tl.y);
+}
+
+void CVRect::set_values(Variant x, Variant y, Variant width, Variant height){
+	set_x(x);
+	set_y(y);
+	set_width(width);
+	set_height(height);
 }
 
 Variant CVRect::get_height() {

@@ -16,10 +16,7 @@ func test_general():
 	
 	assert_eq(rect.empty(), true)
 	
-	rect.x = 5
-	rect.y = 5
-	rect.height = 3
-	rect.width = 3
+	rect.set_values(5, 5, 3, 3)
 	
 	assert_eq(rect.area(), 9)
 	assert_eq(rect.empty(), false)
