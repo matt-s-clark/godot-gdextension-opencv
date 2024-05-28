@@ -18,7 +18,7 @@ func _ready():
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 
 
-func _process(delta):
+func _process(_delta):
 	if cap.is_opened():
 		var mat = cap.read()
 		if mat.cols > 0:

@@ -40,6 +40,9 @@ void CVMat::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "cols"), "set_read_only", "get_cols");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "rows"), "set_read_only", "get_rows");
 
+	ClassDB::bind_method(
+			D_METHOD("multiply", "value"),
+			&CVMat::multiply);
 	ClassDB::bind_static_method(
 			get_class_static(),
 			D_METHOD("zeros", "rows", "cols", "type"),
@@ -188,6 +191,16 @@ cv::Mat CVMat::get_mat() {
 	return rawMat;
 }
 
+void CVMat::multiply(Variant value) {
+	if (value.get_type() == Variant::INT) {
+		rawMat = rawMat * (int)value;
+	} else if (value.get_type() == Variant::FLOAT) {
+		rawMat = rawMat * (float)value;
+	} else {
+		UtilityFunctions::push_error("Type is not supported");
+	}
+}
+
 void CVMat::set_read_only(int input) {
 	UtilityFunctions::push_warning("This property is a read only");
 }
@@ -210,6 +223,18 @@ Ref<CVMat> CVMat::zeros(int rows, int cols, int type) {
 	output.instantiate();
 
 	SAFE_CALL(outMat = cv::Mat::zeros(rows, cols, type));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+Ref<CVMat> CVMat::eye(int rows, int cols, int type) {
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFE_CALL(outMat = cv::Mat::eye(rows, cols, type));
 
 	output->set_mat(outMat);
 
