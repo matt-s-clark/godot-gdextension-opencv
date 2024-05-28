@@ -29,6 +29,7 @@ opencv_header_files = [
     "../opencv-4.9.0/modules/imgcodecs/include",
     "../opencv-4.9.0/modules/imgproc/include",
     "../opencv-4.9.0/modules/videoio/include",
+    "../opencv-4.9.0/modules/objdetect/include",
     "../build_opencv",
     "/usr/local/include/opencv4"
 ]
