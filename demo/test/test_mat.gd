@@ -28,3 +28,14 @@ func test_general():
 	
 	assert_eq(mat.type(), CVConsts.MatType.CV_32F)
 	
+func test_static_methods():
+	var zeros = CVMat.zeros(3, 3, CVConsts.MatType.CV_8U)
+	var ones = CVMat.ones(3, 3, CVConsts.MatType.CV_8U)
+	var eye = CVMat.eye(3, 3, CVConsts.MatType.CV_8U)
+	
+	for i in 3:
+		for j in 3:
+			assert_eq(zeros.get_at(i, j), 0)
+			assert_eq(ones.get_at(i, j), 1)
+			assert_eq(eye.get_at(i, j), 1 if i == j else 0)
+			

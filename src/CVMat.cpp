@@ -51,6 +51,10 @@ void CVMat::_bind_methods() {
 			get_class_static(),
 			D_METHOD("ones", "rows", "cols", "type"),
 			&CVMat::ones);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("eye", "rows", "cols", "type"),
+			&CVMat::eye);
 }
 
 CVMat::CVMat() {
