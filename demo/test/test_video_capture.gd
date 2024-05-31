@@ -71,5 +71,5 @@ func test_cap_misc():
 	var cap = CVVideoCapture.new()
 
 	cap.open(0, 0, null)
-	assert_has(['FFMPEG', 'GSTREAMER', 'INTEL_MFX', 'V4L2', 'CV_IMAGES', 'CV_MJPEG'], cap.get_backend_name())
+	assert_has(['FFMPEG', 'GSTREAMER', 'INTEL_MFX', 'V4L2', 'CV_IMAGES', 'CV_MJPEG', 'AVFOUNDATION'], cap.get_backend_name())
 	assert_eq(cap.get_exception_mode(), false, "get_exception_mode")
