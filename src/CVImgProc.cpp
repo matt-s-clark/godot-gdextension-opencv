@@ -55,6 +55,27 @@ void CVImgProc::_bind_methods() {
 			get_class_static(),
 			D_METHOD("threshold", "src", "thresh", "maxval", "type"),
 			&CVImgProc::threshold);
+
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("laplacian", "src", "ddepth", "additional_parameters"),
+			&CVImgProc::laplacian);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("sobel", "src", "ddepth", "dx", "dy", "additional_parameters"),
+			&CVImgProc::sobel);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("filter2D", "src", "ddepth", "kernel", "additional_parameters"),
+			&CVImgProc::filter2D);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("get_gaussian_kernel", "ksize", "sigma", "additional_parameters"),
+			&CVImgProc::get_gaussian_kernel);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("get_gabor_kernel", "ksize", "sigma", "theta", "lambd", "gamma", "additional_parameters"),
+			&CVImgProc::get_gabor_kernel);
 }
 
 CVImgProc::CVImgProc() {
@@ -302,6 +323,101 @@ Ref<CVMat> CVImgProc::threshold(Ref<CVMat> src, float thresh, float maxval, int 
 	output.instantiate();
 
 	SAFE_CALL(cv::threshold(src->get_mat(), matOut, thresh, maxval, type));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+
+Ref<CVMat> CVImgProc::filter2D(Ref<CVMat> src, int ddepth, Ref<CVMat> kernel, Dictionary additional_parameters) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	Vector2 anchor = Vector2(-1, -1);
+	float delta = 0;
+	int borderType = 4;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, delta, "delta", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+
+	SAFE_CALL(cv::filter2D(src->get_mat(), matOut, ddepth, kernel->get_mat(),
+			cv::Point(anchor.x, anchor.y), delta, borderType));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+
+Ref<CVMat> CVImgProc::get_gaussian_kernel(int ksize, float sigma, Dictionary additional_parameters) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	int ktype = 6;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, ktype, "ktype", Variant::INT, "INT");
+
+	SAFE_CALL(matOut = cv::getGaussianKernel(ksize, sigma, ktype));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+
+Ref<CVMat> CVImgProc::get_gabor_kernel(Vector2 ksize, float sigma, float theta, float lambd, float gamma, Dictionary additional_parameters) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	int ktype = 6;
+	float psi = 1.5707963267948966;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, ktype, "ktype", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, psi, "psi", Variant::FLOAT, "FLOAT");
+
+	SAFE_CALL(matOut = cv::getGaborKernel(cv::Size(ksize.x, ksize.y), sigma, theta, lambd, gamma, psi, ktype));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+
+Ref<CVMat> CVImgProc::laplacian(Ref<CVMat> src, int ddepth, Dictionary additional_parameters) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	int ksize = 1, borderType = 4;
+	float scale = 1.0, delta = 0.0;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, ksize, "ksize", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, scale, "scale", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, delta, "delta", Variant::FLOAT, "FLOAT");
+
+	SAFE_CALL(cv::Laplacian(src->get_mat(), matOut, ddepth, ksize, scale, delta, borderType));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+
+Ref<CVMat> CVImgProc::sobel(Ref<CVMat> src, int ddepth, int dx, int dy, Dictionary additional_parameters) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	int ksize = 3, borderType = 4;
+	float scale = 1.0, delta = 0.0;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, ksize, "ksize", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, scale, "scale", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, delta, "delta", Variant::FLOAT, "FLOAT");
+
+	SAFE_CALL(cv::Sobel(src->get_mat(), matOut, ddepth, dx, dy, ksize, scale, delta, borderType));
 
 	output->set_mat(matOut);
 

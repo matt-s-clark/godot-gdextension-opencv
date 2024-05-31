@@ -188,3 +188,53 @@ func test_threshold():
 	
 	assert_eq(result.get_at(0, 0), 255)
 	assert_eq(result.get_at(2, 2), 0)
+	
+func test_sobel():
+	# Could be better
+	var mat := CVMat.zeros(5, 5, CVConsts.MatType.CV_8U)
+	
+	var result := CVImgProc.sobel(mat, -1, 1, 1, {})
+	
+	assert_eq(result.cols, mat.cols)
+	assert_eq(result.rows, mat.rows)
+	
+func test_laplacian():
+	var mat := CVMat.zeros(5, 5, CVConsts.MatType.CV_8U)
+	
+	for i in mat.cols:
+		mat.set_at(2, i, 255)
+	
+	var result := CVImgProc.laplacian(mat, -1, {})
+	
+	assert_eq(result.cols, mat.cols)
+	assert_eq(result.rows, mat.rows)
+	
+	assert_eq(result.get_at(0,0), 0)
+	assert_eq(result.get_at(1,0), 255)
+	assert_eq(result.get_at(2,0), 0)
+	assert_eq(result.get_at(3,0), 255)
+	assert_eq(result.get_at(4,0), 0)
+	
+func test_filter2D():
+	var mat := CVMat.ones(5, 5, CVConsts.MatType.CV_8U)
+	var kernel := CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(3, 3), {})
+	var result := CVImgProc.filter2D(mat, -1, kernel, {})
+	
+	assert_eq(result.cols, mat.cols)
+	assert_eq(result.rows, mat.rows)
+	
+	assert_eq(result.get_at(0,0), 5)
+	
+func test_get_gabor_kernel():
+	var mat := CVImgProc.get_gabor_kernel(Vector2(3, 3), 5.1, 1.5, 0.3, 2.6, {})
+	
+	assert_almost_eq(mat.get_at(0,0), 0.326, 0.001)
+	assert_almost_eq(mat.get_at(0,1), -0.873, 0.001)
+	assert_almost_eq(mat.get_at(0,2), -0.45, 0.001)
+	
+func test_gaussian_kernel():
+	var mat := CVImgProc.get_gaussian_kernel(3, 0, {})
+	
+	assert_almost_eq(mat.get_at(0,0), 0.25, 0.001)
+	assert_almost_eq(mat.get_at(1,0), 0.5, 0.001)
+	assert_almost_eq(mat.get_at(2,0), 0.25, 0.001)
