@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://daekuoncm6wq3"]
 
-[ext_resource type="Script" path="res://Examples/threshold_and_morphology_example.gd" id="1_huhs4"]
+[ext_resource type="Script" path="res://Examples/ThresholdAndMorphologyExample.gd" id="1_huhs4"]
 
 [node name="ThresholdAndMorphologyExample" type="Control"]
 layout_mode = 3

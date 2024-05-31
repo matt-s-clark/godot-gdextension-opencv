@@ -9,7 +9,8 @@ var thread : Thread
 var mat : CVMat
 
 var cap:CVVideoCapture
-var blur:= 11
+var median_blur:= 11
+var gaussian_blur:= 11
 var bilateral:= 10
 
 func _ready():
@@ -23,12 +24,12 @@ func _process(_delta):
 	if cap.is_opened():
 		mat = cap.read()
 		if mat.cols > 0:
-			var bl := CVImgProc.gaussian_blur(mat, Vector2(blur, blur), 0, {})
-			var so := CVImgProc.sobel(mat, -1, 1, 1, {})
+			var mb := CVImgProc.median_blur(mat, median_blur)
+			var gb := CVImgProc.gaussian_blur(mat, Vector2(gaussian_blur, gaussian_blur), 0, {})
 			
 			video_feed.texture = ImageTexture.create_from_image(mat.get_image())
-			video_feed_2.texture = ImageTexture.create_from_image(bl.get_image())
-			video_feed_3.texture = ImageTexture.create_from_image(so.get_image())
+			video_feed_2.texture = ImageTexture.create_from_image(mb.get_image())
+			video_feed_3.texture = ImageTexture.create_from_image(gb.get_image())
 
 func _thread_function():
 	while mat == null:
@@ -47,9 +48,13 @@ func _on_open_pressed():
 func _on_release_pressed():
 	cap.release()
 
-
-func _on_blur_value_value_changed(value):
-	blur = value
-
 func _on_bilateral_filter_value_value_changed(value):
 	bilateral = value
+
+
+func _on_gaussian_blur_value_value_changed(value):
+	gaussian_blur = value
+
+
+func _on_median_blur_value_value_changed(value):
+	median_blur = value

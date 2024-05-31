@@ -34,7 +34,5 @@ func _on_open_pressed():
 func _on_release_pressed():
 	cap.release()
 
-
-
 func _on_update_pressed():
 	comparison_frame = cap.read()
