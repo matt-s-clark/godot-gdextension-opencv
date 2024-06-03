@@ -71,7 +71,11 @@ void CVVideoCapture::open(Variant source, int api_preference, Variant params) {
 		SAFE_CALL(rawCap.open(source, api_preference, p));
 	} else if ((source.get_type() == Variant::Type::STRING)) {
 		const cv::String path(((String)source).utf8());
+<<<<<<< api-implementation
 		SAFE_CALL(rawCap.open(path, api_preference, p));
+=======
+		SAFECALL(rawCap.open(path, api, p));
+>>>>>>> master
 	} else {
 		UtilityFunctions::push_error("Invalid input: Expected integer or string.");
 	}

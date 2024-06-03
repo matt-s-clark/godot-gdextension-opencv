@@ -1,6 +1,6 @@
 # Godot GDExtension for OpenCV
 
-This project is currently only being worked on for a Windows x64 environment. For any other environment types, you will need to update your SCons parameters as necessary and copy in the relevant libraries.
+This project has been updated and tested on Linux, Windows and MacOS. It is still very early in development, but it may provide a good template for anyone adding OpenCV to their GDExtensions. Go to the "Godot T5 OpenCV" YouTube channel for updates and news - https://www.youtube.com/channel/UC1Bt3NJuaLWa0KqJt91Bh4A 
 
 For a basic example of how to create a GDExtension, see the Godot documentation: https://docs.godotengine.org/en/4.2/tutorials/scripting/gdextension/gdextension_cpp_example.html#
 
@@ -8,9 +8,9 @@ For great videos on GDExtensions with C++, take a look at Mosen Zare's YouTube T
 
 Please be aware that OpenCV may contain patents that require licensing or credit. Please do your own research before using it in a commercial scenario.
 
-If you're not already on the Godot Discord channel I recommend you go and join it.
+If you're not already on the "Godot Engine" Discord channel I recommend you go and join it.
 
-You can go to this Discord thread to get involved with this project: https://discord.com/channels/212250894228652034/1232670118702485584
+You can go to this Discord thread to get involved with the project (the link will only work if you have joined the "Godot Engine" Discord channel): https://discord.com/channels/212250894228652034/1232670118702485584
 
 ## Prequisites
 
@@ -53,7 +53,7 @@ Run the extension from Godot. It is best to run Godot from the command line to c
 
 Follow the Godot C++ [GDExtension tutorial](https://docs.godotengine.org/en/4.2/tutorials/scripting/gdextension/gdextension_cpp_example.html#) for details on how to test the `GDExample` component.
 
-## MacOS (Intel)
+## MacOS (ARM)
 
 Download OpenCV from the [releases page](https://opencv.org/releases/) and unpack.
 
@@ -65,7 +65,7 @@ Set the `opencv_library_path` to point to your OpenCV library files (\*.dylib).
 
 To compile, make sure you are in the project root folder:
 
-    scons platform=macos arch=x86_64 disable_exceptions=false
+    scons platform=macos arch=arm64 disable_exceptions=false
 
 To run, make sure you include the `DYLD_LIBRARY_PATH` to your opencv dylib files if they are not in a system Library folder (i.e. you built them from source). On the command line where you will run Godot from:
 
@@ -81,6 +81,14 @@ Start Godot from the command line:
 You may want to set some extra Godot parameters to start the editor somewhere convenient. For example:
 
     /Applications/Godot\ 4.2.2.app/Contents/MacOS/Godot -e --screen 1 --position 0,0 -w --resolution 3240x2160
+
+## MacOS (Intel)
+
+Intel setup is the same as for ARM, except the scons `arch` parameter when compiling.
+
+To compile, make sure you are in the project root folder:
+
+    scons platform=macos arch=x86_64 disable_exceptions=false
 
 # Troubleshooting
 
