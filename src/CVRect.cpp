@@ -98,7 +98,7 @@ Vector2 CVRect::tl() {
 	return Vector2(tl.x, tl.y);
 }
 
-void CVRect::set_values(Variant x, Variant y, Variant width, Variant height){
+void CVRect::set_values(Variant x, Variant y, Variant width, Variant height) {
 	set_x(x);
 	set_y(y);
 	set_width(width);
