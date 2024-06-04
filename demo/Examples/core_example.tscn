@@ -72,5 +72,10 @@ text = "Open"
 layout_mode = 2
 text = "Release"
 
+[node name="Update" type="Button" parent="Interface"]
+layout_mode = 2
+text = "Reset comparison"
+
 [connection signal="pressed" from="Interface/Open" to="." method="_on_open_pressed"]
 [connection signal="pressed" from="Interface/Release" to="." method="_on_release_pressed"]
+[connection signal="pressed" from="Interface/Update" to="." method="_on_update_pressed"]

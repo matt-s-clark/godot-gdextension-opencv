@@ -22,16 +22,23 @@ public:
 	CVMat();
 	~CVMat();
 
-	Ref<Image> image;
+	int channels() const;
+	void convert_to(int rtype);
+	Variant get_at(int row, int col);
 	Ref<Image> get_image();
-
 	int get_rows();
 	int get_cols();
-
 	cv::Mat get_mat();
+	void multiply(Variant value);
+	Ref<Image> image;
+	void set_at(int row, int col, Variant value);
+	void set_read_only(int input);
 	void set_mat(cv::Mat _mat);
+	int type() const;
 
-	void convert_to(int rtype);
+	static Ref<CVMat> eye(int rows, int cols, int type);
+	static Ref<CVMat> ones(int rows, int cols, int type);
+	static Ref<CVMat> zeros(int rows, int cols, int type);
 };
 
 } //namespace godot

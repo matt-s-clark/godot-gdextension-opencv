@@ -5,7 +5,7 @@ using namespace godot;
 void CVImgCodecs::_bind_methods() {
 	ClassDB::bind_static_method(
 			get_class_static(),
-			D_METHOD("imread", "filename", "flags"),
+			D_METHOD("imread", "filename", "additional_parameters"),
 			&CVImgCodecs::imread);
 }
 
@@ -18,13 +18,17 @@ CVImgCodecs::~CVImgCodecs() {
 
 Ref<CVMat> CVImgCodecs::imread(
 		const String filename,
-		const int flags = cv::IMREAD_COLOR) {
+		Dictionary additional_parameters) {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::String path(filename.utf8());
 
-	SAFECALL(outMat = cv::imread(path, flags));
+	int flags = cv::IMREAD_COLOR;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
+
+	SAFE_CALL(outMat = cv::imread(path, flags));
 
 	output->set_mat(outMat);
 

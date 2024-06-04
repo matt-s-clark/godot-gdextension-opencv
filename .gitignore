@@ -4,3 +4,4 @@ src/opencv2/
 src/*.obj
 build/
 *.os
+.DS_Store

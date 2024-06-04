@@ -54,7 +54,7 @@ CVVideoCapture::~CVVideoCapture() {
 	release();
 }
 
-void CVVideoCapture::open(Variant source, int api, Variant params) {
+void CVVideoCapture::open(Variant source, int api_preference, Variant params) {
 	std::vector<int> p;
 	Array parameters = params;
 
@@ -68,21 +68,25 @@ void CVVideoCapture::open(Variant source, int api, Variant params) {
 	}
 
 	if (source.get_type() == Variant::Type::INT) {
-		SAFECALL(rawCap.open(source, api, p));
+		SAFE_CALL(rawCap.open(source, api_preference, p));
 	} else if ((source.get_type() == Variant::Type::STRING)) {
 		const cv::String path(((String)source).utf8());
-		SAFECALL(rawCap.open(path, api, p));
+		SAFE_CALL(rawCap.open(path, api_preference, p));
 	} else {
 		UtilityFunctions::push_error("Invalid input: Expected integer or string.");
 	}
 }
 
-Ref<CVMat> CVVideoCapture::retrieve(int flag) {
+Ref<CVMat> CVVideoCapture::retrieve(Dictionary additional_parameters) {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(rawCap.retrieve(outMat, flag));
+	int flag = 0;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, flag, "flag", Variant::INT, "INT");
+
+	SAFE_CALL(rawCap.retrieve(outMat, flag));
 
 	output->set_mat(outMat);
 
@@ -94,7 +98,7 @@ Ref<CVMat> CVVideoCapture::read() {
 	Ref<CVMat> output;
 	output.instantiate();
 
-	SAFECALL(rawCap.read(outMat));
+	SAFE_CALL(rawCap.read(outMat));
 
 	output->set_mat(outMat);
 
@@ -104,7 +108,7 @@ Ref<CVMat> CVVideoCapture::read() {
 bool CVVideoCapture::is_opened() {
 	bool output = false;
 
-	SAFECALL(output = rawCap.isOpened());
+	SAFE_CALL(output = rawCap.isOpened());
 
 	return output;
 }
@@ -112,7 +116,7 @@ bool CVVideoCapture::is_opened() {
 String CVVideoCapture::getBackendName() {
 	String output;
 
-	SAFECALL(output = rawCap.getBackendName().c_str());
+	SAFE_CALL(output = rawCap.getBackendName().c_str());
 
 	return output;
 }
@@ -120,7 +124,7 @@ String CVVideoCapture::getBackendName() {
 bool CVVideoCapture::grab() {
 	bool output = false;
 
-	SAFECALL(output = rawCap.grab());
+	SAFE_CALL(output = rawCap.grab());
 
 	return output;
 }
@@ -128,7 +132,7 @@ bool CVVideoCapture::grab() {
 bool CVVideoCapture::getExceptionMode() {
 	bool output = false;
 
-	SAFECALL(output = rawCap.getExceptionMode());
+	SAFE_CALL(output = rawCap.getExceptionMode());
 
 	return output;
 }
@@ -137,7 +141,7 @@ float CVVideoCapture::get(int propId) {
 	float output;
 
 	// Output type of the value changed from double to float
-	SAFECALL(output = rawCap.get(propId));
+	SAFE_CALL(output = rawCap.get(propId));
 
 	return output;
 }
@@ -146,17 +150,17 @@ bool CVVideoCapture::set(int propId, float value) {
 	bool output = false;
 
 	// Input type of the value changed from double to float
-	SAFECALL(rawCap.set(propId, value));
+	SAFE_CALL(rawCap.set(propId, value));
 
 	return output;
 }
 
 void CVVideoCapture::release() {
-	SAFECALL(rawCap.release());
+	SAFE_CALL(rawCap.release());
 }
 
 void CVVideoCapture::setExceptionMode(bool enable) {
-	SAFECALL(rawCap.setExceptionMode(enable));
+	SAFE_CALL(rawCap.setExceptionMode(enable));
 }
 
 String CVVideoCapture::_to_string() const {

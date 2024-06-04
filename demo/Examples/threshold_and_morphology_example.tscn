@@ -1,0 +1,137 @@
+[gd_scene load_steps=2 format=3 uid="uid://daekuoncm6wq3"]
+
+[ext_resource type="Script" path="res://Examples/ThresholdAndMorphologyExample.gd" id="1_huhs4"]
+
+[node name="ThresholdAndMorphologyExample" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_huhs4")
+
+[node name="VideoFeed" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.5
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VideoFeed2" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VideoFeed3" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VideoFeed4" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Interface" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -68.0
+offset_bottom = 66.0
+grow_horizontal = 0
+
+[node name="Open" type="Button" parent="Interface"]
+layout_mode = 2
+text = "Open"
+
+[node name="Release" type="Button" parent="Interface"]
+layout_mode = 2
+text = "Release"
+
+[node name="KernelSize2Container" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="KernelSizeValue2VBoxContainer" type="VBoxContainer" parent="Interface/KernelSize2Container"]
+layout_mode = 2
+alignment = 1
+
+[node name="KernelSizeValue2Label" type="Label" parent="Interface/KernelSize2Container/KernelSizeValue2VBoxContainer"]
+layout_mode = 2
+text = "Closing kernel size"
+
+[node name="KernelSizeValue2" type="HSlider" parent="Interface/KernelSize2Container/KernelSizeValue2VBoxContainer"]
+layout_mode = 2
+min_value = 3.0
+max_value = 50.0
+value = 5.0
+
+[node name="KernelSizeValueContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="KernelSizeValueVBoxContainer" type="VBoxContainer" parent="Interface/KernelSizeValueContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="KernelSizeValueLabel" type="Label" parent="Interface/KernelSizeValueContainer/KernelSizeValueVBoxContainer"]
+layout_mode = 2
+text = "Gradient kernel size"
+
+[node name="KernelSizeValue" type="HSlider" parent="Interface/KernelSizeValueContainer/KernelSizeValueVBoxContainer"]
+layout_mode = 2
+min_value = 3.0
+max_value = 50.0
+value = 5.0
+
+[node name="UseAdaptativesContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="UseAdaptative" type="CheckBox" parent="Interface/UseAdaptativesContainer"]
+layout_mode = 2
+text = "Use adaptative"
+
+[node name="ThreshValueContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="ThreshValueVBoxContainer" type="VBoxContainer" parent="Interface/ThreshValueContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ThreshValueLabel" type="Label" parent="Interface/ThreshValueContainer/ThreshValueVBoxContainer"]
+layout_mode = 2
+text = "Threshold value"
+
+[node name="ThreshValue" type="HSlider" parent="Interface/ThreshValueContainer/ThreshValueVBoxContainer"]
+layout_mode = 2
+max_value = 255.0
+value = 120.0
+
+[connection signal="pressed" from="Interface/Open" to="." method="_on_open_pressed"]
+[connection signal="pressed" from="Interface/Release" to="." method="_on_release_pressed"]
+[connection signal="value_changed" from="Interface/KernelSize2Container/KernelSizeValue2VBoxContainer/KernelSizeValue2" to="." method="_on_kernel_size_value_2_value_changed"]
+[connection signal="value_changed" from="Interface/KernelSizeValueContainer/KernelSizeValueVBoxContainer/KernelSizeValue" to="." method="_on_kernel_size_value_value_changed"]
+[connection signal="toggled" from="Interface/UseAdaptativesContainer/UseAdaptative" to="." method="_on_use_adaptative_toggled"]
+[connection signal="value_changed" from="Interface/ThreshValueContainer/ThreshValueVBoxContainer/ThreshValue" to="." method="_on_thresh_value_value_changed"]

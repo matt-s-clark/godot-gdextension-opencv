@@ -1,0 +1,131 @@
+[gd_scene load_steps=2 format=3 uid="uid://clb7xebvxn71w"]
+
+[ext_resource type="Script" path="res://Examples/NoiseFilteringExample.gd" id="1_f6dtm"]
+
+[node name="Filters" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f6dtm")
+
+[node name="VideoFeed" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.5
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VideoFeed2" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VideoFeed3" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VideoFeed4" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Interface" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -68.0
+offset_bottom = 66.0
+grow_horizontal = 0
+
+[node name="Open" type="Button" parent="Interface"]
+layout_mode = 2
+text = "Open"
+
+[node name="Release" type="Button" parent="Interface"]
+layout_mode = 2
+text = "Release"
+
+[node name="MedianBlurContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="MedianBlurVBoxContainer" type="VBoxContainer" parent="Interface/MedianBlurContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MedianBlurLabel" type="Label" parent="Interface/MedianBlurContainer/MedianBlurVBoxContainer"]
+layout_mode = 2
+text = "Median blur size"
+
+[node name="MedianBlurValue" type="HSlider" parent="Interface/MedianBlurContainer/MedianBlurVBoxContainer"]
+layout_mode = 2
+min_value = 5.0
+max_value = 75.0
+step = 2.0
+value = 11.0
+
+[node name="GaussianBlurContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="GaussianBlurVBoxContainer" type="VBoxContainer" parent="Interface/GaussianBlurContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="GaussianBlurLabel" type="Label" parent="Interface/GaussianBlurContainer/GaussianBlurVBoxContainer"]
+layout_mode = 2
+text = "Gaussian blur size"
+
+[node name="GaussianBlurValue" type="HSlider" parent="Interface/GaussianBlurContainer/GaussianBlurVBoxContainer"]
+layout_mode = 2
+min_value = 5.0
+max_value = 75.0
+step = 2.0
+value = 11.0
+
+[node name="BilateralFilterContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="BilateralFilterVBoxContainer" type="VBoxContainer" parent="Interface/BilateralFilterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BilateralFilterValueLabel" type="Label" parent="Interface/BilateralFilterContainer/BilateralFilterVBoxContainer"]
+layout_mode = 2
+text = "Bilateral filter force"
+
+[node name="BilateralFilterValue" type="HSlider" parent="Interface/BilateralFilterContainer/BilateralFilterVBoxContainer"]
+layout_mode = 2
+max_value = 50.0
+value = 10.0
+
+[connection signal="pressed" from="Interface/Open" to="." method="_on_open_pressed"]
+[connection signal="pressed" from="Interface/Release" to="." method="_on_release_pressed"]
+[connection signal="value_changed" from="Interface/MedianBlurContainer/MedianBlurVBoxContainer/MedianBlurValue" to="." method="_on_median_blur_value_value_changed"]
+[connection signal="value_changed" from="Interface/GaussianBlurContainer/GaussianBlurVBoxContainer/GaussianBlurValue" to="." method="_on_gaussian_blur_value_value_changed"]
+[connection signal="value_changed" from="Interface/BilateralFilterContainer/BilateralFilterVBoxContainer/BilateralFilterValue" to="." method="_on_bilateral_filter_value_value_changed"]
