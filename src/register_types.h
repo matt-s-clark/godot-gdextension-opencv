@@ -3,6 +3,7 @@
 
 #include "CVCascadeClassifier.h"
 #include "CVCore.h"
+#include "CVFaceDetectorYN.h"
 #include "CVImgCodecs.h"
 #include "CVImgProc.h"
 #include "CVMat.h"
