@@ -2,11 +2,12 @@
 #define CVFACEDETECTORYN_H
 
 #include "CVMat.h"
+#include "CVRect.h"
 #include "Macros.h"
 #include <godot_cpp/classes/image_texture.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/objdetect.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
 
 namespace godot {
 
@@ -25,6 +26,7 @@ public:
 	~CVFaceDetectorYN();
 
 	Ref<CVMat> detect(Ref<CVMat> image);
+	Array detect_simplified(Ref<CVMat> image);
 	Vector2 get_input_size();
 	float get_nms_threshold();
 	float get_score_threshold();
@@ -33,7 +35,6 @@ public:
 	void set_nms_threshold(float nms_threshold);
 	void set_score_threshold(float score_threshold);
 	void set_top_k(int top_k);
-
 
 	cv::Ptr<cv::FaceDetectorYN> get_pointer();
 	void set_pointer(cv::Ptr<cv::FaceDetectorYN> pointer);

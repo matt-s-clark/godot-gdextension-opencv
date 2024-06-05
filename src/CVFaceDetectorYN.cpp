@@ -7,6 +7,9 @@ void CVFaceDetectorYN::_bind_methods() {
 			D_METHOD("detect", "image"),
 			&CVFaceDetectorYN::detect);
 	ClassDB::bind_method(
+			D_METHOD("detect_simplified", "image"),
+			&CVFaceDetectorYN::detect_simplified);
+	ClassDB::bind_method(
 			D_METHOD("get_input_size"),
 			&CVFaceDetectorYN::get_input_size);
 	ClassDB::bind_method(
@@ -51,6 +54,59 @@ Ref<CVMat> CVFaceDetectorYN::detect(Ref<CVMat> image) {
 	SAFE_CALL(rawDetector->detect(image->get_mat(), outMat));
 
 	output->set_mat(outMat);
+
+	return output;
+}
+
+// <Helper>
+Array CVFaceDetectorYN::detect_simplified(Ref<CVMat> image) {
+	Array output;
+
+	Ref<CVMat> mat = detect(image);
+	cv::Mat outMat = mat->get_mat();
+
+	for (size_t i = 0; i < outMat.rows; i++) {
+		Ref<CVRect> out;
+		out.instantiate();
+		Dictionary face;
+		cv::Rect outRect = cv::Rect(
+				outMat.at<float>(i, 0),
+				outMat.at<float>(i, 1),
+				outMat.at<float>(i, 2),
+				outMat.at<float>(i, 3));
+
+		Vector2 right_eye = Vector2(
+				outMat.at<float>(i, 4),
+				outMat.at<float>(i, 5));
+
+		Vector2 left_eye = Vector2(
+				outMat.at<float>(i, 6),
+				outMat.at<float>(i, 7));
+
+		Vector2 nose_tip = Vector2(
+				outMat.at<float>(i, 8),
+				outMat.at<float>(i, 9));
+
+		Vector2 right_mouth = Vector2(
+				outMat.at<float>(i, 10),
+				outMat.at<float>(i, 11));
+
+		Vector2 left_mouth = Vector2(
+				outMat.at<float>(i, 12),
+				outMat.at<float>(i, 13));
+
+		out->set_rect(outRect);
+
+		face["rect"] = out;
+		face["right_eye"] = right_eye;
+		face["left_eye"] = left_eye;
+		face["nose_tip"] = nose_tip;
+		face["right_mouth"] = right_mouth;
+		face["left_mouth"] = left_mouth;
+		face["face_score"] = outMat.at<float>(i, 14);
+
+		output.push_back(face);
+	}
 
 	return output;
 }
