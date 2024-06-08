@@ -76,6 +76,18 @@ void CVImgProc::_bind_methods() {
 			get_class_static(),
 			D_METHOD("get_gabor_kernel", "ksize", "sigma", "theta", "lambd", "gamma", "additional_parameters"),
 			&CVImgProc::get_gabor_kernel);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("ellipse", "img", "center", "axes", "angle", "start_angle", "end_angle", "additional_parameters"),
+			&CVImgProc::ellipse);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("line", "img", "pt1", "pt2", "additional_parameters"),
+			&CVImgProc::line);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("resize", "src", "dsize", "additional_parameters"),
+			&CVImgProc::resize);
 }
 
 CVImgProc::CVImgProc() {
@@ -421,6 +433,65 @@ Ref<CVMat> CVImgProc::sobel(Ref<CVMat> src, int ddepth, int dx, int dy, Dictiona
 
 	output->set_mat(matOut);
 
+	return output;
+}
+
+void CVImgProc::ellipse(Ref<CVMat> img, Vector2 center, Vector2 axes, float angle, float startAngle, float endAngle, Dictionary additional_parameters) {
+	Color color = Color(0, 255, 0);
+	int thickness = 1, lineType = 8, shift = 0;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, color, "color", Variant::COLOR, "COLOR");
+	GET_ADITIONAL_PROPERTY(additional_parameters, thickness, "thickness", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, lineType, "line_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, shift, "shift", Variant::INT, "INT");
+
+	SAFE_CALL(cv::ellipse(img->get_mat(),
+			cv::Size(center.x, center.y),
+			cv::Size(axes.x, axes.y),
+			angle,
+			startAngle,
+			endAngle,
+			cv::Scalar(color.b, color.g, color.r) * 255,
+			thickness,
+			lineType,
+			shift));
+}
+
+void CVImgProc::line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Dictionary additional_parameters) {
+	Color color = Color(0, 255, 0);
+	int thickness = 1, lineType = 8, shift = 0;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, color, "color", Variant::COLOR, "COLOR");
+	GET_ADITIONAL_PROPERTY(additional_parameters, thickness, "thickness", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, lineType, "line_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, shift, "shift", Variant::INT, "INT");
+
+	SAFE_CALL(cv::line(img->get_mat(),
+			cv::Size(pt1.x, pt1.y),
+			cv::Size(pt2.x, pt2.y),
+			cv::Scalar(color.b, color.g, color.r) * 255,
+			thickness,
+			lineType,
+			shift));
+}
+
+Ref<CVMat> CVImgProc::resize(Ref<CVMat> src, Vector2 dsize, Dictionary additional_parameters) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	float fx = 0, fy = 0;
+	int interpolation = 1;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, fx, "fx", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, fy, "fy", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, interpolation, "interpolation", Variant::INT, "INT");
+
+	SAFE_CALL(cv::resize(src->get_mat(), matOut,
+			cv::Size(dsize.x, dsize.y), fx, fy, interpolation));
+
+	output->set_mat(matOut);
+	
 	return output;
 }
 

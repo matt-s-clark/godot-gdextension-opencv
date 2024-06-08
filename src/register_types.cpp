@@ -19,6 +19,8 @@ void initialize_opencv_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<CVCascadeClassifier>();
 	ClassDB::register_class<CVImgProc>();
 	ClassDB::register_class<CVFaceDetectorYN>();
+	ClassDB::register_class<CVNet>();
+	ClassDB::register_class<CVDnn>();
 }
 
 void uninitialize_opencv_module(ModuleInitializationLevel p_level) {

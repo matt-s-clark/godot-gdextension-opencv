@@ -3,10 +3,12 @@
 
 #include "CVCascadeClassifier.h"
 #include "CVCore.h"
+#include "CVDnn.h"
 #include "CVFaceDetectorYN.h"
 #include "CVImgCodecs.h"
 #include "CVImgProc.h"
 #include "CVMat.h"
+#include "CVNet.h"
 #include "CVRect.h"
 #include "CVVideoCapture.h"
 
