@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dnw7qk0plu7ty"]
+
+[node name="NameCard" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NameInput" type="TextEdit" parent="."]
+layout_mode = 0
+offset_right = 225.0
+offset_bottom = 35.0
+placeholder_text = "What is your name?"

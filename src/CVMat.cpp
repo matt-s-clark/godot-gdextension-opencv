@@ -37,6 +37,15 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("set_read_only"),
 			&CVMat::set_read_only);
+	ClassDB::bind_method(
+			D_METHOD("row", "y"),
+			&CVMat::row);
+	ClassDB::bind_method(
+			D_METHOD("col", "x"),
+			&CVMat::col);
+	ClassDB::bind_method(
+			D_METHOD("copy"),
+			&CVMat::copy);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "cols"), "set_read_only", "get_cols");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "rows"), "set_read_only", "get_rows");
 
@@ -239,6 +248,42 @@ Ref<CVMat> CVMat::eye(int rows, int cols, int type) {
 	output.instantiate();
 
 	SAFE_CALL(outMat = cv::Mat::eye(rows, cols, type));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+Ref<CVMat> CVMat::col(int x){
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFE_CALL(outMat = rawMat.col(x));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+Ref<CVMat> CVMat::row(int y){
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFE_CALL(outMat = rawMat.row(y));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+Ref<CVMat> CVMat::copy(){
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFE_CALL(rawMat.copyTo(outMat));
 
 	output->set_mat(outMat);
 

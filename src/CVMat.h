@@ -23,13 +23,16 @@ public:
 	~CVMat();
 
 	int channels() const;
+	Ref<CVMat> col(int x);
 	void convert_to(int rtype);
+	Ref<CVMat> copy();
 	Variant get_at(int row, int col);
 	Ref<Image> get_image();
 	int get_rows();
 	int get_cols();
 	cv::Mat get_mat();
 	void multiply(Variant value);
+	Ref<CVMat> row(int y);
 	Ref<Image> image;
 	void set_at(int row, int col, Variant value);
 	void set_read_only(int input);

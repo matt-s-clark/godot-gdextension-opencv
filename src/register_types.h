@@ -5,6 +5,7 @@
 #include "CVCore.h"
 #include "CVDnn.h"
 #include "CVFaceDetectorYN.h"
+#include "CVFaceRecognizerSF.h"
 #include "CVImgCodecs.h"
 #include "CVImgProc.h"
 #include "CVMat.h"

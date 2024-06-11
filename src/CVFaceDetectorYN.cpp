@@ -104,6 +104,7 @@ Array CVFaceDetectorYN::detect_simplified(Ref<CVMat> image) {
 		face["right_mouth"] = right_mouth;
 		face["left_mouth"] = left_mouth;
 		face["face_score"] = outMat.at<float>(i, 14);
+		face["face_mat"] = mat->row(i);
 
 		output.push_back(face);
 	}
