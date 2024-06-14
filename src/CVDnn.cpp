@@ -25,7 +25,7 @@ Ref<CVMat> CVDnn::blobFromImage(Ref<CVMat> image, Dictionary additional_paramete
 	Ref<CVMat> output;
 	output.instantiate();
 
-	float scaleFactor = 1;
+	float scaleFactor = 1.0;
 	Vector2 size = Vector2();
 	Vector3 mean = Vector3();
 	bool swapRB = false, crop = false;

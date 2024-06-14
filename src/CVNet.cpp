@@ -53,7 +53,7 @@ Ref<CVMat> CVNet::forward() {
 
 void CVNet::setInput(Ref<CVMat> blob, Dictionary additional_parameters) {
 	String name = "";
-	float scaleFactor = 1;
+	float scaleFactor = 1.0;
 	Vector3 mean = Vector3();
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, name, "name", Variant::STRING, "STRING");

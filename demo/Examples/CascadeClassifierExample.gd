@@ -9,7 +9,7 @@ func _ready():
 	cap = CVVideoCapture.new()
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 	haar = CVCascadeClassifier.new()
-	print(haar.load("./hand.xml"))
+	print(haar.load("./Models/hand.xml"))
 
 func _process(_delta):
 	if cap.is_opened():

@@ -46,6 +46,9 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("copy"),
 			&CVMat::copy);
+	ClassDB::bind_method(
+			D_METHOD("depth"),
+			&CVMat::depth);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "cols"), "set_read_only", "get_cols");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "rows"), "set_read_only", "get_rows");
 
@@ -254,7 +257,7 @@ Ref<CVMat> CVMat::eye(int rows, int cols, int type) {
 	return output;
 }
 
-Ref<CVMat> CVMat::col(int x){
+Ref<CVMat> CVMat::col(int x) {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
@@ -266,7 +269,7 @@ Ref<CVMat> CVMat::col(int x){
 	return output;
 }
 
-Ref<CVMat> CVMat::row(int y){
+Ref<CVMat> CVMat::row(int y) {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
@@ -278,7 +281,7 @@ Ref<CVMat> CVMat::row(int y){
 	return output;
 }
 
-Ref<CVMat> CVMat::copy(){
+Ref<CVMat> CVMat::copy() {
 	cv::Mat outMat;
 	Ref<CVMat> output;
 	output.instantiate();
@@ -286,6 +289,14 @@ Ref<CVMat> CVMat::copy(){
 	SAFE_CALL(rawMat.copyTo(outMat));
 
 	output->set_mat(outMat);
+
+	return output;
+}
+
+int CVMat::depth() {
+	int output = -1;
+
+	SAFE_CALL(output = rawMat.depth());
 
 	return output;
 }

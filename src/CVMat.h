@@ -26,6 +26,7 @@ public:
 	Ref<CVMat> col(int x);
 	void convert_to(int rtype);
 	Ref<CVMat> copy();
+	int depth();
 	Variant get_at(int row, int col);
 	Ref<Image> get_image();
 	int get_rows();

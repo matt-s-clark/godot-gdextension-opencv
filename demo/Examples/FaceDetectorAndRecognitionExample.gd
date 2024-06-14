@@ -9,15 +9,17 @@ var detector:CVFaceDetectorYN
 var recognizer:CVFaceRecognizerSF
 var feature_list := []
 
-var should_draw_face: bool = false
+var should_draw_face:= false
+var recognize_face_theshold := 0.5
+var save_as_new_face_theshold := 0.3
 
 func _ready():
 	cap = CVVideoCapture.new()
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 	var mat := cap.read()
 	
-	detector = CVFaceDetectorYN.create("./face_detection_yunet_2023mar.onnx", "", Vector2(mat.cols,mat.rows), {})
-	recognizer = CVFaceRecognizerSF.create("./face_recognition_sface_2021dec.onnx", "", {})
+	detector = CVFaceDetectorYN.create("./Models/face_detection_yunet_2023mar.onnx", "", Vector2(mat.cols,mat.rows), {})
+	recognizer = CVFaceRecognizerSF.create("./Models/face_recognition_sface_2021dec.onnx", "", {})
 
 func _process(_delta):
 	if cap.is_opened():
@@ -46,15 +48,15 @@ func recognize_face(result, mat):
 		var croped:= recognizer.align_crop(mat, i["face_mat"])
 		var feature = recognizer.feature(croped)
 		
-		var max_resem := 0.0
+		var max_resem := -1.0
 		for f in feature_list:
 			if f["current"]: continue
 			var resemblance := recognizer.match(feature, f["feature"], {})
 			max_resem = max(max_resem, resemblance)
-			if resemblance > 0.7:
+			if resemblance > recognize_face_theshold:
 				f["current"] = i
 			
-		if max_resem < 0.3 or feature_list.size() == 0:
+		if max_resem < save_as_new_face_theshold or feature_list.size() == 0:
 			var instance:Control = name_card.instantiate()
 			
 			feature_list.append({"feature":feature.copy(), "object":instance, "current":null})
@@ -64,7 +66,7 @@ func recognize_face(result, mat):
 			
 	for f in feature_list:
 		f["object"].visible = f["current"] != null
-		if f["object"].visible: f["object"].position = f["current"]["right_eye"]
+		if f["object"].visible: f["object"].position = f["current"]["right_eye"] + Vector2(50, 0)
 		f["current"] = null
 
 func _on_open_pressed():
