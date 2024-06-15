@@ -26,7 +26,7 @@ public:
 	~CVFaceDetectorYN();
 
 	Ref<CVMat> detect(Ref<CVMat> image);
-	Array detect_simplified(Ref<CVMat> image);
+	Array detect_simplified(Ref<CVMat> image); // <Helper>
 	Vector2 get_input_size();
 	float get_nms_threshold();
 	float get_score_threshold();

@@ -30,6 +30,7 @@ opencv_header_files = [
     "../opencv-4.9.0/modules/imgproc/include",
     "../opencv-4.9.0/modules/videoio/include",
     "../opencv-4.9.0/modules/objdetect/include",
+    "../opencv-4.9.0/modules/video/include"
     "../build_opencv",
     "/usr/local/include/opencv4"
 ]
@@ -44,14 +45,16 @@ opencv_library_files = {
         'libopencv_imgcodecs.dylib',
         'libopencv_imgproc.dylib',
         'libopencv_videoio.dylib',
-        'libopencv_objdetect.dylib'
+        'libopencv_objdetect.dylib',
+        'libopencv_video.dylib'
     ],
     'linux': [
         'libopencv_core.so',
         'libopencv_imgcodecs.so',
         'libopencv_imgproc.so',
         'libopencv_videoio.so',
-        'libopencv_objdetect.so'
+        'libopencv_objdetect.so',
+        'libopencv_video.so'
     ]
 }
 

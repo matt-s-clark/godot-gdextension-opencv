@@ -33,7 +33,7 @@ public:
 	Variant get_y();
 	void set_height(Variant value);
 	void set_rect(cv::Rect rect);
-	void set_values(Variant x, Variant y, Variant width, Variant height);
+	void set_values(Variant x, Variant y, Variant width, Variant height); // <Helper>
 	void set_width(Variant value);
 	void set_x(Variant value);
 	void set_y(Variant value);

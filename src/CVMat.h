@@ -32,7 +32,7 @@ public:
 	int get_rows();
 	int get_cols();
 	cv::Mat get_mat();
-	void multiply(Variant value);
+	void multiply(Variant value); // <Helper>
 	Ref<CVMat> row(int y);
 	Ref<Image> image;
 	void set_at(int row, int col, Variant value);

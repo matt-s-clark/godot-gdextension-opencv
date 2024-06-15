@@ -58,7 +58,6 @@ Ref<CVMat> CVFaceDetectorYN::detect(Ref<CVMat> image) {
 	return output;
 }
 
-// <Helper>
 Array CVFaceDetectorYN::detect_simplified(Ref<CVMat> image) {
 	Array output;
 
