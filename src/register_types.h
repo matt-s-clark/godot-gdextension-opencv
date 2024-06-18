@@ -11,6 +11,9 @@
 #include "CVMat.h"
 #include "CVNet.h"
 #include "CVRect.h"
+#include "CVTrackerDaSiamRPN.h"
+#include "CVTrackerGOTURN.h"
+//#include "CVTrackerKCF.h"
 #include "CVVideoCapture.h"
 
 #include <godot_cpp/core/class_db.hpp>

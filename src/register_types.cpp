@@ -22,6 +22,9 @@ void initialize_opencv_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<CVFaceRecognizerSF>();
 	ClassDB::register_class<CVNet>();
 	ClassDB::register_class<CVDnn>();
+	ClassDB::register_class<CVTrackerDaSiamRPN>();
+	ClassDB::register_class<CVTrackerGOTURN>();
+	//ClassDB::register_class<CVTrackerKCF>();
 }
 
 void uninitialize_opencv_module(ModuleInitializationLevel p_level) {
