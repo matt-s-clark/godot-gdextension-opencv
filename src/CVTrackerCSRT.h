@@ -1,5 +1,5 @@
-#ifndef CVTRACKERKCF_H
-#define CVTRACKERKCF_H
+#ifndef CVTRACKERCSRT_H
+#define CVTRACKERCSRT_H
 
 #include "CVMat.h"
 #include "CVRect.h"
@@ -10,27 +10,27 @@
 
 namespace godot {
 
-class CVTrackerKCF : public RefCounted {
-	GDCLASS(CVTrackerKCF, RefCounted)
+class CVTrackerCSRT : public RefCounted {
+	GDCLASS(CVTrackerCSRT, RefCounted)
 
 private:
-	cv::Ptr<cv::TrackerKCF> rawTracker;
+	cv::Ptr<cv::TrackerCSRT> rawTracker;
 
 protected:
 	static void _bind_methods();
 	String _to_string() const;
 
 public:
-	CVTrackerKCF();
-	~CVTrackerKCF();
+	CVTrackerCSRT();
+	~CVTrackerCSRT();
 
 	void init(Ref<CVMat> image, Ref<CVRect> boundingBox);
 	Ref<CVRect> update(Ref<CVMat> image);
 
-	static Ref<CVTrackerKCF> create(Dictionary additional_parameters);
+	static Ref<CVTrackerCSRT> create(Dictionary additional_parameters);
 
-	cv::Ptr<cv::TrackerKCF> get_pointer();
-	void set_pointer(cv::Ptr<cv::TrackerKCF> value);
+	cv::Ptr<cv::TrackerCSRT> get_pointer();
+	void set_pointer(cv::Ptr<cv::TrackerCSRT> value);
 };
 
 } //namespace godot

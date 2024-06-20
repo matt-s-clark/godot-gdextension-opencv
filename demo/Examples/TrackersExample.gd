@@ -3,7 +3,8 @@ extends Control
 @onready var video_feed = %VideoFeed
 
 var cap:CVVideoCapture
-var tracker:CVTrackerGOTURN
+var trackerCSRT:CVTrackerCSRT
+var trackerKCF:CVTrackerKCF
 var mat:CVMat
 
 var initial_position: Vector2
@@ -11,15 +12,14 @@ var position_offset := Vector2(0, 0)
 var frame_scale : float= 1.3
 var dragging := false
 var tracker_initiated := false
+var use_csrt := true
+var use_kcf := true
 
 func _ready():
 	cap = CVVideoCapture.new()
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 	
 	mat = cap.read()
-	print(mat.cols, " ",mat.rows)
-	
-	tracker = CVTrackerGOTURN.create({"model_bin": "./Models/goturn.caffemodel", "model_txt": "./Models/goturn.prototxt"})
 	
 	_calc_variables()
 
@@ -32,9 +32,13 @@ func _process(_delta):
 				
 				CVImgProc.rectangle(mat, {"rec":rec})
 			elif tracker_initiated:
-				var rect := tracker.update(mat)
+				if use_csrt:
+					var rectCSRT := trackerCSRT.update(mat)
+					CVImgProc.rectangle(mat, {"rec":rectCSRT, "color":Color.BLUE})
 				
-				CVImgProc.rectangle(mat, {"rec":rect})
+				if use_kcf:
+					var rectKCF := trackerKCF.update(mat)
+					CVImgProc.rectangle(mat, {"rec":rectKCF, "color":Color.RED})
 			
 			var tex: ImageTexture = ImageTexture.create_from_image(mat.get_image())
 			video_feed.texture = tex
@@ -50,7 +54,11 @@ func _input(event):
 		dragging = false
 		
 		if rec.area() > 20 and rec.width > 1 and rec.height > 1:
-			tracker.init(mat, rec)
+			trackerCSRT = CVTrackerCSRT.create({})
+			trackerCSRT.init(mat, rec)
+			
+			trackerKCF = CVTrackerKCF.create({})
+			trackerKCF.init(mat, rec)
 			tracker_initiated = true
 
 func _calc_rect(mouse_position):
@@ -88,3 +96,10 @@ func _on_release_pressed():
 
 func _on_video_feed_resized():
 	_calc_variables()
+
+
+func _on_use_csrt_toggled(toggled_on):
+	use_csrt = toggled_on
+
+func _on_use_kcf_toggled(toggled_on):
+	use_kcf = toggled_on

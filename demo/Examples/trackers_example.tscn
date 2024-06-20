@@ -39,6 +39,24 @@ text = "Open"
 layout_mode = 2
 text = "Release"
 
+[node name="UseCSRTContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="UseCSRT" type="CheckBox" parent="Interface/UseCSRTContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Use CSRT"
+
+[node name="UseKCFContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="UseKCF" type="CheckBox" parent="Interface/UseKCFContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Use KCF"
+
 [connection signal="resized" from="VideoFeed" to="." method="_on_video_feed_resized"]
 [connection signal="pressed" from="Interface/Open" to="." method="_on_open_pressed"]
 [connection signal="pressed" from="Interface/Release" to="." method="_on_release_pressed"]
+[connection signal="toggled" from="Interface/UseCSRTContainer/UseCSRT" to="." method="_on_use_csrt_toggled"]
+[connection signal="toggled" from="Interface/UseKCFContainer/UseKCF" to="." method="_on_use_kcf_toggled"]

@@ -46,7 +46,8 @@ opencv_library_files = {
         'libopencv_imgproc.dylib',
         'libopencv_videoio.dylib',
         'libopencv_objdetect.dylib',
-        'libopencv_video.dylib'
+        'libopencv_video.dylib',
+        'libopencv_tracking.dylib'
     ],
     'linux': [
         'libopencv_core.so',
@@ -54,7 +55,8 @@ opencv_library_files = {
         'libopencv_imgproc.so',
         'libopencv_videoio.so',
         'libopencv_objdetect.so',
-        'libopencv_video.so'
+        'libopencv_video.so',
+        'libopencv_tracking.so'
     ]
 }
 
