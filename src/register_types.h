@@ -1,6 +1,8 @@
 #ifndef GDEXAMPLE_REGISTER_TYPES_H
 #define GDEXAMPLE_REGISTER_TYPES_H
 
+#include "CVBackgroundSubtractorKNN.h"
+#include "CVBackgroundSubtractorMOG2.h"
 #include "CVCascadeClassifier.h"
 #include "CVCore.h"
 #include "CVDnn.h"
