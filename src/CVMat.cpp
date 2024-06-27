@@ -302,5 +302,10 @@ int CVMat::depth() {
 }
 
 String CVMat::_to_string() const {
-	return UtilityFunctions::str("[ CVMat instance (", String((Variant)rawMat.cols), ", ", String((Variant)rawMat.rows), ") ]");
+	String sizes = "";
+	for (size_t i = 0; i < rawMat.size.dims(); i++) {
+		String separator = (i == 0) ? "" : ", ";
+		sizes = UtilityFunctions::str(sizes, separator, rawMat.size[i]);
+	}
+	return UtilityFunctions::str("[ CVMat instance (", sizes, ") ]");
 }

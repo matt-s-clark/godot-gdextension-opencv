@@ -26,6 +26,7 @@ public:
 	~CVImgCodecs();
 
 	static Ref<CVMat> imread(const String filename, Dictionary additional_parameters);
+	static bool imwrite(const String filename, Ref<CVMat> img, Dictionary additional_parameters);
 };
 
 } //namespace godot
