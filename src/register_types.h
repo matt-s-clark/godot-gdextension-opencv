@@ -8,6 +8,7 @@
 #include "CVDnn.h"
 #include "CVFaceDetectorYN.h"
 #include "CVFaceRecognizerSF.h"
+#include "CVFileStorage.h"
 #include "CVImgCodecs.h"
 #include "CVImgProc.h"
 #include "CVMat.h"

@@ -28,6 +28,7 @@ void initialize_opencv_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<CVTrackerCSRT>();
 	ClassDB::register_class<CVBackgroundSubtractorKNN>();
 	ClassDB::register_class<CVBackgroundSubtractorMOG2>();
+	ClassDB::register_class<CVFileStorage>();
 }
 
 void uninitialize_opencv_module(ModuleInitializationLevel p_level) {
