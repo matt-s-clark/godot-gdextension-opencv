@@ -31,6 +31,8 @@ Ref<CVMat> CVDnn::blobFromImage(Ref<CVMat> image, Dictionary additional_paramete
 	bool swapRB = false, crop = false;
 	int ddepth = 5;
 
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, scaleFactor, "scale_factor", Variant::FLOAT, "FLOAT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, size, "size", Variant::VECTOR2, "VECTOR2");
 	GET_ADITIONAL_PROPERTY(additional_parameters, mean, "mean", Variant::VECTOR3, "VECTOR3");

@@ -28,6 +28,8 @@ Ref<CVMat> CVBackgroundSubtractorMOG2::apply(Ref<CVMat> image, Dictionary additi
 
 	float learning_rate = -1.0;
 
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, learning_rate, "learning_rate", Variant::FLOAT, "FLOAT");
 
 	SAFE_CALL(rawPointer->apply(image->get_mat(), outMat, learning_rate));

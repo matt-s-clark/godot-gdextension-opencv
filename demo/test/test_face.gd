@@ -38,11 +38,7 @@ func test_face_YN_SF():
 	
 	var saved_feature : CVMat = feature_file.read("test_face_feature")
 	
-	if saved_feature:
-		assert_almost_eq(recognizer.match(feature, saved_feature, {}), 1.0, 0.001, "Recognizes face from file")
-	else:
-		fail_test("saved_feature is null")
-		
+	assert_almost_eq(recognizer.match(feature, saved_feature, {}), 1.0, 0.001, "Recognizes face from file")
 	assert_eq(detector.get_input_size(), Vector2(640, 480))
 	assert_almost_eq(detector.get_nms_threshold(), .3, .0001)
 	assert_almost_eq(detector.get_score_threshold(), .9, .0001)

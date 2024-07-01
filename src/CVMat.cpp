@@ -113,6 +113,8 @@ Ref<Image> CVMat::get_image() {
 void CVMat::set_image(Ref<Image> image){
 	cv::Mat output;
 
+	ERR_FAIL_NULL_V_MSG(image, , "image should not be null.");
+
 	PackedByteArray data = image->get_data();
 
 	rawMat = cv::Mat(image->get_width(), image->get_height(), CV_8UC4, data.ptrw());
@@ -319,6 +321,8 @@ int CVMat::depth() {
 Ref<CVMat> CVMat::from_image(Ref<Image> image){
 	Ref<CVMat> output;
 	output.instantiate();
+
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
 
 	output->set_image(image);
 

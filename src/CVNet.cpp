@@ -56,6 +56,8 @@ void CVNet::setInput(Ref<CVMat> blob, Dictionary additional_parameters) {
 	float scaleFactor = 1.0;
 	Vector3 mean = Vector3();
 
+	ERR_FAIL_NULL_V_MSG(blob, , "blob should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, name, "name", Variant::STRING, "STRING");
 	GET_ADITIONAL_PROPERTY(additional_parameters, scaleFactor, "scale_factor", Variant::FLOAT, "FLOAT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, mean, "mean", Variant::VECTOR3, "VECTOR3");
