@@ -10,6 +10,9 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("get_image"),
 			&CVMat::get_image);
+	ClassDB::bind_method(
+			D_METHOD("set_image", "image"),
+			&CVMat::set_image);
 
 	ClassDB::bind_method(
 			D_METHOD("get_rows"),
@@ -67,6 +70,10 @@ void CVMat::_bind_methods() {
 			get_class_static(),
 			D_METHOD("eye", "rows", "cols", "type"),
 			&CVMat::eye);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("from_image", "image"),
+			&CVMat::from_image);
 }
 
 CVMat::CVMat() {
@@ -101,6 +108,14 @@ Ref<Image> CVMat::get_image() {
 	}
 
 	return image;
+}
+
+void CVMat::set_image(Ref<Image> image){
+	cv::Mat output;
+
+	PackedByteArray data = image->get_data();
+
+	rawMat = cv::Mat(image->get_width(), image->get_height(), CV_8UC4, data.ptrw());
 }
 
 Variant CVMat::get_at(int row, int col) {
@@ -297,6 +312,15 @@ int CVMat::depth() {
 	int output = -1;
 
 	SAFE_CALL(output = rawMat.depth());
+
+	return output;
+}
+
+Ref<CVMat> CVMat::from_image(Ref<Image> image){
+	Ref<CVMat> output;
+	output.instantiate();
+
+	output->set_image(image);
 
 	return output;
 }
