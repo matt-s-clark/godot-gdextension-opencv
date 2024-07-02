@@ -24,24 +24,27 @@ func _ready():
 	_calc_variables()
 
 func _process(_delta):
-	if cap.is_opened():
-		mat = cap.read()
-		if mat.cols > 0:
-			if dragging:
-				var rec = _calc_rect(get_viewport().get_mouse_position())
-				
-				CVImgProc.rectangle(mat, {"rec":rec})
-			elif tracker_initiated:
-				if use_csrt:
-					var rectCSRT := trackerCSRT.update(mat)
-					CVImgProc.rectangle(mat, {"rec":rectCSRT, "color":Color.BLUE})
-				
-				if use_kcf:
-					var rectKCF := trackerKCF.update(mat)
-					CVImgProc.rectangle(mat, {"rec":rectKCF, "color":Color.RED})
-			
-			var tex: ImageTexture = ImageTexture.create_from_image(mat.get_image())
-			video_feed.texture = tex
+	if !cap.is_opened():
+		return
+		
+	mat = cap.read()
+	if mat.cols <= 0:
+		return
+		
+	if dragging:
+		var rec = _calc_rect(get_viewport().get_mouse_position())
+		
+		CVImgProc.rectangle(mat, {"rec":rec})
+	elif tracker_initiated:
+		if use_csrt:
+			var rectCSRT := trackerCSRT.update(mat)
+			CVImgProc.rectangle(mat, {"rec":rectCSRT, "color":Color.BLUE})
+		
+		if use_kcf:
+			var rectKCF := trackerKCF.update(mat)
+			CVImgProc.rectangle(mat, {"rec":rectKCF, "color":Color.RED})
+	
+	video_feed.texture = mat.get_texture()
 
 func _input(event):
 	var mouse = event as InputEventMouseButton

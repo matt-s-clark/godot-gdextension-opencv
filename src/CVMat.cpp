@@ -52,6 +52,12 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("depth"),
 			&CVMat::depth);
+	ClassDB::bind_method(
+			D_METHOD("set_texture", "texture"),
+			&CVMat::set_texture);
+	ClassDB::bind_method(
+			D_METHOD("get_texture"),
+			&CVMat::get_texture);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "cols"), "set_read_only", "get_cols");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "rows"), "set_read_only", "get_rows");
 
@@ -110,7 +116,7 @@ Ref<Image> CVMat::get_image() {
 	return image;
 }
 
-void CVMat::set_image(Ref<Image> image){
+void CVMat::set_image(Ref<Image> image) {
 	cv::Mat output;
 
 	ERR_FAIL_NULL_V_MSG(image, , "image should not be null.");
@@ -318,7 +324,7 @@ int CVMat::depth() {
 	return output;
 }
 
-Ref<CVMat> CVMat::from_image(Ref<Image> image){
+Ref<CVMat> CVMat::from_image(Ref<Image> image) {
 	Ref<CVMat> output;
 	output.instantiate();
 
@@ -327,6 +333,29 @@ Ref<CVMat> CVMat::from_image(Ref<Image> image){
 	output->set_image(image);
 
 	return output;
+}
+
+Ref<Texture> CVMat::get_texture() {
+	Ref<Texture> output;
+	output.instantiate();
+
+	Ref<Image> im = get_image();
+
+	if (im->is_empty())
+		return output;
+
+	SAFE_CALL(output = ImageTexture::create_from_image(im));
+
+	return output;
+}
+
+void CVMat::set_texture(Ref<Texture> texture) {
+	Ref<Image> im = ImageTexture::create_from_image(texture);
+
+	if (im->is_empty())
+		return;
+
+	set_image(texture);
 }
 
 String CVMat::_to_string() const {

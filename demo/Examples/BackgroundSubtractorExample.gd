@@ -31,8 +31,9 @@ func _ready():
 func _process(_delta):
 	if !cap.is_opened():
 		return
+		
 	var mat = cap.read()
-	if mat.cols == 0:
+	if mat.cols <= 0:
 		return
 	
 	var subtractor
@@ -56,8 +57,7 @@ func _process(_delta):
 		CVImgProc.morphology_ex(mask, CVConsts.MorphTypes.MORPH_GRADIENT, kernel, {"interactions":5})
 		out = CVCore.bitwise_and(mat, mask, {})
 		
-	var tex: ImageTexture = ImageTexture.create_from_image(out.get_image())
-	video_feed.texture = tex
+	video_feed.texture = out.get_texture()
 
 func _on_open_pressed():
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
