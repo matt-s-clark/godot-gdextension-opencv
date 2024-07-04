@@ -38,6 +38,8 @@ public:
 	void set_x(Variant value);
 	void set_y(Variant value);
 	Vector2 tl();
+
+	static Ref<CVRect> from_values(Variant x, Variant y, Variant width, Variant height); // <Helper>
 };
 
 } //namespace godot

@@ -40,11 +40,12 @@ public:
 	void set_image(Ref<Image> image); // <Helper>
 	void set_mat(cv::Mat _mat);
 	void set_read_only(int input);
-	void set_texture(Ref<Texture> texture); // <Helper>
+	void set_texture(Ref<Texture2D> texture); // <Helper>
 	int type() const;
 
 	static Ref<CVMat> eye(int rows, int cols, int type);
 	static Ref<CVMat> from_image(Ref<Image> image); // <Helper>
+	static Ref<CVMat> from_texture(Ref<Texture2D> texture); // <Helper>
 	static Ref<CVMat> ones(int rows, int cols, int type);
 	static Ref<CVMat> zeros(int rows, int cols, int type);
 };

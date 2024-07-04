@@ -80,6 +80,10 @@ void CVMat::_bind_methods() {
 			get_class_static(),
 			D_METHOD("from_image", "image"),
 			&CVMat::from_image);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("from_texture", "image"),
+			&CVMat::from_texture);
 }
 
 CVMat::CVMat() {
@@ -335,6 +339,17 @@ Ref<CVMat> CVMat::from_image(Ref<Image> image) {
 	return output;
 }
 
+Ref<CVMat> CVMat::from_texture(Ref<Texture2D> texture) {
+	Ref<CVMat> output;
+	output.instantiate();
+
+	ERR_FAIL_NULL_V_MSG(texture, output, "texture should not be null.");
+
+	output->set_texture(texture);
+
+	return output;
+}
+
 Ref<Texture> CVMat::get_texture() {
 	Ref<Texture> output;
 	output.instantiate();
@@ -349,13 +364,15 @@ Ref<Texture> CVMat::get_texture() {
 	return output;
 }
 
-void CVMat::set_texture(Ref<Texture> texture) {
-	Ref<Image> im = ImageTexture::create_from_image(texture);
+void CVMat::set_texture(Ref<Texture2D> texture) {
+	ERR_FAIL_NULL_V_MSG(texture, , "texture should not be null.");
+
+	Ref<Image> im = texture->get_image();
 
 	if (im->is_empty())
 		return;
 
-	set_image(texture);
+	set_image(im);
 }
 
 String CVMat::_to_string() const {
