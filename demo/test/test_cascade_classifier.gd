@@ -15,7 +15,7 @@ func test_general():
 	var mat := CVMat.zeros(3, 3, CVConsts.MatType.CV_8U)
 	
 	var cc := CVCascadeClassifier.new()
-	cc.load("./hand.xml")
+	cc.load("./Models/hand.xml")
 	assert_eq(cc.empty(), false, "Correctly loads")
 	
 	gut.p(cc.get_feature_type())

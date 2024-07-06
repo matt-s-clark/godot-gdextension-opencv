@@ -21,25 +21,35 @@ func _ready():
 	thread.start(_thread_function.bind())
 
 func _process(_delta):
-	if cap.is_opened():
-		mat = cap.read()
-		if mat.cols > 0:
-			var mb := CVImgProc.median_blur(mat, median_blur)
-			var gb := CVImgProc.gaussian_blur(mat, Vector2(gaussian_blur, gaussian_blur), 0, {})
-			
-			video_feed.texture = ImageTexture.create_from_image(mat.get_image())
-			video_feed_2.texture = ImageTexture.create_from_image(mb.get_image())
-			video_feed_3.texture = ImageTexture.create_from_image(gb.get_image())
+	if !cap.is_opened():
+		return
+		
+	mat = cap.read()
+	if mat.cols <= 0:
+		return
+		
+	var mb := CVImgProc.median_blur(mat, median_blur)
+	var gb := CVImgProc.gaussian_blur(mat, Vector2(gaussian_blur, gaussian_blur), 0, {})
+	
+	video_feed.texture = mat.get_texture()
+	video_feed_2.texture = mb.get_texture()
+	video_feed_3.texture = gb.get_texture()
+	
+	if thread.is_alive():
+		return
+	
+	var bi = thread.wait_to_finish()
+	thread.start(_thread_function.bind())
+	
+	if bi != null:
+		video_feed_4.texture = bi.get_texture()
 
 func _thread_function():
-	while mat == null:
-		pass
-	while mat != null:
-		call_deferred("_update_bilateral", CVImgProc.bilateral_filter(mat, -1, bilateral, bilateral, {}))
+	if mat == null:
+		return
 
-func _update_bilateral(bi):
-	if bi != null:
-		video_feed_4.texture = ImageTexture.create_from_image(bi.get_image())
+	var bi = CVImgProc.bilateral_filter(mat, -1, bilateral, bilateral, {})
+	return bi
 
 func _on_open_pressed():
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)

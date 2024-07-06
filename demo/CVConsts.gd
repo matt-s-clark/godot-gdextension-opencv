@@ -842,6 +842,37 @@ enum AdaptiveThresholdTypes {
   ADAPTIVE_THRESH_GAUSSIAN_C = 1
 }
 
+enum FileStorageMode {
+  READ = 0,
+  WRITE = 1,
+  APPEND = 2,
+  MEMORY = 4,
+  FORMAT_MASK = (7<<3),
+  FORMAT_AUTO = 0,
+  FORMAT_XML = (1<<3),
+  FORMAT_YAML = (2<<3),
+  FORMAT_JSON = (3<<3),
+  BASE64 = 64,
+  WRITE_BASE64 = BASE64 | WRITE
+}
+
+enum FileNodeType {
+  NONE = 0,
+  INT = 1,
+  REAL = 2,
+  FLOAT = REAL,
+  STR = 3,
+  STRING = STR,
+  REF = 4,
+  SEQ = 5,
+  MAP = 6,
+  TYPE_MASK = 7,
+  FLOW = 8,
+  USER = 16,
+  EMPTY = 32,
+  NAMED = 64
+}
+
 ## ImgCodecs
 enum  	ImreadModes {
   IMREAD_UNCHANGED = -1 ,
@@ -978,4 +1009,26 @@ enum  	ImwriteTiffPredictorFlags {
   IMWRITE_TIFF_PREDICTOR_NONE = 1 ,
   IMWRITE_TIFF_PREDICTOR_HORIZONTAL = 2 ,
   IMWRITE_TIFF_PREDICTOR_FLOATINGPOINT = 3
+}
+
+# DNN
+
+enum  	DisType {
+  FR_COSINE =0 ,
+  FR_NORM_L2 =1
+}
+
+enum  	DNN_Backend {
+  DNN_BACKEND_DEFAULT = 0,
+  DNN_BACKEND_HALIDE,
+  DNN_BACKEND_INFERENCE_ENGINE,
+  DNN_BACKEND_OPENCV
+}
+
+enum  	DNN_Target {
+  DNN_TARGET_CPU = 0,
+  DNN_TARGET_OPENCL,
+  DNN_TARGET_OPENCL_FP16,
+  DNN_TARGET_MYRIAD,
+  DNN_TARGET_FPGA
 }

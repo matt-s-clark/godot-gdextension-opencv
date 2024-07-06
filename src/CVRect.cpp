@@ -54,6 +54,11 @@ void CVRect::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("set_values", "x", "y", "width", "height"),
 			&CVRect::set_values);
+
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("from_values", "x", "y", "width", "height"),
+			&CVRect::from_values);
 }
 
 CVRect::CVRect() {
@@ -143,6 +148,15 @@ void CVRect::set_x(Variant value) {
 
 void CVRect::set_y(Variant value) {
 	rawRect.y = value;
+}
+
+Ref<CVRect> CVRect::from_values(Variant x, Variant y, Variant width, Variant height) {
+	Ref<CVRect> output;
+	output.instantiate();
+
+	output->set_values(x, y, width, height);
+
+	return output;
 }
 
 String CVRect::_to_string() const {

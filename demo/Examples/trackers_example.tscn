@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2g27la4fftp5"]
+
+[ext_resource type="Script" path="res://Examples/TrackersExample.gd" id="1_f3wt0"]
+
+[node name="TrackersExample" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f3wt0")
+
+[node name="VideoFeed" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Interface" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Open" type="Button" parent="Interface"]
+layout_mode = 2
+text = "Open"
+
+[node name="Release" type="Button" parent="Interface"]
+layout_mode = 2
+text = "Release"
+
+[node name="UseCSRTContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="UseCSRT" type="CheckBox" parent="Interface/UseCSRTContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Use CSRT"
+
+[node name="UseKCFContainer" type="PanelContainer" parent="Interface"]
+layout_mode = 2
+
+[node name="UseKCF" type="CheckBox" parent="Interface/UseKCFContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Use KCF"
+
+[connection signal="resized" from="VideoFeed" to="." method="_on_video_feed_resized"]
+[connection signal="pressed" from="Interface/Open" to="." method="_on_open_pressed"]
+[connection signal="pressed" from="Interface/Release" to="." method="_on_release_pressed"]
+[connection signal="toggled" from="Interface/UseCSRTContainer/UseCSRT" to="." method="_on_use_csrt_toggled"]
+[connection signal="toggled" from="Interface/UseKCFContainer/UseKCF" to="." method="_on_use_kcf_toggled"]

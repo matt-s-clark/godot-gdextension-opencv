@@ -59,9 +59,8 @@ void CVVideoCapture::open(Variant source, int api_preference, Variant params) {
 	Array parameters = params;
 
 	if (params.get_type() == Variant::Type::ARRAY) {
-		for (int64_t i = 0; i < ((Array)parameters).size(); i++) {
+		for (int64_t i = 0; i < parameters.size(); i++) {
 			p.push_back(parameters[i]);
-			UtilityFunctions::print(parameters[i]);
 		}
 	} else if (params.get_type() != Variant::Type::NIL) {
 		UtilityFunctions::push_error("Invalid input: Parameters should be an array, input will be ignored.");

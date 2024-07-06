@@ -18,6 +18,17 @@ void initialize_opencv_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<CVVideoCapture>();
 	ClassDB::register_class<CVCascadeClassifier>();
 	ClassDB::register_class<CVImgProc>();
+	ClassDB::register_class<CVFaceDetectorYN>();
+	ClassDB::register_class<CVFaceRecognizerSF>();
+	ClassDB::register_class<CVNet>();
+	ClassDB::register_class<CVDnn>();
+	ClassDB::register_class<CVTrackerDaSiamRPN>();
+	ClassDB::register_class<CVTrackerGOTURN>();
+	ClassDB::register_class<CVTrackerKCF>();
+	ClassDB::register_class<CVTrackerCSRT>();
+	ClassDB::register_class<CVBackgroundSubtractorKNN>();
+	ClassDB::register_class<CVBackgroundSubtractorMOG2>();
+	ClassDB::register_class<CVFileStorage>();
 }
 
 void uninitialize_opencv_module(ModuleInitializationLevel p_level) {

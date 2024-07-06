@@ -144,6 +144,9 @@ Ref<CVMat> CVCore::arithmetic_wrapper(
 	Ref<CVMat> mask;
 	int dtype = -1;
 
+	ERR_FAIL_NULL_V_MSG(mat1, output, "mat1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(mat2, output, "mat2 should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
 	GET_ADITIONAL_PROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
 
@@ -200,6 +203,9 @@ Ref<CVMat> CVCore::mat_in_mat_in_mat_out_wrapper(
 	Ref<CVMat> output;
 	output.instantiate();
 
+	ERR_FAIL_NULL_V_MSG(mat1, output, "mat1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(mat2, output, "mat2 should not be null.");
+
 	SAFE_CALL(func(mat1->get_mat(), mat2->get_mat(), outMat));
 
 	output->set_mat(outMat);
@@ -238,6 +244,8 @@ Ref<CVMat> CVCore::bitwise_not(
 
 	Ref<CVMat> mask;
 
+	ERR_FAIL_NULL_V_MSG(mat, output, "mat should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
 
 	if (mask.is_null()) {
@@ -265,6 +273,9 @@ Ref<CVMat> CVCore::bitwise_wrapper(
 	output.instantiate();
 
 	Ref<CVMat> mask;
+
+	ERR_FAIL_NULL_V_MSG(mat1, output, "mat1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(mat2, output, "mat2 should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, mask, "mask", Variant::OBJECT, "CVMat");
 
@@ -309,6 +320,8 @@ Ref<CVMat> CVCore::mat_in_mat_out_wrapper(
 	Ref<CVMat> output;
 	output.instantiate();
 
+	ERR_FAIL_NULL_V_MSG(mat, output, "mat should not be null.");
+
 	SAFE_CALL(func(mat->get_mat(), outMat));
 
 	output->set_mat(outMat);
@@ -328,6 +341,9 @@ Ref<CVMat> CVCore::add_weighted(
 	output.instantiate();
 
 	int dtype = -1;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, dtype, "dtype", Variant::INT, "INT");
 
@@ -350,6 +366,8 @@ Ref<CVMat> CVCore::dft(Ref<CVMat> src, Dictionary additional_parameters) {
 	Ref<CVMat> output;
 	output.instantiate();
 	int flags = 0, nonZeroRows = 0;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, nonZeroRows, "non_zero_rows", Variant::INT, "INT");
@@ -375,6 +393,8 @@ Ref<CVMat> CVCore::normalize(Ref<CVMat> src, Dictionary additional_parameters) {
 	output.instantiate();
 	float alpha = 1.0, beta = 0.0;
 	int norm_type = 4, dtype = -1;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, alpha, "alpha", Variant::FLOAT, "FLOAT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, beta, "beta", Variant::FLOAT, "FLOAT");

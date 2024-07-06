@@ -10,6 +10,9 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("get_image"),
 			&CVMat::get_image);
+	ClassDB::bind_method(
+			D_METHOD("set_image", "image"),
+			&CVMat::set_image);
 
 	ClassDB::bind_method(
 			D_METHOD("get_rows"),
@@ -37,6 +40,24 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("set_read_only"),
 			&CVMat::set_read_only);
+	ClassDB::bind_method(
+			D_METHOD("row", "y"),
+			&CVMat::row);
+	ClassDB::bind_method(
+			D_METHOD("col", "x"),
+			&CVMat::col);
+	ClassDB::bind_method(
+			D_METHOD("copy"),
+			&CVMat::copy);
+	ClassDB::bind_method(
+			D_METHOD("depth"),
+			&CVMat::depth);
+	ClassDB::bind_method(
+			D_METHOD("set_texture", "texture"),
+			&CVMat::set_texture);
+	ClassDB::bind_method(
+			D_METHOD("get_texture"),
+			&CVMat::get_texture);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "cols"), "set_read_only", "get_cols");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "rows"), "set_read_only", "get_rows");
 
@@ -55,6 +76,14 @@ void CVMat::_bind_methods() {
 			get_class_static(),
 			D_METHOD("eye", "rows", "cols", "type"),
 			&CVMat::eye);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("from_image", "image"),
+			&CVMat::from_image);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("from_texture", "image"),
+			&CVMat::from_texture);
 }
 
 CVMat::CVMat() {
@@ -89,6 +118,16 @@ Ref<Image> CVMat::get_image() {
 	}
 
 	return image;
+}
+
+void CVMat::set_image(Ref<Image> image) {
+	cv::Mat output;
+
+	ERR_FAIL_NULL_V_MSG(image, , "image should not be null.");
+
+	PackedByteArray data = image->get_data();
+
+	rawMat = cv::Mat(image->get_width(), image->get_height(), CV_8UC4, data.ptrw());
 }
 
 Variant CVMat::get_at(int row, int col) {
@@ -245,6 +284,102 @@ Ref<CVMat> CVMat::eye(int rows, int cols, int type) {
 	return output;
 }
 
+Ref<CVMat> CVMat::col(int x) {
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFE_CALL(outMat = rawMat.col(x));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+Ref<CVMat> CVMat::row(int y) {
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFE_CALL(outMat = rawMat.row(y));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+Ref<CVMat> CVMat::copy() {
+	cv::Mat outMat;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	SAFE_CALL(rawMat.copyTo(outMat));
+
+	output->set_mat(outMat);
+
+	return output;
+}
+
+int CVMat::depth() {
+	int output = -1;
+
+	SAFE_CALL(output = rawMat.depth());
+
+	return output;
+}
+
+Ref<CVMat> CVMat::from_image(Ref<Image> image) {
+	Ref<CVMat> output;
+	output.instantiate();
+
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
+
+	output->set_image(image);
+
+	return output;
+}
+
+Ref<CVMat> CVMat::from_texture(Ref<Texture2D> texture) {
+	Ref<CVMat> output;
+	output.instantiate();
+
+	ERR_FAIL_NULL_V_MSG(texture, output, "texture should not be null.");
+
+	output->set_texture(texture);
+
+	return output;
+}
+
+Ref<Texture> CVMat::get_texture() {
+	Ref<Texture> output;
+	output.instantiate();
+
+	Ref<Image> im = get_image();
+
+	if (im->is_empty())
+		return output;
+
+	SAFE_CALL(output = ImageTexture::create_from_image(im));
+
+	return output;
+}
+
+void CVMat::set_texture(Ref<Texture2D> texture) {
+	ERR_FAIL_NULL_V_MSG(texture, , "texture should not be null.");
+
+	Ref<Image> im = texture->get_image();
+
+	if (im->is_empty())
+		return;
+
+	set_image(im);
+}
+
 String CVMat::_to_string() const {
-	return UtilityFunctions::str("[ CVMat instance (", String((Variant)rawMat.cols), ", ", String((Variant)rawMat.rows), ") ]");
+	String sizes = "";
+	for (size_t i = 0; i < rawMat.size.dims(); i++) {
+		String separator = (i == 0) ? "" : ", ";
+		sizes = UtilityFunctions::str(sizes, separator, rawMat.size[i]);
+	}
+	return UtilityFunctions::str("[ CVMat instance (", sizes, ") ]");
 }

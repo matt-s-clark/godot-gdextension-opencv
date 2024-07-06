@@ -5,3 +5,6 @@ src/*.obj
 build/
 *.os
 .DS_Store
+demo/Models/goturn.prototxt
+demo/Models/goturn.caffemodel
+
