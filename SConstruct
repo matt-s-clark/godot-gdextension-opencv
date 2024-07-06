@@ -17,6 +17,7 @@ env = SConscript("godot-cpp/SConstruct")
 opencv_library_path = [
     'src/opencv2/x64/vc16/lib',
     '../build_opencv/lib',
+    '/opt/homebrew/Cellar/opencv/4.9.0_11/lib',
     '/usr/local/lib'
 ]
 
@@ -32,6 +33,7 @@ opencv_header_files = [
     "../opencv-4.9.0/modules/objdetect/include",
     "../opencv-4.9.0/modules/video/include"
     "../build_opencv",
+    "/opt/homebrew/Cellar/opencv/4.9.0_11/include/opencv4",
     "/usr/local/include/opencv4"
 ]
 
@@ -87,14 +89,13 @@ Default(library)
 
 # Copy gdextension file
 
-source_path = 'opencv.gdextension'
-target_path = 'demo/bin/opencv.gdextension'
-
-
 def copy_extension(target, source, env):
     print(f"Copying {source[0]} to {target[0]}")
     shutil.copy(str(source[0]), str(target[0]))
 
+
+source_path = 'opencv.gdextension'
+target_path = 'demo/bin/opencv.gdextension'
 
 env.Command(target=target_path, source=source_path, action=copy_extension)
 
