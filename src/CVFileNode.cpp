@@ -57,15 +57,14 @@ Variant CVFileNode::read() {
 }
 
 void CVFileNode::write(Variant val) {
-
 	cv::String valIn(((String)val).utf8());
-	
+
 	switch (val.get_type()) {
 		case cv::FileNode::NONE:
 			break;
-		case Variant::INT:
-			rawNode << (int)val;
-			break;
+		// case Variant::INT:
+		// 	rawNode << (int)val;
+		// 	break;
 		/*case Variant::FLOAT:
 			rawNode << (float)val;
 			break;
