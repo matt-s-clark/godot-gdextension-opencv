@@ -9,11 +9,14 @@ func _ready():
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 
 func _process(_delta):
-	if cap.is_opened():
-		var mat = cap.read()
-		if mat.cols > 0:
-			var tex: ImageTexture = ImageTexture.create_from_image(mat.get_image())
-			video_feed.texture = tex
+	if !cap.is_opened():
+		return
+		
+	var mat = cap.read()
+	if mat.cols <= 0:
+		return
+	
+	video_feed.texture = mat.get_texture()
 
 func _on_open_pressed():
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)

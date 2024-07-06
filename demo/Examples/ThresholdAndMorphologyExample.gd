@@ -19,27 +19,30 @@ func _ready():
 
 
 func _process(_delta):
-	if cap.is_opened():
-		var mat = cap.read()
-		if mat.cols > 0:
-			var gray := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, {})
-			gray = CVImgProc.gaussian_blur(gray, Vector2(3, 3), 0, {})
-			var th : CVMat
-			
-			if use_adaptative:
-				th = CVImgProc.adaptive_threshold(gray, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV, CVConsts.AdaptiveThresholdTypes.ADAPTIVE_THRESH_GAUSSIAN_C, 301, 2)
-			else:
-				th = CVImgProc.threshold(gray, thresh, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
-			
-			var kernel2 = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(kernel2_size, kernel2_size), {})
-			var cl := CVImgProc.morphology_ex(th, CVConsts.MorphTypes.MORPH_CLOSE, kernel2, {})
-			var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel_size, kernel_size), {})
-			var gr := CVImgProc.morphology_ex(cl, CVConsts.MorphTypes.MORPH_GRADIENT, kernel, {})
-			video_feed.texture = ImageTexture.create_from_image(mat.get_image())
-			video_feed_2.texture = ImageTexture.create_from_image(th.get_image())
-			video_feed_3.texture = ImageTexture.create_from_image(cl.get_image())
-			video_feed_4.texture = ImageTexture.create_from_image(gr.get_image())
-			
+	if !cap.is_opened():
+		return
+		
+	var mat = cap.read()
+	if mat.cols <= 0:
+		return
+		
+	var gray := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, {})
+	gray = CVImgProc.gaussian_blur(gray, Vector2(3, 3), 0, {})
+	var th : CVMat
+	
+	if use_adaptative:
+		th = CVImgProc.adaptive_threshold(gray, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV, CVConsts.AdaptiveThresholdTypes.ADAPTIVE_THRESH_GAUSSIAN_C, 301, 2)
+	else:
+		th = CVImgProc.threshold(gray, thresh, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
+	
+	var kernel2 = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(kernel2_size, kernel2_size), {})
+	var cl := CVImgProc.morphology_ex(th, CVConsts.MorphTypes.MORPH_CLOSE, kernel2, {})
+	var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel_size, kernel_size), {})
+	var gr := CVImgProc.morphology_ex(cl, CVConsts.MorphTypes.MORPH_GRADIENT, kernel, {})
+	video_feed.texture = mat.get_texture()
+	video_feed_2.texture = th.get_texture()
+	video_feed_3.texture = cl.get_texture()
+	video_feed_4.texture = gr.get_texture()
 
 
 func _on_thresh_value_value_changed(value):

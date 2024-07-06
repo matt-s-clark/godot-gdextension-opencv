@@ -8,6 +8,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/objdetect.hpp>
+#include <opencv4/opencv2/objdetect/face.hpp>
 
 namespace godot {
 

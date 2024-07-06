@@ -30,6 +30,9 @@ Ref<CVMat> CVFaceRecognizerSF::align_crop(Ref<CVMat> src_img, Ref<CVMat> face_bo
 	Ref<CVMat> output;
 	output.instantiate();
 
+	ERR_FAIL_NULL_V_MSG(src_img, output, "src_img should not be null.");
+	ERR_FAIL_NULL_V_MSG(face_box, output, "face_box should not be null.");
+
 	SAFE_CALL(rawDetector->alignCrop(src_img->get_mat(), face_box->get_mat(), outMat));
 
 	output->set_mat(outMat);
@@ -42,6 +45,8 @@ Ref<CVMat> CVFaceRecognizerSF::feature(Ref<CVMat> aligned_img) {
 	Ref<CVMat> output;
 	output.instantiate();
 
+	ERR_FAIL_NULL_V_MSG(aligned_img, output, "aligned_img should not be null.");
+
 	SAFE_CALL(rawDetector->feature(aligned_img->get_mat(), outMat));
 
 	output->set_mat(outMat);
@@ -52,6 +57,9 @@ Ref<CVMat> CVFaceRecognizerSF::feature(Ref<CVMat> aligned_img) {
 float CVFaceRecognizerSF::match(Ref<CVMat> face_feature1, Ref<CVMat> face_feature2, Dictionary additional_parameters) {
 	float output = -1;
 	int dis_type = 0;
+
+	ERR_FAIL_NULL_V_MSG(face_feature1, output, "face_feature1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(face_feature2, output, "face_feature2 should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, dis_type, "dis_type", Variant::INT, "INT");
 

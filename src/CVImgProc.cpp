@@ -104,6 +104,8 @@ Ref<CVMat> CVImgProc::cvt_color(Ref<CVMat> src, int code, Dictionary additional_
 
 	int dstCn = 0;
 
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, dstCn, "dst_cn", Variant::INT, "INT");
 
 	SAFE_CALL(cv::cvtColor(src->get_mat(), matOut, code, dstCn));
@@ -118,6 +120,8 @@ Ref<CVMat> CVImgProc::equalize_hist(Ref<CVMat> src) {
 	Ref<CVMat> output;
 	output.instantiate();
 
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
 	SAFE_CALL(cv::equalizeHist(src->get_mat(), matOut));
 
 	output->set_mat(matOut);
@@ -130,6 +134,8 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 	Vector2 pt1 = Vector2(-1, -1), pt2 = Vector2(-1, -1);
 	Color color = Color(0, 255, 0);
 	int thickness = 1, lineType = 8, shift = 0;
+
+	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, rect, "rec", Variant::OBJECT, "CVRECT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, pt1, "pt1", Variant::VECTOR2, "VECTOR2");
@@ -169,6 +175,8 @@ Ref<CVMat> CVImgProc::bilateral_filter(Ref<CVMat> src, int d, double sigmaColor,
 
 	int borderType = 4;
 
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 
 	SAFE_CALL(cv::bilateralFilter(src->get_mat(), matOut, d, sigmaColor, sigmaSpace, borderType));
@@ -185,6 +193,8 @@ Ref<CVMat> CVImgProc::blur(Ref<CVMat> src, Vector2 ksize, Dictionary additional_
 
 	int borderType = 4;
 	Vector2 anchor = Vector2(-1, -1);
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
@@ -204,6 +214,9 @@ Ref<CVMat> CVImgProc::dilate(Ref<CVMat> src, Ref<CVMat> kernel, Dictionary addit
 	int borderType = 4, interactions = 1;
 	Vector2 anchor = Vector2(-1, -1), borderValue = Vector2(-1, -1);
 	cv::Scalar borderValueScalar = cv::morphologyDefaultBorderValue();
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+	ERR_FAIL_NULL_V_MSG(kernel, output, "kernel should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, interactions, "interactions", Variant::INT, "INT");
@@ -230,6 +243,9 @@ Ref<CVMat> CVImgProc::erode(Ref<CVMat> src, Ref<CVMat> kernel, Dictionary additi
 	Vector2 anchor = Vector2(-1, -1), borderValue = Vector2(-1, -1);
 	cv::Scalar borderValueScalar = cv::morphologyDefaultBorderValue();
 
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+	ERR_FAIL_NULL_V_MSG(kernel, output, "kernel should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, interactions, "interactions", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
@@ -254,6 +270,9 @@ Ref<CVMat> CVImgProc::morphology_ex(Ref<CVMat> src, int op, Ref<CVMat> kernel, D
 	int borderType = 4, interactions = 1;
 	Vector2 anchor = Vector2(-1, -1), borderValue = Vector2(-1, -1);
 	cv::Scalar borderValueScalar = cv::morphologyDefaultBorderValue();
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+	ERR_FAIL_NULL_V_MSG(kernel, output, "kernel should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, interactions, "interactions", Variant::INT, "INT");
@@ -295,6 +314,8 @@ Ref<CVMat> CVImgProc::gaussian_blur(Ref<CVMat> src, Vector2 ksize, float sigmaX,
 	float sigmaY = 0;
 	int borderType = 4;
 
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, sigmaY, "sigma_y", Variant::FLOAT, "FLOAT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 
@@ -310,6 +331,8 @@ Ref<CVMat> CVImgProc::median_blur(Ref<CVMat> src, int ksize) {
 	Ref<CVMat> output;
 	output.instantiate();
 
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
 	SAFE_CALL(cv::medianBlur(src->get_mat(), matOut, ksize));
 
 	output->set_mat(matOut);
@@ -322,6 +345,8 @@ Ref<CVMat> CVImgProc::adaptive_threshold(Ref<CVMat> src, float maxValue, int ada
 	Ref<CVMat> output;
 	output.instantiate();
 
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
 	SAFE_CALL(cv::adaptiveThreshold(src->get_mat(), matOut, maxValue, adaptiveMethod, thresholdType, blockSize, C));
 
 	output->set_mat(matOut);
@@ -333,6 +358,8 @@ Ref<CVMat> CVImgProc::threshold(Ref<CVMat> src, float thresh, float maxval, int 
 	cv::Mat matOut;
 	Ref<CVMat> output;
 	output.instantiate();
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::threshold(src->get_mat(), matOut, thresh, maxval, type));
 
@@ -349,6 +376,9 @@ Ref<CVMat> CVImgProc::filter2D(Ref<CVMat> src, int ddepth, Ref<CVMat> kernel, Di
 	Vector2 anchor = Vector2(-1, -1);
 	float delta = 0;
 	int borderType = 4;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+	ERR_FAIL_NULL_V_MSG(kernel, output, "kernel should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, anchor, "anchor", Variant::VECTOR2, "VECTOR2");
 	GET_ADITIONAL_PROPERTY(additional_parameters, delta, "delta", Variant::FLOAT, "FLOAT");
@@ -404,6 +434,8 @@ Ref<CVMat> CVImgProc::laplacian(Ref<CVMat> src, int ddepth, Dictionary additiona
 	int ksize = 1, borderType = 4;
 	float scale = 1.0, delta = 0.0;
 
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, ksize, "ksize", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, scale, "scale", Variant::FLOAT, "FLOAT");
@@ -424,6 +456,8 @@ Ref<CVMat> CVImgProc::sobel(Ref<CVMat> src, int ddepth, int dx, int dy, Dictiona
 	int ksize = 3, borderType = 4;
 	float scale = 1.0, delta = 0.0;
 
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, ksize, "ksize", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, scale, "scale", Variant::FLOAT, "FLOAT");
@@ -439,6 +473,8 @@ Ref<CVMat> CVImgProc::sobel(Ref<CVMat> src, int ddepth, int dx, int dy, Dictiona
 void CVImgProc::ellipse(Ref<CVMat> img, Vector2 center, Vector2 axes, float angle, float startAngle, float endAngle, Dictionary additional_parameters) {
 	Color color = Color(0, 255, 0);
 	int thickness = 1, lineType = 8, shift = 0;
+
+	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, color, "color", Variant::COLOR, "COLOR");
 	GET_ADITIONAL_PROPERTY(additional_parameters, thickness, "thickness", Variant::INT, "INT");
@@ -461,6 +497,8 @@ void CVImgProc::line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Dictionary additi
 	Color color = Color(0, 255, 0);
 	int thickness = 1, lineType = 8, shift = 0;
 
+	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, color, "color", Variant::COLOR, "COLOR");
 	GET_ADITIONAL_PROPERTY(additional_parameters, thickness, "thickness", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, lineType, "line_type", Variant::INT, "INT");
@@ -482,6 +520,8 @@ Ref<CVMat> CVImgProc::resize(Ref<CVMat> src, Vector2 dsize, Dictionary additiona
 
 	float fx = 0, fy = 0;
 	int interpolation = 1;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, fx, "fx", Variant::FLOAT, "FLOAT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, fy, "fy", Variant::FLOAT, "FLOAT");

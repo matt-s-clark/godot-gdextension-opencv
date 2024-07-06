@@ -51,6 +51,8 @@ Ref<CVMat> CVFaceDetectorYN::detect(Ref<CVMat> image) {
 	Ref<CVMat> output;
 	output.instantiate();
 
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
+
 	SAFE_CALL(rawDetector->detect(image->get_mat(), outMat));
 
 	output->set_mat(outMat);
@@ -60,6 +62,8 @@ Ref<CVMat> CVFaceDetectorYN::detect(Ref<CVMat> image) {
 
 Array CVFaceDetectorYN::detect_simplified(Ref<CVMat> image) {
 	Array output;
+
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
 
 	Ref<CVMat> mat = detect(image);
 	cv::Mat outMat = mat->get_mat();

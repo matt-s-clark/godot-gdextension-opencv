@@ -22,15 +22,18 @@ func _ready():
 	recognizer = CVFaceRecognizerSF.create("./Models/face_recognition_sface_2021dec.onnx", "", {})
 
 func _process(_delta):
-	if cap.is_opened():
-		var mat := cap.read()
-		if mat.cols > 0:
-			var result := detector.detect_simplified(mat)
-			
-			recognize_face(result, mat)
-				
-			var tex: ImageTexture = ImageTexture.create_from_image(mat.get_image())
-			video_feed.texture = tex
+	if !cap.is_opened():
+		return
+		
+	var mat = cap.read()
+	if mat.cols <= 0:
+		return
+		
+	var result := detector.detect_simplified(mat)
+	
+	recognize_face(result, mat)
+		
+	video_feed.texture = mat.get_texture()
 
 func draw_face(mat, face):
 	CVImgProc.rectangle(mat, {"rec": face["rect"]})

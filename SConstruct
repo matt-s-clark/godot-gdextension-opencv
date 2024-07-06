@@ -31,7 +31,7 @@ opencv_header_files = [
     "../opencv-4.9.0/modules/imgproc/include",
     "../opencv-4.9.0/modules/videoio/include",
     "../opencv-4.9.0/modules/objdetect/include",
-    "../opencv-4.9.0/modules/video/include"
+    "../opencv-4.9.0/modules/video/include",
     "../build_opencv",
     "/opt/homebrew/Cellar/opencv/4.9.0_11/include/opencv4",
     "/usr/local/include/opencv4"

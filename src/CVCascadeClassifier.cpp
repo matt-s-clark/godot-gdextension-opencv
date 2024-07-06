@@ -38,6 +38,8 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 	cv::Size minSizeSize = cv::Size(), maxSizeSize = cv::Size();
 	bool outputRejectLevels = false;
 
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
+
 	GET_ADITIONAL_PROPERTY(additional_parameters, scaleFactor, "scale_factor", Variant::FLOAT, "FLOAT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, minNeighbors, "min_neighbors", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, flags, "flags", Variant::INT, "INT");

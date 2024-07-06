@@ -168,8 +168,7 @@ func test_morphology_ex():
 
 func test_rectangle():
 	var mat := CVMat.zeros(5, 5, CVConsts.MatType.CV_8UC3)
-	var rect := CVRect.new()
-	rect.set_values(0, 0, 3, 3)
+	var rect := CVRect.from_values(0, 0, 3, 3)
 	
 	CVImgProc.rectangle(mat, {"rec":rect})
 	

@@ -22,6 +22,9 @@ CVTrackerCSRT::~CVTrackerCSRT() {
 }
 
 void CVTrackerCSRT::init(Ref<CVMat> image, Ref<CVRect> boundingBox) {
+	ERR_FAIL_NULL_V_MSG(image, , "image should not be null.");
+	ERR_FAIL_NULL_V_MSG(boundingBox, , "boundingBox should not be null.");
+	
 	SAFE_CALL(rawTracker->init(image->get_mat(), boundingBox->get_rect()));
 }
 
@@ -29,6 +32,8 @@ Ref<CVRect> CVTrackerCSRT::update(Ref<CVMat> image) {
 	cv::Rect outRect;
 	Ref<CVRect> output;
 	output.instantiate();
+
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
 
 	SAFE_CALL(rawTracker->update(image->get_mat(), outRect));
 
