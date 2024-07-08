@@ -17,7 +17,7 @@ var use_kcf := true
 
 func _ready():
 	cap = CVVideoCapture.new()
-	cap.open("./test/testFiles/video.webm", CVConsts.VideoCaptureAPIs.CAP_ANY, null)
+	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)
 	
 	mat = cap.read()
 	
@@ -27,13 +27,12 @@ func _process(_delta):
 	if !cap.is_opened():
 		return
 		
-	#mat = cap.read()
+	mat = cap.read()
 	if mat.cols <= 0:
 		return
 		
 	if dragging:
 		var rec = _calc_rect(get_viewport().get_mouse_position())
-		print(rec)
 		CVImgProc.rectangle(mat, {"rec":rec})
 	elif tracker_initiated:
 		if use_csrt:
