@@ -2,18 +2,24 @@ import os
 import re
 
 input2Output = {
+	"double":"float",
 	"Scalar":"Color",
-	"InputArray":"Ref<CVMat>", 
+	"Mat":"Ref<CVMat>",
+	"InputArray":"Ref<CVMat>",
+	"InputOutputArray":"Ref<CVMat>",
 	"InputArrayOfArrays":"Array"
 	}
-outputTypes = {"OutputArray": "Ref<CVMat>"}
+outputTypes = {
+	"OutputArray": "Ref<CVMat>",
+	"OutputArrayOfArrays":"Array"
+	}
 
 def ConvertType(inputType):
 	type = input2Output.get(inputType)
 	return type if type else inputType
 
 def ProcessTokens(line):
-	line = re.sub(r"[\w\d]+::", "", line)
+	line = re.sub(r"([\w\d]+::)|const |&", "", line)
 	inputs = re.search(r"(?<=\()[\w\d ,_()=\-&]*(?=\))", line)
 	split = line.split()
 	outputType = split[0]
@@ -23,21 +29,24 @@ def ProcessTokens(line):
 		inputs = inputs.group().split(", ")
 		inputs = [re.split(r"=| ", i) for i in inputs]
 
-	return (outputType, methodName, inputs)
+	return outputType, methodName, inputs
 
 def WriteHeaderLine(outputType, methodName, inputs):
 	tmpList = []
+	filteredInputs = []
 	addtionalParameters = False
-	outputs = [outputType]
+	outputs = [[ ConvertType(outputType), "Default" ]]
 
 	for input in inputs:
 		if input[0] in outputTypes:
-			outputs.append(outputTypes[input[0]])
+			newOutput = [ outputTypes[input[0]] ]
+			newOutput.extend(input[1:])
+			outputs.append(newOutput)
 			continue
 
 		if len(input) == 2:
 			inputType = ConvertType(input[0])
-			tmpList.append( f"{inputType} {input[1]}" )
+			filteredInputs.append([inputType, input[1]])
 		
 		if len(input) == 3:
 			addtionalParameters = True
@@ -46,12 +55,12 @@ def WriteHeaderLine(outputType, methodName, inputs):
 			print("-------- Error --------")
 			break
 	
-	updatedInputs = ", ".join(tmpList)
-
 	if addtionalParameters:
-		updatedInputs += ", Dictionary additional_parameters"
+		filteredInputs.append(["Dictionary", "additional_parameters"])
 
-	outputs = [ ConvertType(o) for o in outputs if o != "void" ]
+	updatedInputs = ", ".join( map(lambda i : f"{i[0]} {i[1]}" ,filteredInputs) )
+
+	outputs = [ o for o in outputs if o[0] != "void" ]
 
 	type = "-------- Error --------"
 
@@ -60,20 +69,35 @@ def WriteHeaderLine(outputType, methodName, inputs):
 	elif len(outputs) == 0:
 		type = "void"
 	else:
-		type = outputs[0]
+		type = outputs[0][0]
 
 	outputLine = f"{type} {methodName}({updatedInputs});"
 
-	return outputLine
+	return outputLine, filteredInputs, outputs, addtionalParameters
+
+def WriteBinding(isStatic, className, methodName, inputs):
+	processedInputs = ""
+	if inputs:
+		processedInputs = ", " + ", ".join(map(lambda i : "\"" + i[1] + "\"", inputs))
+	if isStatic:
+		return 
+	else:
+		return f"ClassDB::bind_method( D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
 
 f = open("automation/Core.in", "r")
+className = "CVCore"
+isStatic = False
 
 for line in f.readlines():
-	print(line, end="")
 	try:
 		outputType, methodName, inputs = ProcessTokens(line)
-		outputLine = WriteHeaderLine(outputType, methodName, inputs)
+		headerLine, filteredInputs, outputs, addtionalParameters = WriteHeaderLine(outputType, methodName, inputs)
+		binding = WriteBinding(isStatic, className, methodName, filteredInputs)
 
-		print(outputLine, "\n")
-	except:
+		print(line, end="")
+		##print(outputs)
+		print(headerLine)
+		print(binding, "\n")
+	except Exception as err:
+		print(err)
 		print("-------- Error --------")
