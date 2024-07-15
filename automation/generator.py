@@ -19,7 +19,8 @@ def ConvertType(inputType):
 	return type if type else inputType
 
 def ProcessTokens(line):
-	line = re.sub(r"([\w\d]+::)|const |&", "", line)
+	isStatic = bool(re.match(r"static ", line))
+	line = re.sub(r"([\w\d]+::)|const |&|static ", "", line)
 	inputs = re.search(r"(?<=\()[\w\d ,_()=\-&]*(?=\))", line)
 	split = line.split()
 	outputType = split[0]
@@ -29,10 +30,9 @@ def ProcessTokens(line):
 		inputs = inputs.group().split(", ")
 		inputs = [re.split(r"=| ", i) for i in inputs]
 
-	return outputType, methodName, inputs
+	return outputType, methodName, inputs, isStatic
 
 def WriteHeaderLine(outputType, methodName, inputs):
-	tmpList = []
 	filteredInputs = []
 	addtionalParameters = False
 	outputs = [[ ConvertType(outputType), "Default" ]]
@@ -45,8 +45,9 @@ def WriteHeaderLine(outputType, methodName, inputs):
 			continue
 
 		if len(input) == 2:
-			inputType = ConvertType(input[0])
-			filteredInputs.append([inputType, input[1]])
+			newInput = [ConvertType(input[0])]
+			newInput.extend(input[1:])
+			filteredInputs.append(newInput)
 		
 		if len(input) == 3:
 			addtionalParameters = True
@@ -80,19 +81,19 @@ def WriteBinding(isStatic, className, methodName, inputs):
 	if inputs:
 		processedInputs = ", " + ", ".join(map(lambda i : "\"" + i[1] + "\"", inputs))
 	if isStatic:
-		return 
+		return f"ClassDB::bind_static_method(get_class_static(), D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
 	else:
 		return f"ClassDB::bind_method( D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
 
 f = open("automation/Core.in", "r")
 className = "CVCore"
-isStatic = False
+isStaticClass = True
 
 for line in f.readlines():
 	try:
-		outputType, methodName, inputs = ProcessTokens(line)
+		outputType, methodName, inputs, isStatic = ProcessTokens(line)
 		headerLine, filteredInputs, outputs, addtionalParameters = WriteHeaderLine(outputType, methodName, inputs)
-		binding = WriteBinding(isStatic, className, methodName, filteredInputs)
+		binding = WriteBinding(isStaticClass or isStatic, className, methodName, filteredInputs)
 
 		print(line, end="")
 		##print(outputs)
