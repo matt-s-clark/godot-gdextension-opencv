@@ -1,18 +1,21 @@
 import os
 import re
 
-openCVOutputTypes = {
-	"OutputArray": "Ref<CVMat>",
-	"OutputArrayOfArrays":"Array"
-	}
-input2Output = {
-	##"double":"float",
+openCVInputTypes = {
 	"Scalar":"Color",
 	"Mat":"Ref<CVMat>",
 	"InputArray":"Ref<CVMat>",
 	"InputOutputArray":"Ref<CVMat>",
 	"InputArrayOfArrays":"Array"
-	}
+}
+openCVOutputTypes = {
+	"OutputArray": "Ref<CVMat>",
+	"OutputArrayOfArrays":"Array"
+}
+input2Output = {
+	"double":"float",
+}
+input2Output.update(openCVInputTypes)
 input2Output.update(openCVOutputTypes)
 
 processingLine = {
@@ -93,18 +96,18 @@ def GenerateBinding(isStatic, className, methodName, inputs):
 	if inputs:
 		processedInputs = ", " + ", ".join(map(lambda i : "\"" + i[1] + "\"", inputs))
 	if isStatic:
-		return f"ClassDB::bind_static_method(get_class_static(), D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
+		return f"	ClassDB::bind_static_method(get_class_static(), D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
 	else:
-		return f"ClassDB::bind_method( D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
+		return f"	ClassDB::bind_method( D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
 
 def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType):
 	codeLinesList = []
 	methodCall = f"cv::{methodName}" if isStatic else "---- Not Implemented ----"
 	methodInputs = ", ".join([i[1] + processingLine[i[0]] if i[0] in processingLine else i[1] for i in inputs])
-	returnName = "output" if len(outputs) == 1 and outputs[0][0] not in input2Output else "defReturn"
+	returnName = "output" if len(outputs) == 1 and outputs[0][0] not in openCVInputTypes else "defReturn"
 	callReturn = "" if methodOutputType ==  "void" else f"{returnName} = "
 
-	codeLinesList.append(re.sub(methodName, f"{className}::{methodName}",headerLine[:-1]) + "{")
+	codeLinesList.append(re.sub(re.escape(methodName) + r"\(", f"{className}::{methodName}(",headerLine[:-1]) + "{")
 	codeLinesList.append("")
 
 	if len(outputs) != 0:
@@ -127,13 +130,13 @@ def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, m
 	if len(outputs) == 1:
 		so = outputs[0][1]
 		if GetOrDefault(outputs[0][0], input2Output) == "Ref<CVMat>":
-			codeLinesList.append(f"	output->set_mat({so})")
+			codeLinesList.append(f"	output->set_mat({so});")
 		if GetOrDefault(outputs[0][0], input2Output) == "Color":
 			codeLinesList.append(f"	output = Color({so}[0], {so}[1], {so}[2]);")
 	else:
 		for i in outputs:
 			if i[0] == "Ref<CVMat>":
-				codeLinesList.append(f"	out{i[1]}->set_mat({i[1]})")
+				codeLinesList.append(f"	out{i[1]}->set_mat({i[1]});")
 
 	codeLinesList.append("")
 	
@@ -144,23 +147,52 @@ def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, m
 
 	return "\n".join(codeLinesList)
 
-f = open("automation/Core.in", "r")
 className = "CVCore"
 isStaticClass = True
+includes = """#include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc.hpp>"""
+inputHeader = ""
 
-for line in f.readlines():
-	try:
-		methodOutputType, methodName, inputs, isStatic = ProcessTokens(line)
-		isStatic = isStaticClass or isStatic
-		headerLine, filteredInputs, outputs, addtionalParameters, outputType = GenerateHeaderLine(methodOutputType, methodName, inputs)
-		binding = GenerateBinding(isStatic, className, methodName, filteredInputs)
-		methodImplementation = GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType)
+with open("automation/Core.in", "r") as f:
+	inputHeader = f.readlines()
 
-		print(line, end="")
-		##print(outputs)
-		print(headerLine)
-		print(binding, "\n")
-		print(methodImplementation, "\n")
-	except Exception as err:
-		print(err)
-		print("-------- Error --------")
+headerLines = []
+bindingLines = []
+implementationLines = []
+
+for line in inputHeader:
+	if line == "\n":
+		continue
+
+	methodOutputType, methodName, inputs, isStatic = ProcessTokens(line)
+	isStatic = isStaticClass or isStatic
+	headerLine, filteredInputs, outputs, addtionalParameters, outputType = GenerateHeaderLine(methodOutputType, methodName, inputs)
+	binding = GenerateBinding(isStatic, className, methodName, filteredInputs)
+	methodImplementation = GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType)
+
+	headerLines.append(headerLine)
+	bindingLines.append(binding)
+	implementationLines.append(methodImplementation)
+
+hTemplate = ""
+with open(f"automation/Template.h", "r") as hTemplateFile:
+	hTemplate = hTemplateFile.read()
+
+hTemplate = re.sub(r"<ClassName>", className, hTemplate)
+hTemplate = re.sub(r"<Includes>", includes, hTemplate)
+hTemplate = re.sub(r"<Headers>", "\n\t".join(headerLines), hTemplate)
+
+with open(f"automation/{className}.h", "w") as oh:
+	oh.write(hTemplate)
+
+cTemplate = ""
+with open(f"automation/Template.cpp", "r") as cTemplateFile:
+	cTemplate = cTemplateFile.read()
+
+cTemplate = re.sub(r"<ClassName>", className, cTemplate)
+cTemplate = re.sub(r"<Bindings>", "\n".join(bindingLines), cTemplate)
+cTemplate = re.sub(r"<Implementation>", "\n\n".join(implementationLines), cTemplate)
+
+with open(f"automation/{className}.cpp", "w") as oc:
+	oc.write(cTemplate)
