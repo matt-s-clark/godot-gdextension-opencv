@@ -59,10 +59,12 @@ CVCore::~CVCore() {
 }
 
 Ref<CVMat> CVCore::absdiff(Ref<CVMat> src1, Ref<CVMat> src2){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	SAFE_CALL(cv::absdiff(src1->get_mat(), src2->get_mat(), dst));
 
@@ -72,13 +74,14 @@ Ref<CVMat> CVCore::absdiff(Ref<CVMat> src1, Ref<CVMat> src2){
 }
 
 Ref<CVMat> CVCore::add(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
 
-	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
 
 	SAFE_CALL(cv::add(src1->get_mat(), src2->get_mat(), dst, mask->get_mat(), dtype));
@@ -89,10 +92,12 @@ Ref<CVMat> CVCore::add(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_p
 }
 
 Ref<CVMat> CVCore::addWeighted(Ref<CVMat> src1, float alpha, Ref<CVMat> src2, float beta, float gamma, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
 
@@ -104,10 +109,12 @@ Ref<CVMat> CVCore::addWeighted(Ref<CVMat> src1, float alpha, Ref<CVMat> src2, fl
 }
 
 Ref<CVMat> CVCore::bitwise_and(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
@@ -119,10 +126,11 @@ Ref<CVMat> CVCore::bitwise_and(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary addi
 }
 
 Ref<CVMat> CVCore::bitwise_not(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
@@ -134,10 +142,12 @@ Ref<CVMat> CVCore::bitwise_not(Ref<CVMat> src, Dictionary additional_parameters)
 }
 
 Ref<CVMat> CVCore::bitwise_or(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
@@ -149,10 +159,12 @@ Ref<CVMat> CVCore::bitwise_or(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary addit
 }
 
 Ref<CVMat> CVCore::bitwise_xor(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
@@ -164,10 +176,12 @@ Ref<CVMat> CVCore::bitwise_xor(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary addi
 }
 
 Ref<CVMat> CVCore::compare(Ref<CVMat> src1, Ref<CVMat> src2, int cmpop){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	SAFE_CALL(cv::compare(src1->get_mat(), src2->get_mat(), dst, cmpop));
 
@@ -177,10 +191,11 @@ Ref<CVMat> CVCore::compare(Ref<CVMat> src1, Ref<CVMat> src2, int cmpop){
 }
 
 Ref<CVMat> CVCore::convertFp16(Ref<CVMat> src){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::convertFp16(src->get_mat(), dst));
 
@@ -190,10 +205,11 @@ Ref<CVMat> CVCore::convertFp16(Ref<CVMat> src){
 }
 
 Ref<CVMat> CVCore::dct(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
 
@@ -205,24 +221,24 @@ Ref<CVMat> CVCore::dct(Ref<CVMat> src, Dictionary additional_parameters){
 }
 
 float CVCore::determinant(Ref<CVMat> mtx){
-
 	float output;
 	double defReturn;
 
-	SAFE_CALL(output = cv::determinant(mtx->get_mat()));
+	ERR_FAIL_NULL_V_MSG(mtx, output, "mtx should not be null.");
 
+	SAFE_CALL(output = cv::determinant(mtx->get_mat()));
 
 	return output;
 }
 
 Ref<CVMat> CVCore::dft(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
 
-	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, nonzeroRows, 0);
 
 	SAFE_CALL(cv::dft(src->get_mat(), dst, flags, nonzeroRows));
@@ -233,10 +249,11 @@ Ref<CVMat> CVCore::dft(Ref<CVMat> src, Dictionary additional_parameters){
 }
 
 Ref<CVMat> CVCore::exp(Ref<CVMat> src){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::exp(src->get_mat(), dst));
 
@@ -246,10 +263,11 @@ Ref<CVMat> CVCore::exp(Ref<CVMat> src){
 }
 
 Ref<CVMat> CVCore::findNonZero(Ref<CVMat> src){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat idx;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::findNonZero(src->get_mat(), idx));
 
@@ -259,10 +277,11 @@ Ref<CVMat> CVCore::findNonZero(Ref<CVMat> src){
 }
 
 Ref<CVMat> CVCore::flip(Ref<CVMat> src, int flipCode){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::flip(src->get_mat(), dst, flipCode));
 
@@ -272,21 +291,21 @@ Ref<CVMat> CVCore::flip(Ref<CVMat> src, int flipCode){
 }
 
 int CVCore::getOptimalDFTSize(int vecsize){
-
 	int output;
 	int defReturn;
 
 	SAFE_CALL(output = cv::getOptimalDFTSize(vecsize));
 
-
 	return output;
 }
 
 Ref<CVMat> CVCore::hconcat(Ref<CVMat> src1, Ref<CVMat> src2){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	SAFE_CALL(cv::hconcat(src1->get_mat(), src2->get_mat(), dst));
 
@@ -296,10 +315,11 @@ Ref<CVMat> CVCore::hconcat(Ref<CVMat> src1, Ref<CVMat> src2){
 }
 
 Ref<CVMat> CVCore::idct(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
 
@@ -311,13 +331,13 @@ Ref<CVMat> CVCore::idct(Ref<CVMat> src, Dictionary additional_parameters){
 }
 
 Ref<CVMat> CVCore::idft(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
 
-	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, nonzeroRows, 0);
 
 	SAFE_CALL(cv::idft(src->get_mat(), dst, flags, nonzeroRows));
@@ -328,24 +348,25 @@ Ref<CVMat> CVCore::idft(Ref<CVMat> src, Dictionary additional_parameters){
 }
 
 Dictionary CVCore::invert(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Dictionary output;
 	double defReturn;
 	cv::Mat dst;
 
-	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, DECOMP_LU);
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, cv::DECOMP_LU);
 
 	SAFE_CALL(defReturn = cv::invert(src->get_mat(), dst, flags));
-
 
 	return output;
 }
 
 Ref<CVMat> CVCore::log(Ref<CVMat> src){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::log(src->get_mat(), dst));
 
@@ -355,10 +376,12 @@ Ref<CVMat> CVCore::log(Ref<CVMat> src){
 }
 
 Ref<CVMat> CVCore::max(Ref<CVMat> src1, Ref<CVMat> src2){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	SAFE_CALL(cv::max(src1->get_mat(), src2->get_mat(), dst));
 
@@ -368,9 +391,10 @@ Ref<CVMat> CVCore::max(Ref<CVMat> src1, Ref<CVMat> src2){
 }
 
 Color CVCore::mean(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Color output;
 	Scalar defReturn;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
@@ -382,21 +406,20 @@ Color CVCore::mean(Ref<CVMat> src, Dictionary additional_parameters){
 }
 
 Dictionary CVCore::meanStdDev(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Dictionary output;
 	cv::Mat mean;
 	cv::Mat stddev;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
 	SAFE_CALL(cv::meanStdDev(src->get_mat(), mean, stddev, mask->get_mat()));
 
-
 	return output;
 }
 
 Ref<CVMat> CVCore::merge(Array mv){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
@@ -409,10 +432,12 @@ Ref<CVMat> CVCore::merge(Array mv){
 }
 
 Ref<CVMat> CVCore::min(Ref<CVMat> src1, Ref<CVMat> src2){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	SAFE_CALL(cv::min(src1->get_mat(), src2->get_mat(), dst));
 
@@ -423,27 +448,24 @@ Ref<CVMat> CVCore::min(Ref<CVMat> src1, Ref<CVMat> src2){
 
 void CVCore::normalize(Ref<CVMat> src, Ref<CVMat> dst, Dictionary additional_parameters){
 
+	ERR_FAIL_NULL_V_MSG(src, , "src should not be null.");
+	ERR_FAIL_NULL_V_MSG(dst, , "dst should not be null.");
 
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, alpha, 1);
-
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, beta, 0);
-
-	GET_SIMPLE_PROPERTY(int, Variant::INT, norm_type, NORM_L2);
-
+	GET_SIMPLE_PROPERTY(int, Variant::INT, norm_type, cv::NORM_L2);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
-
 	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
 	SAFE_CALL(cv::normalize(src->get_mat(), dst->get_mat(), alpha, beta, norm_type, dtype, mask->get_mat()));
-
-
 }
 
 Ref<CVMat> CVCore::pow(Ref<CVMat> src, float power){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::pow(src->get_mat(), power, dst));
 
@@ -453,10 +475,11 @@ Ref<CVMat> CVCore::pow(Ref<CVMat> src, float power){
 }
 
 Ref<CVMat> CVCore::reduce(Ref<CVMat> src, int dim, int rtype, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
 
@@ -468,10 +491,11 @@ Ref<CVMat> CVCore::reduce(Ref<CVMat> src, int dim, int rtype, Dictionary additio
 }
 
 Ref<CVMat> CVCore::repeat(Ref<CVMat> src, int ny, int nx){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::repeat(src->get_mat(), ny, nx, dst));
 
@@ -481,10 +505,11 @@ Ref<CVMat> CVCore::repeat(Ref<CVMat> src, int ny, int nx){
 }
 
 Ref<CVMat> CVCore::repeat(Ref<CVMat> src, int ny, int nx){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat defReturn;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(defReturn = cv::repeat(src->get_mat(), ny, nx));
 
@@ -494,10 +519,11 @@ Ref<CVMat> CVCore::repeat(Ref<CVMat> src, int ny, int nx){
 }
 
 Ref<CVMat> CVCore::rotate(Ref<CVMat> src, int rotateCode){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::rotate(src->get_mat(), dst, rotateCode));
 
@@ -508,30 +534,30 @@ Ref<CVMat> CVCore::rotate(Ref<CVMat> src, int rotateCode){
 
 void CVCore::setIdentity(Ref<CVMat> mtx, Dictionary additional_parameters){
 
+	ERR_FAIL_NULL_V_MSG(mtx, , "mtx should not be null.");
 
-	GET_SIMPLE_PROPERTY(Color, Variant::COLOR, s, Scalar(1));
+	GET_SIMPLE_PROPERTY(Color, Variant::COLOR, s, cv::Scalar(1));
 
 	SAFE_CALL(cv::setIdentity(mtx->get_mat(), scv::Scalar(color.b, color.g, color.r) * 255));
-
-
 }
 
 Array CVCore::split(Ref<CVMat> m){
-
 	Array output;
 	Array mv;
 
-	SAFE_CALL(cv::split(m->get_mat(), mv));
+	ERR_FAIL_NULL_V_MSG(m, output, "m should not be null.");
 
+	SAFE_CALL(cv::split(m->get_mat(), mv));
 
 	return output;
 }
 
 Ref<CVMat> CVCore::sqrt(Ref<CVMat> src){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::sqrt(src->get_mat(), dst));
 
@@ -541,13 +567,14 @@ Ref<CVMat> CVCore::sqrt(Ref<CVMat> src){
 }
 
 Ref<CVMat> CVCore::subtract(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
 
-	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
 
 	SAFE_CALL(cv::subtract(src1->get_mat(), src2->get_mat(), dst, mask->get_mat(), dtype));
@@ -558,10 +585,11 @@ Ref<CVMat> CVCore::subtract(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additio
 }
 
 Ref<CVMat> CVCore::transpose(Ref<CVMat> src){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::transpose(src->get_mat(), dst));
 
@@ -571,10 +599,12 @@ Ref<CVMat> CVCore::transpose(Ref<CVMat> src){
 }
 
 Ref<CVMat> CVCore::vconcat(Ref<CVMat> src1, Ref<CVMat> src2){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src1, output, "src1 should not be null.");
+	ERR_FAIL_NULL_V_MSG(src2, output, "src2 should not be null.");
 
 	SAFE_CALL(cv::vconcat(src1->get_mat(), src2->get_mat(), dst));
 
@@ -584,21 +614,22 @@ Ref<CVMat> CVCore::vconcat(Ref<CVMat> src1, Ref<CVMat> src2){
 }
 
 int CVCore::countNonZero(Ref<CVMat> src){
-
 	int output;
 	int defReturn;
 
-	SAFE_CALL(output = cv::countNonZero(src->get_mat()));
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
+	SAFE_CALL(output = cv::countNonZero(src->get_mat()));
 
 	return output;
 }
 
 Ref<CVMat> CVCore::flip(Ref<CVMat> src, int flipCode){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::flip(src->get_mat(), dst, flipCode));
 
@@ -608,24 +639,26 @@ Ref<CVMat> CVCore::flip(Ref<CVMat> src, int flipCode){
 }
 
 Dictionary CVCore::invert(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Dictionary output;
 	double defReturn;
 	cv::Mat dst;
 
-	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, DECOMP_LU);
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, cv::DECOMP_LU);
 
 	SAFE_CALL(defReturn = cv::invert(src->get_mat(), dst, flags));
-
 
 	return output;
 }
 
 Ref<CVMat> CVCore::LUT(Ref<CVMat> src, Ref<CVMat> lut){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+	ERR_FAIL_NULL_V_MSG(lut, output, "lut should not be null.");
 
 	SAFE_CALL(cv::LUT(src->get_mat(), lut->get_mat(), dst));
 
@@ -635,9 +668,10 @@ Ref<CVMat> CVCore::LUT(Ref<CVMat> src, Ref<CVMat> lut){
 }
 
 Color CVCore::mean(Ref<CVMat> src, Dictionary additional_parameters){
-
 	Color output;
 	Scalar defReturn;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
@@ -649,7 +683,6 @@ Color CVCore::mean(Ref<CVMat> src, Dictionary additional_parameters){
 }
 
 Ref<CVMat> CVCore::merge(Array mv){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
@@ -662,9 +695,10 @@ Ref<CVMat> CVCore::merge(Array mv){
 }
 
 Color CVCore::sum(Ref<CVMat> src){
-
 	Color output;
 	Scalar defReturn;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(defReturn = cv::sum(src->get_mat()));
 
@@ -674,9 +708,10 @@ Color CVCore::sum(Ref<CVMat> src){
 }
 
 Color CVCore::trace(Ref<CVMat> mtx){
-
 	Color output;
 	Scalar defReturn;
+
+	ERR_FAIL_NULL_V_MSG(mtx, output, "mtx should not be null.");
 
 	SAFE_CALL(defReturn = cv::trace(mtx->get_mat()));
 
@@ -686,10 +721,12 @@ Color CVCore::trace(Ref<CVMat> mtx){
 }
 
 Ref<CVMat> CVCore::transform(Ref<CVMat> src, Ref<CVMat> m){
-
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+	ERR_FAIL_NULL_V_MSG(m, output, "m should not be null.");
 
 	SAFE_CALL(cv::transform(src->get_mat(), dst, m->get_mat()));
 

@@ -112,7 +112,6 @@ def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, m
 	callReturn = "" if methodOutputType ==  "void" else f"{returnName} = "
 
 	codeLinesList.append(re.sub(re.escape(methodName) + r"\(", f"{className}::{methodName}(",headerLine[:-1]) + "{")
-	codeLinesList.append("")
 
 	if len(outputs) != 0:
 		codeLinesList.append(f"	{GetOrDefault(outputType, input2Output)} output;")
@@ -124,36 +123,45 @@ def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, m
 		defaultValue = f"= {i[2]}" if len(i) == 3 else ""
 		codeLinesList.append(f"	{GetOrDefault(type, openCVOutputTypes)} {i[1]}{defaultValue};")
 	
-	# addtionalParameters
-	for ad in addtionalParameters:
+	# Check inputs
+	checkNNInputs = [a for a in filteredInputs if "Ref" in GetOrDefault(a[0], input2Output)]
+	outputName = "output" if outputType != "void" else ""
+	if len(checkNNInputs) > 0:
 		codeLinesList.append("")
+	for inp in checkNNInputs:
+		codeLinesList.append(f"	ERR_FAIL_NULL_V_MSG({inp[1]}, {outputName}, \"{inp[1]} should not be null.\");")
+
+	# Addtional Parameters
+	if len(addtionalParameters) > 0:
+		codeLinesList.append("")
+	for ad in addtionalParameters:
 		if "Ref" in ad[0]:
 			codeLinesList.append(f"	GET_OBJECT_PROPERTY({ad[0]}, {ad[1]});")
 		else:
-			codeLinesList.append(f"	GET_SIMPLE_PROPERTY({ad[0]}, Variant::{ad[0].upper()}, {ad[1]}, {ad[2]});")
+			default = ad[2] if re.match(r"-?[\d.]+|true|false", ad[2]) else f"cv::{ad[2]}"
+			codeLinesList.append(f"	GET_SIMPLE_PROPERTY({ad[0]}, Variant::{ad[0].upper()}, {ad[1]}, {default});")
 
 
 	codeLinesList.append("")
 
 	codeLinesList.append(f"	SAFE_CALL({callReturn}{methodCall}({methodInputs}));")
-		
-	codeLinesList.append("")
 
 	## convertOutput
 	if len(outputs) == 1:
 		so = outputs[0][1]
 		if GetOrDefault(outputs[0][0], input2Output) == "Ref<CVMat>":
+			codeLinesList.append("")
 			codeLinesList.append(f"	output->set_mat({so});")
 		if GetOrDefault(outputs[0][0], input2Output) == "Color":
+			codeLinesList.append("")
 			codeLinesList.append(f"	output = Color({so}[0], {so}[1], {so}[2]);")
 	else:
 		for i in outputs:
 			if i[0] == "Ref<CVMat>":
 				codeLinesList.append(f"	out{i[1]}->set_mat({i[1]});")
-
-	codeLinesList.append("")
 	
 	if len(outputs) != 0:
+		codeLinesList.append("")
 		codeLinesList.append("	return output;")
 
 	codeLinesList.append("}")
