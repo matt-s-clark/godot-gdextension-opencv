@@ -28,3 +28,16 @@
 							#variable, " expected to be of type ", #type, ", ignoring property")); \
 		}                                                                                          \
 	}
+
+#define GET_OBJECT_PROPERTY(type, variable)                                          \
+	type variable = type();                                                                   \
+	\               
+	 if (additional_parameters.has(#variable)) {                                                   \
+		if (additional_parameters[#variable].get_type() == Variant::OBJECT) {                                 \
+			variable = additional_parameters[#variable];                                           \
+		} else {                                                                                   \
+			UtilityFunctions::push_warning(                                                        \
+					UtilityFunctions::str(                                                         \
+							#variable, " expected to be of type ", #type, ", ignoring property")); \
+		}                                                                                          \
+	}

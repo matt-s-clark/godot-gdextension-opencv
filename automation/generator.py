@@ -51,7 +51,8 @@ def ProcessTokens(line : str):
 
 def GenerateHeaderLine(methodOutputType, methodName, inputs):
 	filteredInputs = []
-	addtionalParameters = False
+	hasAddtionalParameters = False
+	addtionalParameters = []
 	outputs = [[ methodOutputType, "defReturn" ]] if methodOutputType != "void" else []
 
 	for input in inputs:
@@ -63,17 +64,20 @@ def GenerateHeaderLine(methodOutputType, methodName, inputs):
 
 		if len(input) == 2:
 			newInput = [GetOrDefault(input[0], input2Output)]
-			newInput.extend(input[1:])
+			newInput.append(input[1])
 			filteredInputs.append(newInput)
 		
 		if len(input) == 3:
-			addtionalParameters = True
+			newInput = [GetOrDefault(input[0], input2Output)]
+			newInput.extend(input[1:])
+			addtionalParameters.append(newInput)
+			hasAddtionalParameters = True
 
 		if len(input) < 2 or len(input) > 3:
 			print("-------- Error --------")
 			break
 	
-	if addtionalParameters:
+	if hasAddtionalParameters:
 		filteredInputs.append(["Dictionary", "additional_parameters"])
 
 	updatedInputs = ", ".join( map(lambda i : f"{i[0]} {i[1]}" ,filteredInputs) )
@@ -89,7 +93,7 @@ def GenerateHeaderLine(methodOutputType, methodName, inputs):
 
 	outputLine = f"{GetOrDefault(outputType, input2Output)} {methodName}({updatedInputs});"
 
-	return outputLine, filteredInputs, outputs, addtionalParameters, outputType
+	return outputLine, filteredInputs, outputs, hasAddtionalParameters, addtionalParameters, outputType
 
 def GenerateBinding(isStatic, className, methodName, inputs):
 	processedInputs = ""
@@ -100,7 +104,7 @@ def GenerateBinding(isStatic, className, methodName, inputs):
 	else:
 		return f"	ClassDB::bind_method( D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
 
-def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType):
+def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters):
 	codeLinesList = []
 	methodCall = f"cv::{methodName}" if isStatic else "---- Not Implemented ----"
 	methodInputs = ", ".join([i[1] + processingLine[i[0]] if i[0] in processingLine else i[1] for i in inputs])
@@ -120,6 +124,15 @@ def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, m
 		defaultValue = f"= {i[2]}" if len(i) == 3 else ""
 		codeLinesList.append(f"	{GetOrDefault(type, openCVOutputTypes)} {i[1]}{defaultValue};")
 	
+	# addtionalParameters
+	for ad in addtionalParameters:
+		codeLinesList.append("")
+		if "Ref" in ad[0]:
+			codeLinesList.append(f"	GET_OBJECT_PROPERTY({ad[0]}, {ad[1]});")
+		else:
+			codeLinesList.append(f"	GET_SIMPLE_PROPERTY({ad[0]}, Variant::{ad[0].upper()}, {ad[1]}, {ad[2]});")
+
+
 	codeLinesList.append("")
 
 	codeLinesList.append(f"	SAFE_CALL({callReturn}{methodCall}({methodInputs}));")
@@ -167,9 +180,9 @@ for line in inputHeader:
 
 	methodOutputType, methodName, inputs, isStatic = ProcessTokens(line)
 	isStatic = isStaticClass or isStatic
-	headerLine, filteredInputs, outputs, addtionalParameters, outputType = GenerateHeaderLine(methodOutputType, methodName, inputs)
+	headerLine, filteredInputs, outputs, hasAddtionalParameters, addtionalParameters, outputType = GenerateHeaderLine(methodOutputType, methodName, inputs)
 	binding = GenerateBinding(isStatic, className, methodName, filteredInputs)
-	methodImplementation = GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType)
+	methodImplementation = GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters)
 
 	headerLines.append(headerLine)
 	bindingLines.append(binding)

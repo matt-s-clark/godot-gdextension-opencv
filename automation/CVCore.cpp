@@ -77,6 +77,10 @@ Ref<CVMat> CVCore::add(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_p
 	output.instantiate();
 	cv::Mat dst;
 
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
+
 	SAFE_CALL(cv::add(src1->get_mat(), src2->get_mat(), dst, mask->get_mat(), dtype));
 
 	output->set_mat(dst);
@@ -89,6 +93,8 @@ Ref<CVMat> CVCore::addWeighted(Ref<CVMat> src1, float alpha, Ref<CVMat> src2, fl
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
 
 	SAFE_CALL(cv::addWeighted(src1->get_mat(), alpha, src2->get_mat(), beta, gamma, dst, dtype));
 
@@ -103,6 +109,8 @@ Ref<CVMat> CVCore::bitwise_and(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary addi
 	output.instantiate();
 	cv::Mat dst;
 
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+
 	SAFE_CALL(cv::bitwise_and(src1->get_mat(), src2->get_mat(), dst, mask->get_mat()));
 
 	output->set_mat(dst);
@@ -115,6 +123,8 @@ Ref<CVMat> CVCore::bitwise_not(Ref<CVMat> src, Dictionary additional_parameters)
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
 	SAFE_CALL(cv::bitwise_not(src->get_mat(), dst, mask->get_mat()));
 
@@ -129,6 +139,8 @@ Ref<CVMat> CVCore::bitwise_or(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary addit
 	output.instantiate();
 	cv::Mat dst;
 
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+
 	SAFE_CALL(cv::bitwise_or(src1->get_mat(), src2->get_mat(), dst, mask->get_mat()));
 
 	output->set_mat(dst);
@@ -141,6 +153,8 @@ Ref<CVMat> CVCore::bitwise_xor(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary addi
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
 	SAFE_CALL(cv::bitwise_xor(src1->get_mat(), src2->get_mat(), dst, mask->get_mat()));
 
@@ -181,6 +195,8 @@ Ref<CVMat> CVCore::dct(Ref<CVMat> src, Dictionary additional_parameters){
 	output.instantiate();
 	cv::Mat dst;
 
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
+
 	SAFE_CALL(cv::dct(src->get_mat(), dst, flags));
 
 	output->set_mat(dst);
@@ -204,6 +220,10 @@ Ref<CVMat> CVCore::dft(Ref<CVMat> src, Dictionary additional_parameters){
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, nonzeroRows, 0);
 
 	SAFE_CALL(cv::dft(src->get_mat(), dst, flags, nonzeroRows));
 
@@ -281,6 +301,8 @@ Ref<CVMat> CVCore::idct(Ref<CVMat> src, Dictionary additional_parameters){
 	output.instantiate();
 	cv::Mat dst;
 
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
+
 	SAFE_CALL(cv::idct(src->get_mat(), dst, flags));
 
 	output->set_mat(dst);
@@ -294,6 +316,10 @@ Ref<CVMat> CVCore::idft(Ref<CVMat> src, Dictionary additional_parameters){
 	output.instantiate();
 	cv::Mat dst;
 
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, nonzeroRows, 0);
+
 	SAFE_CALL(cv::idft(src->get_mat(), dst, flags, nonzeroRows));
 
 	output->set_mat(dst);
@@ -306,6 +332,8 @@ Dictionary CVCore::invert(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
 	double defReturn;
 	cv::Mat dst;
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, DECOMP_LU);
 
 	SAFE_CALL(defReturn = cv::invert(src->get_mat(), dst, flags));
 
@@ -344,6 +372,8 @@ Color CVCore::mean(Ref<CVMat> src, Dictionary additional_parameters){
 	Color output;
 	Scalar defReturn;
 
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+
 	SAFE_CALL(defReturn = cv::mean(src->get_mat(), mask->get_mat()));
 
 	output = Color(defReturn[0], defReturn[1], defReturn[2]);
@@ -356,6 +386,8 @@ Dictionary CVCore::meanStdDev(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
 	cv::Mat mean;
 	cv::Mat stddev;
+
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
 	SAFE_CALL(cv::meanStdDev(src->get_mat(), mean, stddev, mask->get_mat()));
 
@@ -392,6 +424,16 @@ Ref<CVMat> CVCore::min(Ref<CVMat> src1, Ref<CVMat> src2){
 void CVCore::normalize(Ref<CVMat> src, Ref<CVMat> dst, Dictionary additional_parameters){
 
 
+	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, alpha, 1);
+
+	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, beta, 0);
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, norm_type, NORM_L2);
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
+
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+
 	SAFE_CALL(cv::normalize(src->get_mat(), dst->get_mat(), alpha, beta, norm_type, dtype, mask->get_mat()));
 
 
@@ -415,6 +457,8 @@ Ref<CVMat> CVCore::reduce(Ref<CVMat> src, int dim, int rtype, Dictionary additio
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
 
 	SAFE_CALL(cv::reduce(src->get_mat(), dst, dim, rtype, dtype));
 
@@ -465,6 +509,8 @@ Ref<CVMat> CVCore::rotate(Ref<CVMat> src, int rotateCode){
 void CVCore::setIdentity(Ref<CVMat> mtx, Dictionary additional_parameters){
 
 
+	GET_SIMPLE_PROPERTY(Color, Variant::COLOR, s, Scalar(1));
+
 	SAFE_CALL(cv::setIdentity(mtx->get_mat(), scv::Scalar(color.b, color.g, color.r) * 255));
 
 
@@ -499,6 +545,10 @@ Ref<CVMat> CVCore::subtract(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additio
 	Ref<CVMat> output;
 	output.instantiate();
 	cv::Mat dst;
+
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, dtype, -1);
 
 	SAFE_CALL(cv::subtract(src1->get_mat(), src2->get_mat(), dst, mask->get_mat(), dtype));
 
@@ -563,6 +613,8 @@ Dictionary CVCore::invert(Ref<CVMat> src, Dictionary additional_parameters){
 	double defReturn;
 	cv::Mat dst;
 
+	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, DECOMP_LU);
+
 	SAFE_CALL(defReturn = cv::invert(src->get_mat(), dst, flags));
 
 
@@ -586,6 +638,8 @@ Color CVCore::mean(Ref<CVMat> src, Dictionary additional_parameters){
 
 	Color output;
 	Scalar defReturn;
+
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
 	SAFE_CALL(defReturn = cv::mean(src->get_mat(), mask->get_mat()));
 
