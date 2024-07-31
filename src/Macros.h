@@ -16,11 +16,11 @@
 		}                                                                                                   \
 	}
 
-#define GET_SIMPLE_PROPERTY(type, godotType, variable, defaultValue)                                          \
-	type variable = defaultValue;                                                                   \
+#define GET_SIMPLE_PROPERTY(type, godotType, variable, defaultValue)                               \
+	type variable = defaultValue;                                                                  \
 	\               
 	 if (additional_parameters.has(#variable)) {                                                   \
-		if (additional_parameters[#variable].get_type() == godotType) {                                 \
+		if (additional_parameters[#variable].get_type() == godotType) {                            \
 			variable = additional_parameters[#variable];                                           \
 		} else {                                                                                   \
 			UtilityFunctions::push_warning(                                                        \
@@ -29,15 +29,20 @@
 		}                                                                                          \
 	}
 
-#define GET_OBJECT_PROPERTY(type, variable)                                          \
-	type variable = type();                                                                   \
+#define GET_OBJECT_PROPERTY(type, variable)                                                        \
+	type variable = type();                                                                        \
 	\               
 	 if (additional_parameters.has(#variable)) {                                                   \
-		if (additional_parameters[#variable].get_type() == Variant::OBJECT) {                                 \
+		if (additional_parameters[#variable].get_type() == Variant::OBJECT) {                      \
 			variable = additional_parameters[#variable];                                           \
 		} else {                                                                                   \
 			UtilityFunctions::push_warning(                                                        \
 					UtilityFunctions::str(                                                         \
 							#variable, " expected to be of type ", #type, ", ignoring property")); \
 		}                                                                                          \
-	}
+	}                                                                                              \
+                                                                                                   \
+	if (variable.is_null()) {                                                                      \
+		variable.instantiate();                                                                    \
+	}                                                                                              \
+	

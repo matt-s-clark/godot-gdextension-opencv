@@ -14,6 +14,7 @@ openCVOutputTypes = {
 }
 input2Output = {
 	"double":"float",
+	"size_t": "int",
 }
 input2Output.update(openCVInputTypes)
 input2Output.update(openCVOutputTypes)
@@ -37,8 +38,8 @@ def GetOrDefault(val : str, list : dict):
 
 def ProcessTokens(line : str):
 	isStatic = bool(re.match(r"static ", line))
-	line = re.sub(r"([\w\d]+::)|const |&|static ", "", line)
-	inputs = re.search(r"(?<=\()[\w\d ,_()=\-&]*(?=\))", line)
+	line = re.sub(r"([\w\d]+::)|const |&|static |(?<=<) | (?=>) ", "", line)
+	inputs = re.search(r"(?<=\()[\w\d ,_()=\-&*\.<>]+(?=\))", line)
 	split = line.split()
 	methodOutputType = split[0]
 	methodName = split[1]
@@ -46,6 +47,9 @@ def ProcessTokens(line : str):
 	if inputs:
 		inputs = inputs.group().split(", ")
 		inputs = [re.split(r"=| ", i) for i in inputs]
+	else:
+		inputs = []
+		print("No inputs ", line)
 
 	return methodOutputType, methodName, inputs, isStatic
 
@@ -74,7 +78,7 @@ def GenerateHeaderLine(methodOutputType, methodName, inputs):
 			hasAddtionalParameters = True
 
 		if len(input) < 2 or len(input) > 3:
-			print("-------- Error --------")
+			print("Failed input ", input)
 			break
 	
 	if hasAddtionalParameters:
@@ -121,7 +125,8 @@ def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, m
 	for i in outputs:
 		type = initializingType[i[0]] if i[0] in initializingType else i[0]
 		defaultValue = f"= {i[2]}" if len(i) == 3 else ""
-		codeLinesList.append(f"	{GetOrDefault(type, openCVOutputTypes)} {i[1]}{defaultValue};")
+		_type = ("cv::" if type == "Scalar" else "") + GetOrDefault(type, openCVOutputTypes)
+		codeLinesList.append(f"	{_type} {i[1]}{defaultValue};")
 	
 	# Check inputs
 	checkNNInputs = [a for a in filteredInputs if "Ref" in GetOrDefault(a[0], input2Output)]
@@ -184,6 +189,8 @@ implementationLines = []
 
 for line in inputHeader:
 	if line == "\n":
+		continue
+	if line[0] == "#":
 		continue
 
 	methodOutputType, methodName, inputs, isStatic = ProcessTokens(line)
