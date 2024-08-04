@@ -47,6 +47,9 @@ def ProcessTokens(line : str):
 	split = line.split()
 	methodOutputType = split[0]
 	methodName = split[1]
+	filteredInputs = []
+	addtionalParameters = []
+	outputs = [[ methodOutputType, "defReturn" ]] if methodOutputType != "void" else []
 
 	if inputs:
 		inputs = inputs.group().split(", ")
@@ -54,14 +57,6 @@ def ProcessTokens(line : str):
 	else:
 		inputs = []
 		print("No inputs ", line)
-
-	return methodOutputType, methodName, inputs, isStatic
-
-def GenerateHeaderLine(methodOutputType, methodName, inputs):
-	filteredInputs = []
-	hasAddtionalParameters = False
-	addtionalParameters = []
-	outputs = [[ methodOutputType, "defReturn" ]] if methodOutputType != "void" else []
 
 	for input in inputs:
 		if input[0] in openCVOutputTypes:
@@ -79,16 +74,13 @@ def GenerateHeaderLine(methodOutputType, methodName, inputs):
 			newInput = [GetOrDefault(input[0], input2Output)]
 			newInput.extend(input[1:])
 			addtionalParameters.append(newInput)
-			hasAddtionalParameters = True
 
 		if len(input) < 2 or len(input) > 3:
 			print("Failed input ", input)
 			break
 	
-	if hasAddtionalParameters:
+	if len(addtionalParameters):
 		filteredInputs.append(["Dictionary", "additional_parameters"])
-
-	updatedInputs = ", ".join( map(lambda i : f"{i[0]} {i[1]}" ,filteredInputs) )
 
 	outputType = "-------- Error --------"
 
@@ -99,9 +91,14 @@ def GenerateHeaderLine(methodOutputType, methodName, inputs):
 	else:
 		outputType = outputs[0][0]
 
+	return methodOutputType, methodName, inputs, isStatic, filteredInputs, outputs, addtionalParameters, outputType
+
+def GenerateHeaderLine(methodName, filteredInputs):
+	updatedInputs = ", ".join( map(lambda i : f"{i[0]} {i[1]}" ,filteredInputs) )
+
 	outputLine = f"{GetOrDefault(outputType, input2Output)} {methodName}({updatedInputs});"
 
-	return outputLine, filteredInputs, outputs, hasAddtionalParameters, addtionalParameters, outputType
+	return outputLine
 
 def GenerateBinding(isStatic, className, methodName, inputs):
 	processedInputs = ""
@@ -196,9 +193,11 @@ for line in inputHeader:
 	if line[0] == "#":
 		continue
 
-	methodOutputType, methodName, inputs, isStatic = ProcessTokens(line)
+	methodOutputType, methodName, inputs, \
+	isStatic, filteredInputs, outputs, \
+	addtionalParameters, outputType = ProcessTokens(line)
 	isStatic = isStaticClass or isStatic
-	headerLine, filteredInputs, outputs, hasAddtionalParameters, addtionalParameters, outputType = GenerateHeaderLine(methodOutputType, methodName, inputs)
+	headerLine = GenerateHeaderLine(methodName, filteredInputs)
 	binding = GenerateBinding(isStatic, className, methodName, filteredInputs)
 	methodImplementation = GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters)
 
