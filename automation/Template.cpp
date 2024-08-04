@@ -1,6 +1,7 @@
 #include "<ClassName>.h"
 
 using namespace godot;
+using namespace cv;
 
 void <ClassName>::_bind_methods() {
 <Bindings>
@@ -14,6 +15,6 @@ void <ClassName>::_bind_methods() {
 
 <Implementation>
 
-String <ClassName>::_to_string() const {
+godot::String <ClassName>::_to_string() const {
 	return "[ <ClassName> Module ]";
 }

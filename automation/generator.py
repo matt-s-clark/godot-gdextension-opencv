@@ -20,17 +20,21 @@ input2Output.update(openCVInputTypes)
 input2Output.update(openCVOutputTypes)
 
 processingLine = {
-	"Mat": f"->get_mat()",
-	"InputArray": f"->get_mat()",
-	"InputOutputArray": f"->get_mat()",
-	"Scalar": f"cv::Scalar(color.b, color.g, color.r) * 255" ## Simplify
+	"Mat": "{0}->get_mat()",
+	"InputArray": "{0}->get_mat()",
+	"InputOutputArray": "{0}->get_mat()",
+	"Scalar": "Scalar({0}.b, {0}.g, {0}.r) * 255" ## Simplify
 }
 initializingType = {
-	"Mat":"cv::Mat",
-	"InputArray":"cv::Mat",
-	"InputOutputArray":"cv::Mat",
-	"OutputArray": "cv::Mat",
+	"Mat":"Mat",
+	"InputArray":"Mat",
+	"InputOutputArray":"Mat",
+	"OutputArray": "Mat",
 }
+addParamConversion = {
+	"noArray()":"Mat()",
+}
+convertibleTypes = ["Color"]
 
 def GetOrDefault(val : str, list : dict):
 	tmp = list.get(val)
@@ -38,7 +42,7 @@ def GetOrDefault(val : str, list : dict):
 
 def ProcessTokens(line : str):
 	isStatic = bool(re.match(r"static ", line))
-	line = re.sub(r"([\w\d]+::)|const |&|static |(?<=<) | (?=>) ", "", line)
+	line = re.sub(r"([\w\d]+::)|const |&|static |(?<=<) | (?=>)|\*", "", line)
 	inputs = re.search(r"(?<=\()[\w\d ,_()=\-&*\.<>]+(?=\))", line)
 	split = line.split()
 	methodOutputType = split[0]
@@ -111,7 +115,7 @@ def GenerateBinding(isStatic, className, methodName, inputs):
 def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters):
 	codeLinesList = []
 	methodCall = f"cv::{methodName}" if isStatic else "---- Not Implemented ----"
-	methodInputs = ", ".join([i[1] + processingLine[i[0]] if i[0] in processingLine else i[1] for i in inputs])
+	methodInputs = ", ".join([processingLine[i[0]].format(i[1]) if i[0] in processingLine else i[1] for i in inputs])
 	returnName = "output" if len(outputs) == 1 and outputs[0][0] not in openCVInputTypes else "defReturn"
 	callReturn = "" if methodOutputType ==  "void" else f"{returnName} = "
 
@@ -124,9 +128,8 @@ def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, m
 	
 	for i in outputs:
 		type = initializingType[i[0]] if i[0] in initializingType else i[0]
-		defaultValue = f"= {i[2]}" if len(i) == 3 else ""
-		_type = ("cv::" if type == "Scalar" else "") + GetOrDefault(type, openCVOutputTypes)
-		codeLinesList.append(f"	{_type} {i[1]}{defaultValue};")
+		defaultValue = f" = {GetOrDefault(i[2], addParamConversion)}" if len(i) == 3 else ""
+		codeLinesList.append(f"	{GetOrDefault(type, openCVOutputTypes)} {i[1]}{defaultValue};")
 	
 	# Check inputs
 	checkNNInputs = [a for a in filteredInputs if "Ref" in GetOrDefault(a[0], input2Output)]
@@ -143,7 +146,7 @@ def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, m
 		if "Ref" in ad[0]:
 			codeLinesList.append(f"	GET_OBJECT_PROPERTY({ad[0]}, {ad[1]});")
 		else:
-			default = ad[2] if re.match(r"-?[\d.]+|true|false", ad[2]) else f"cv::{ad[2]}"
+			default = ad[2] if ad[0] not in convertibleTypes else f"{ad[0]}()"
 			codeLinesList.append(f"	GET_SIMPLE_PROPERTY({ad[0]}, Variant::{ad[0].upper()}, {ad[1]}, {default});")
 
 
