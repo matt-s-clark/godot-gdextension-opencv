@@ -128,10 +128,11 @@ func test_min():
 	
 func test_normalize():
 	var mat1 := CVMat.ones(3, 3, CVConsts.MatType.CV_32F)
+	var mat2 := CVMat.zeros(3, 3, CVConsts.MatType.CV_32F)
 	
-	##var mat2 := CVCore.normalize(mat1, {})
+	CVCore.normalize(mat1, mat2, {})
 	
-	##assert_almost_eq(mat2.get_at(0,0), 0.333, 0.001)
+	assert_almost_eq(mat2.get_at(0,0), 0.333, 0.001)
 	
 func test_sqrt():
 	var mat1 := CVMat.ones(3, 3, CVConsts.MatType.CV_32F)

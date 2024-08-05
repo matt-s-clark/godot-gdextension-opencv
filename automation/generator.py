@@ -127,6 +127,11 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 
 	if len(outputs) != 0:
 		codeLinesList.append(f"	{GetOrDefault(outputType, input2Output)} output;")
+
+		if len(outputs) > 1:
+			for ou in outputs:
+				if GetOrDefault(ou[0], input2Output) == "Ref<CVMat>":
+					codeLinesList.append(f"	{GetOrDefault(ou[0], input2Output)} out{ou[1]};")
 		if len(outputs) == 1 and GetOrDefault(outputs[0][0], input2Output) == "Ref<CVMat>":
 			codeLinesList.append(f"	output.instantiate();")
 	
@@ -167,11 +172,20 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 		if GetOrDefault(outputs[0][0], input2Output) == "Color":
 			codeLinesList.append("")
 			codeLinesList.append(f"	output = Color({so}[0], {so}[1], {so}[2]);")
-	else:
+	elif len(outputs) > 1:
+		codeLinesList.append("")
 		for i in outputs:
-			if i[0] == "Ref<CVMat>":
+			if GetOrDefault(i[0], input2Output) == "Ref<CVMat>":
 				codeLinesList.append(f"	out{i[1]}->set_mat({i[1]});")
-	
+		
+		codeLinesList.append("")
+		
+		for i in outputs:
+			if GetOrDefault(i[0], input2Output) == "Ref<CVMat>":
+				codeLinesList.append(f"	output[\"{i[1]}\"] = out{i[1]};")
+			else:
+				codeLinesList.append(f"	output[\"{i[1]}\"] = {i[1]};")
+
 	if len(outputs) != 0:
 		codeLinesList.append("")
 		codeLinesList.append("	return output;")

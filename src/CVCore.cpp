@@ -143,6 +143,8 @@ Ref<CVMat> CVCore::add_weighted(Ref<CVMat> src1, float alpha, Ref<CVMat> src2, f
 
 Dictionary CVCore::batch_distance(Ref<CVMat> src1, Ref<CVMat> src2, int dtype, Dictionary additional_parameters){
 	Dictionary output;
+	Ref<CVMat> outdist;
+	Ref<CVMat> outnidx;
 	Mat dist;
 	Mat nidx;
 
@@ -156,6 +158,12 @@ Dictionary CVCore::batch_distance(Ref<CVMat> src1, Ref<CVMat> src2, int dtype, D
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, crosscheck, false);
 
 	SAFE_CALL(cv::batchDistance(src1->get_mat(), src2->get_mat(), dist, dtype, nidx, normType, K, mask->get_mat(), update, crosscheck));
+
+	outdist->set_mat(dist);
+	outnidx->set_mat(nidx);
+
+	output["dist"] = outdist;
+	output["nidx"] = outnidx;
 
 	return output;
 }
@@ -255,6 +263,8 @@ Ref<CVMat> CVCore::calc_covar_matrix(Ref<CVMat> samples, Ref<CVMat> mean, int fl
 
 Dictionary CVCore::cart_to_polar(Ref<CVMat> x, Ref<CVMat> y, Dictionary additional_parameters){
 	Dictionary output;
+	Ref<CVMat> outmagnitude;
+	Ref<CVMat> outangle;
 	Mat magnitude;
 	Mat angle;
 
@@ -264,6 +274,12 @@ Dictionary CVCore::cart_to_polar(Ref<CVMat> x, Ref<CVMat> y, Dictionary addition
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, angleInDegrees, false);
 
 	SAFE_CALL(cv::cartToPolar(x->get_mat(), y->get_mat(), magnitude, angle, angleInDegrees));
+
+	outmagnitude->set_mat(magnitude);
+	outangle->set_mat(angle);
+
+	output["magnitude"] = outmagnitude;
+	output["angle"] = outangle;
 
 	return output;
 }
@@ -413,6 +429,8 @@ Ref<CVMat> CVCore::divide(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additiona
 
 Dictionary CVCore::eigen(Ref<CVMat> src){
 	Dictionary output;
+	Ref<CVMat> outeigenvalues;
+	Ref<CVMat> outeigenvectors;
 	bool defReturn;
 	Mat eigenvalues;
 	Mat eigenvectors = Mat();
@@ -421,17 +439,32 @@ Dictionary CVCore::eigen(Ref<CVMat> src){
 
 	SAFE_CALL(defReturn = cv::eigen(src->get_mat(), eigenvalues, eigenvectors));
 
+	outeigenvalues->set_mat(eigenvalues);
+	outeigenvectors->set_mat(eigenvectors);
+
+	output["defReturn"] = defReturn;
+	output["eigenvalues"] = outeigenvalues;
+	output["eigenvectors"] = outeigenvectors;
+
 	return output;
 }
 
 Dictionary CVCore::eigen_non_symmetric(Ref<CVMat> src){
 	Dictionary output;
+	Ref<CVMat> outeigenvalues;
+	Ref<CVMat> outeigenvectors;
 	Mat eigenvalues;
 	Mat eigenvectors;
 
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	SAFE_CALL(cv::eigenNonSymmetric(src->get_mat(), eigenvalues, eigenvectors));
+
+	outeigenvalues->set_mat(eigenvalues);
+	outeigenvectors->set_mat(eigenvectors);
+
+	output["eigenvalues"] = outeigenvalues;
+	output["eigenvectors"] = outeigenvectors;
 
 	return output;
 }
@@ -593,6 +626,7 @@ void CVCore::insert_channel(Ref<CVMat> src, Ref<CVMat> dst, int coi){
 
 Dictionary CVCore::invert(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
+	Ref<CVMat> outdst;
 	double defReturn;
 	Mat dst;
 
@@ -601,6 +635,11 @@ Dictionary CVCore::invert(Ref<CVMat> src, Dictionary additional_parameters){
 	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, DECOMP_LU);
 
 	SAFE_CALL(defReturn = cv::invert(src->get_mat(), dst, flags));
+
+	outdst->set_mat(dst);
+
+	output["defReturn"] = defReturn;
+	output["dst"] = outdst;
 
 	return output;
 }
@@ -694,6 +733,8 @@ Color CVCore::mean(Ref<CVMat> src, Dictionary additional_parameters){
 
 Dictionary CVCore::mean_std_dev(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
+	Ref<CVMat> outmean;
+	Ref<CVMat> outstddev;
 	Mat mean;
 	Mat stddev;
 
@@ -702,6 +743,12 @@ Dictionary CVCore::mean_std_dev(Ref<CVMat> src, Dictionary additional_parameters
 	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
 
 	SAFE_CALL(cv::meanStdDev(src->get_mat(), mean, stddev, mask->get_mat()));
+
+	outmean->set_mat(mean);
+	outstddev->set_mat(stddev);
+
+	output["mean"] = outmean;
+	output["stddev"] = outstddev;
 
 	return output;
 }
@@ -892,6 +939,8 @@ Ref<CVMat> CVCore::phase(Ref<CVMat> x, Ref<CVMat> y, Dictionary additional_param
 
 Dictionary CVCore::polar_to_cart(Ref<CVMat> magnitude, Ref<CVMat> angle, Dictionary additional_parameters){
 	Dictionary output;
+	Ref<CVMat> outx;
+	Ref<CVMat> outy;
 	Mat x;
 	Mat y;
 
@@ -901,6 +950,12 @@ Dictionary CVCore::polar_to_cart(Ref<CVMat> magnitude, Ref<CVMat> angle, Diction
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, angleInDegrees, false);
 
 	SAFE_CALL(cv::polarToCart(magnitude->get_mat(), angle->get_mat(), x, y, angleInDegrees));
+
+	outx->set_mat(x);
+	outy->set_mat(y);
+
+	output["x"] = outx;
+	output["y"] = outy;
 
 	return output;
 }
@@ -1026,6 +1081,7 @@ void CVCore::set_rng_seed(int seed){
 
 Dictionary CVCore::solve(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters){
 	Dictionary output;
+	Ref<CVMat> outdst;
 	bool defReturn;
 	Mat dst;
 
@@ -1036,11 +1092,17 @@ Dictionary CVCore::solve(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional
 
 	SAFE_CALL(defReturn = cv::solve(src1->get_mat(), src2->get_mat(), dst, flags));
 
+	outdst->set_mat(dst);
+
+	output["defReturn"] = defReturn;
+	output["dst"] = outdst;
+
 	return output;
 }
 
 Dictionary CVCore::solve_cubic(Ref<CVMat> coeffs){
 	Dictionary output;
+	Ref<CVMat> outroots;
 	int defReturn;
 	Mat roots;
 
@@ -1048,11 +1110,17 @@ Dictionary CVCore::solve_cubic(Ref<CVMat> coeffs){
 
 	SAFE_CALL(defReturn = cv::solveCubic(coeffs->get_mat(), roots));
 
+	outroots->set_mat(roots);
+
+	output["defReturn"] = defReturn;
+	output["roots"] = outroots;
+
 	return output;
 }
 
 Dictionary CVCore::solve_poly(Ref<CVMat> coeffs, Dictionary additional_parameters){
 	Dictionary output;
+	Ref<CVMat> outroots;
 	double defReturn;
 	Mat roots;
 
@@ -1061,6 +1129,11 @@ Dictionary CVCore::solve_poly(Ref<CVMat> coeffs, Dictionary additional_parameter
 	GET_SIMPLE_PROPERTY(int, Variant::INT, maxIters, 300);
 
 	SAFE_CALL(defReturn = cv::solvePoly(coeffs->get_mat(), roots, maxIters));
+
+	outroots->set_mat(roots);
+
+	output["defReturn"] = defReturn;
+	output["roots"] = outroots;
 
 	return output;
 }
@@ -1157,6 +1230,9 @@ Ref<CVMat> CVCore::sv_back_subst(Ref<CVMat> w, Ref<CVMat> u, Ref<CVMat> vt, Ref<
 
 Dictionary CVCore::sv_decomp(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
+	Ref<CVMat> outw;
+	Ref<CVMat> outu;
+	Ref<CVMat> outvt;
 	Mat w;
 	Mat u;
 	Mat vt;
@@ -1166,6 +1242,14 @@ Dictionary CVCore::sv_decomp(Ref<CVMat> src, Dictionary additional_parameters){
 	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, 0);
 
 	SAFE_CALL(cv::SVDecomp(src->get_mat(), w, u, vt, flags));
+
+	outw->set_mat(w);
+	outu->set_mat(u);
+	outvt->set_mat(vt);
+
+	output["w"] = outw;
+	output["u"] = outu;
+	output["vt"] = outvt;
 
 	return output;
 }
