@@ -6,79 +6,79 @@ using namespace cv;
 void CVCore::_bind_methods() {
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("absdiff", "src1", "src2"), &CVCore::absdiff);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("add", "src1", "src2", "additional_parameters"), &CVCore::add);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("addWeighted", "src1", "alpha", "src2", "beta", "gamma", "additional_parameters"), &CVCore::addWeighted);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("batchDistance", "src1", "src2", "dtype", "additional_parameters"), &CVCore::batchDistance);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("add_weighted", "src1", "alpha", "src2", "beta", "gamma", "additional_parameters"), &CVCore::add_weighted);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("batch_distance", "src1", "src2", "dtype", "additional_parameters"), &CVCore::batch_distance);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("bitwise_and", "src1", "src2", "additional_parameters"), &CVCore::bitwise_and);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("bitwise_not", "src", "additional_parameters"), &CVCore::bitwise_not);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("bitwise_or", "src1", "src2", "additional_parameters"), &CVCore::bitwise_or);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("bitwise_xor", "src1", "src2", "additional_parameters"), &CVCore::bitwise_xor);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("borderInterpolate", "p", "len", "borderType"), &CVCore::borderInterpolate);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("calcCovarMatrix", "samples", "mean", "flags", "additional_parameters"), &CVCore::calcCovarMatrix);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("cartToPolar", "x", "y", "additional_parameters"), &CVCore::cartToPolar);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("border_interpolate", "p", "len", "borderType"), &CVCore::border_interpolate);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("calc_covar_matrix", "samples", "mean", "flags", "additional_parameters"), &CVCore::calc_covar_matrix);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("cart_to_polar", "x", "y", "additional_parameters"), &CVCore::cart_to_polar);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("compare", "src1", "src2", "cmpop"), &CVCore::compare);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("completeSymm", "m", "additional_parameters"), &CVCore::completeSymm);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("convertFp16", "src"), &CVCore::convertFp16);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("convertScaleAbs", "src", "additional_parameters"), &CVCore::convertScaleAbs);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("copyTo", "src", "mask"), &CVCore::copyTo);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("countNonZero", "src"), &CVCore::countNonZero);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("complete_symm", "m", "additional_parameters"), &CVCore::complete_symm);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("convert_fp_16", "src"), &CVCore::convert_fp_16);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("convert_scale_abs", "src", "additional_parameters"), &CVCore::convert_scale_abs);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("copy_to", "src", "mask"), &CVCore::copy_to);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("count_non_zero", "src"), &CVCore::count_non_zero);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("dct", "src", "additional_parameters"), &CVCore::dct);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("determinant", "mtx"), &CVCore::determinant);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("dft", "src", "additional_parameters"), &CVCore::dft);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("divide", "src1", "src2", "additional_parameters"), &CVCore::divide);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("eigen", "src"), &CVCore::eigen);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("eigenNonSymmetric", "src"), &CVCore::eigenNonSymmetric);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("eigen_non_symmetric", "src"), &CVCore::eigen_non_symmetric);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("exp", "src"), &CVCore::exp);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("extractChannel", "src", "coi"), &CVCore::extractChannel);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("findNonZero", "src"), &CVCore::findNonZero);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("extract_channel", "src", "coi"), &CVCore::extract_channel);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("find_non_zero", "src"), &CVCore::find_non_zero);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("flip", "src", "flipCode"), &CVCore::flip);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("gemm", "src1", "src2", "alpha", "src3", "beta", "additional_parameters"), &CVCore::gemm);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("getOptimalDFTSize", "vecsize"), &CVCore::getOptimalDFTSize);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("get_optimal_dft_size", "vecsize"), &CVCore::get_optimal_dft_size);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("hconcat", "src1", "src2"), &CVCore::hconcat);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("idct", "src", "additional_parameters"), &CVCore::idct);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("idft", "src", "additional_parameters"), &CVCore::idft);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("inRange", "src", "lowerb", "upperb"), &CVCore::inRange);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("insertChannel", "src", "dst", "coi"), &CVCore::insertChannel);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("in_range", "src", "lowerb", "upperb"), &CVCore::in_range);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("insert_channel", "src", "dst", "coi"), &CVCore::insert_channel);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("invert", "src", "additional_parameters"), &CVCore::invert);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("log", "src"), &CVCore::log);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("LUT", "src", "lut"), &CVCore::LUT);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("lut", "src", "lut"), &CVCore::lut);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("magnitude", "x", "y"), &CVCore::magnitude);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("Mahalanobis", "v1", "v2", "icovar"), &CVCore::Mahalanobis);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("mahalanobis", "v1", "v2", "icovar"), &CVCore::mahalanobis);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("max", "src1", "src2"), &CVCore::max);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("mean", "src", "additional_parameters"), &CVCore::mean);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("meanStdDev", "src", "additional_parameters"), &CVCore::meanStdDev);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("mean_std_dev", "src", "additional_parameters"), &CVCore::mean_std_dev);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("min", "src1", "src2"), &CVCore::min);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("mulSpectrums", "a", "b", "flags", "additional_parameters"), &CVCore::mulSpectrums);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("mul_spectrums", "a", "b", "flags", "additional_parameters"), &CVCore::mul_spectrums);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("multiply", "src1", "src2", "additional_parameters"), &CVCore::multiply);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("mulTransposed", "src", "aTa", "additional_parameters"), &CVCore::mulTransposed);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("mul_transposed", "src", "aTa", "additional_parameters"), &CVCore::mul_transposed);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("norm", "src1", "additional_parameters"), &CVCore::norm);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("normalize", "src", "dst", "additional_parameters"), &CVCore::normalize);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("patchNaNs", "a", "additional_parameters"), &CVCore::patchNaNs);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("PCABackProject", "data", "mean", "eigenvectors"), &CVCore::PCABackProject);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("PCACompute", "data", "mean", "retainedVariance"), &CVCore::PCACompute);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("PCAProject", "data", "mean", "eigenvectors"), &CVCore::PCAProject);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("perspectiveTransform", "src", "m"), &CVCore::perspectiveTransform);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("patch_nans", "a", "additional_parameters"), &CVCore::patch_nans);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("pca_back_project", "data", "mean", "eigenvectors"), &CVCore::pca_back_project);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("pca_compute", "data", "mean", "retainedVariance"), &CVCore::pca_compute);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("pca_project", "data", "mean", "eigenvectors"), &CVCore::pca_project);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("perspective_transform", "src", "m"), &CVCore::perspective_transform);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("phase", "x", "y", "additional_parameters"), &CVCore::phase);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("polarToCart", "magnitude", "angle", "additional_parameters"), &CVCore::polarToCart);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("polar_to_cart", "magnitude", "angle", "additional_parameters"), &CVCore::polar_to_cart);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("pow", "src", "power"), &CVCore::pow);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("PSNR", "src1", "src2", "additional_parameters"), &CVCore::PSNR);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("psnr", "src1", "src2", "additional_parameters"), &CVCore::psnr);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("randn", "dst", "mean", "stddev"), &CVCore::randn);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("randu", "dst", "low", "high"), &CVCore::randu);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("reduce", "src", "dim", "rtype", "additional_parameters"), &CVCore::reduce);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("repeat", "src", "ny", "nx"), &CVCore::repeat);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("rotate", "src", "rotateCode"), &CVCore::rotate);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("scaleAdd", "src1", "alpha", "src2"), &CVCore::scaleAdd);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("setIdentity", "mtx", "additional_parameters"), &CVCore::setIdentity);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("setRNGSeed", "seed"), &CVCore::setRNGSeed);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("scale_add", "src1", "alpha", "src2"), &CVCore::scale_add);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("set_identity", "mtx", "additional_parameters"), &CVCore::set_identity);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("set_rng_seed", "seed"), &CVCore::set_rng_seed);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("solve", "src1", "src2", "additional_parameters"), &CVCore::solve);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("solveCubic", "coeffs"), &CVCore::solveCubic);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("solvePoly", "coeffs", "additional_parameters"), &CVCore::solvePoly);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("solve_cubic", "coeffs"), &CVCore::solve_cubic);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("solve_poly", "coeffs", "additional_parameters"), &CVCore::solve_poly);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("sort", "src", "flags"), &CVCore::sort);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("sortIdx", "src", "flags"), &CVCore::sortIdx);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("sort_idx", "src", "flags"), &CVCore::sort_idx);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("sqrt", "src"), &CVCore::sqrt);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("subtract", "src1", "src2", "additional_parameters"), &CVCore::subtract);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("sum", "src"), &CVCore::sum);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("SVBackSubst", "w", "u", "vt", "rhs"), &CVCore::SVBackSubst);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("SVDecomp", "src", "additional_parameters"), &CVCore::SVDecomp);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("sv_back_subst", "w", "u", "vt", "rhs"), &CVCore::sv_back_subst);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("sv_decomp", "src", "additional_parameters"), &CVCore::sv_decomp);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("trace", "mtx"), &CVCore::trace);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("transform", "src", "m"), &CVCore::transform);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("transpose", "src"), &CVCore::transpose);
@@ -124,7 +124,7 @@ Ref<CVMat> CVCore::add(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_p
 	return output;
 }
 
-Ref<CVMat> CVCore::addWeighted(Ref<CVMat> src1, float alpha, Ref<CVMat> src2, float beta, float gamma, Dictionary additional_parameters){
+Ref<CVMat> CVCore::add_weighted(Ref<CVMat> src1, float alpha, Ref<CVMat> src2, float beta, float gamma, Dictionary additional_parameters){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -141,7 +141,7 @@ Ref<CVMat> CVCore::addWeighted(Ref<CVMat> src1, float alpha, Ref<CVMat> src2, fl
 	return output;
 }
 
-Dictionary CVCore::batchDistance(Ref<CVMat> src1, Ref<CVMat> src2, int dtype, Dictionary additional_parameters){
+Dictionary CVCore::batch_distance(Ref<CVMat> src1, Ref<CVMat> src2, int dtype, Dictionary additional_parameters){
 	Dictionary output;
 	Mat dist;
 	Mat nidx;
@@ -227,7 +227,7 @@ Ref<CVMat> CVCore::bitwise_xor(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary addi
 	return output;
 }
 
-int CVCore::borderInterpolate(int p, int len, int borderType){
+int CVCore::border_interpolate(int p, int len, int borderType){
 	int output;
 	int defReturn;
 
@@ -236,7 +236,7 @@ int CVCore::borderInterpolate(int p, int len, int borderType){
 	return output;
 }
 
-Ref<CVMat> CVCore::calcCovarMatrix(Ref<CVMat> samples, Ref<CVMat> mean, int flags, Dictionary additional_parameters){
+Ref<CVMat> CVCore::calc_covar_matrix(Ref<CVMat> samples, Ref<CVMat> mean, int flags, Dictionary additional_parameters){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat covar;
@@ -253,7 +253,7 @@ Ref<CVMat> CVCore::calcCovarMatrix(Ref<CVMat> samples, Ref<CVMat> mean, int flag
 	return output;
 }
 
-Dictionary CVCore::cartToPolar(Ref<CVMat> x, Ref<CVMat> y, Dictionary additional_parameters){
+Dictionary CVCore::cart_to_polar(Ref<CVMat> x, Ref<CVMat> y, Dictionary additional_parameters){
 	Dictionary output;
 	Mat magnitude;
 	Mat angle;
@@ -283,7 +283,7 @@ Ref<CVMat> CVCore::compare(Ref<CVMat> src1, Ref<CVMat> src2, int cmpop){
 	return output;
 }
 
-void CVCore::completeSymm(Ref<CVMat> m, Dictionary additional_parameters){
+void CVCore::complete_symm(Ref<CVMat> m, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(m, , "m should not be null.");
 
@@ -292,7 +292,7 @@ void CVCore::completeSymm(Ref<CVMat> m, Dictionary additional_parameters){
 	SAFE_CALL(cv::completeSymm(m->get_mat(), lowerToUpper));
 }
 
-Ref<CVMat> CVCore::convertFp16(Ref<CVMat> src){
+Ref<CVMat> CVCore::convert_fp_16(Ref<CVMat> src){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -306,7 +306,7 @@ Ref<CVMat> CVCore::convertFp16(Ref<CVMat> src){
 	return output;
 }
 
-Ref<CVMat> CVCore::convertScaleAbs(Ref<CVMat> src, Dictionary additional_parameters){
+Ref<CVMat> CVCore::convert_scale_abs(Ref<CVMat> src, Dictionary additional_parameters){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -323,7 +323,7 @@ Ref<CVMat> CVCore::convertScaleAbs(Ref<CVMat> src, Dictionary additional_paramet
 	return output;
 }
 
-Ref<CVMat> CVCore::copyTo(Ref<CVMat> src, Ref<CVMat> mask){
+Ref<CVMat> CVCore::copy_to(Ref<CVMat> src, Ref<CVMat> mask){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -338,7 +338,7 @@ Ref<CVMat> CVCore::copyTo(Ref<CVMat> src, Ref<CVMat> mask){
 	return output;
 }
 
-int CVCore::countNonZero(Ref<CVMat> src){
+int CVCore::count_non_zero(Ref<CVMat> src){
 	int output;
 	int defReturn;
 
@@ -424,7 +424,7 @@ Dictionary CVCore::eigen(Ref<CVMat> src){
 	return output;
 }
 
-Dictionary CVCore::eigenNonSymmetric(Ref<CVMat> src){
+Dictionary CVCore::eigen_non_symmetric(Ref<CVMat> src){
 	Dictionary output;
 	Mat eigenvalues;
 	Mat eigenvectors;
@@ -450,7 +450,7 @@ Ref<CVMat> CVCore::exp(Ref<CVMat> src){
 	return output;
 }
 
-Ref<CVMat> CVCore::extractChannel(Ref<CVMat> src, int coi){
+Ref<CVMat> CVCore::extract_channel(Ref<CVMat> src, int coi){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -464,7 +464,7 @@ Ref<CVMat> CVCore::extractChannel(Ref<CVMat> src, int coi){
 	return output;
 }
 
-Ref<CVMat> CVCore::findNonZero(Ref<CVMat> src){
+Ref<CVMat> CVCore::find_non_zero(Ref<CVMat> src){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat idx;
@@ -510,7 +510,7 @@ Ref<CVMat> CVCore::gemm(Ref<CVMat> src1, Ref<CVMat> src2, float alpha, Ref<CVMat
 	return output;
 }
 
-int CVCore::getOptimalDFTSize(int vecsize){
+int CVCore::get_optimal_dft_size(int vecsize){
 	int output;
 	int defReturn;
 
@@ -567,7 +567,7 @@ Ref<CVMat> CVCore::idft(Ref<CVMat> src, Dictionary additional_parameters){
 	return output;
 }
 
-Ref<CVMat> CVCore::inRange(Ref<CVMat> src, Ref<CVMat> lowerb, Ref<CVMat> upperb){
+Ref<CVMat> CVCore::in_range(Ref<CVMat> src, Ref<CVMat> lowerb, Ref<CVMat> upperb){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -583,7 +583,7 @@ Ref<CVMat> CVCore::inRange(Ref<CVMat> src, Ref<CVMat> lowerb, Ref<CVMat> upperb)
 	return output;
 }
 
-void CVCore::insertChannel(Ref<CVMat> src, Ref<CVMat> dst, int coi){
+void CVCore::insert_channel(Ref<CVMat> src, Ref<CVMat> dst, int coi){
 
 	ERR_FAIL_NULL_V_MSG(src, , "src should not be null.");
 	ERR_FAIL_NULL_V_MSG(dst, , "dst should not be null.");
@@ -619,7 +619,7 @@ Ref<CVMat> CVCore::log(Ref<CVMat> src){
 	return output;
 }
 
-Ref<CVMat> CVCore::LUT(Ref<CVMat> src, Ref<CVMat> lut){
+Ref<CVMat> CVCore::lut(Ref<CVMat> src, Ref<CVMat> lut){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -649,7 +649,7 @@ Ref<CVMat> CVCore::magnitude(Ref<CVMat> x, Ref<CVMat> y){
 	return output;
 }
 
-float CVCore::Mahalanobis(Ref<CVMat> v1, Ref<CVMat> v2, Ref<CVMat> icovar){
+float CVCore::mahalanobis(Ref<CVMat> v1, Ref<CVMat> v2, Ref<CVMat> icovar){
 	float output;
 	double defReturn;
 
@@ -692,7 +692,7 @@ Color CVCore::mean(Ref<CVMat> src, Dictionary additional_parameters){
 	return output;
 }
 
-Dictionary CVCore::meanStdDev(Ref<CVMat> src, Dictionary additional_parameters){
+Dictionary CVCore::mean_std_dev(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
 	Mat mean;
 	Mat stddev;
@@ -721,7 +721,7 @@ Ref<CVMat> CVCore::min(Ref<CVMat> src1, Ref<CVMat> src2){
 	return output;
 }
 
-Ref<CVMat> CVCore::mulSpectrums(Ref<CVMat> a, Ref<CVMat> b, int flags, Dictionary additional_parameters){
+Ref<CVMat> CVCore::mul_spectrums(Ref<CVMat> a, Ref<CVMat> b, int flags, Dictionary additional_parameters){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat c;
@@ -756,7 +756,7 @@ Ref<CVMat> CVCore::multiply(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additio
 	return output;
 }
 
-Ref<CVMat> CVCore::mulTransposed(Ref<CVMat> src, bool aTa, Dictionary additional_parameters){
+Ref<CVMat> CVCore::mul_transposed(Ref<CVMat> src, bool aTa, Dictionary additional_parameters){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -802,7 +802,7 @@ void CVCore::normalize(Ref<CVMat> src, Ref<CVMat> dst, Dictionary additional_par
 	SAFE_CALL(cv::normalize(src->get_mat(), dst->get_mat(), alpha, beta, norm_type, dtype, mask->get_mat()));
 }
 
-void CVCore::patchNaNs(Ref<CVMat> a, Dictionary additional_parameters){
+void CVCore::patch_nans(Ref<CVMat> a, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(a, , "a should not be null.");
 
@@ -811,7 +811,7 @@ void CVCore::patchNaNs(Ref<CVMat> a, Dictionary additional_parameters){
 	SAFE_CALL(cv::patchNaNs(a->get_mat(), val));
 }
 
-Ref<CVMat> CVCore::PCABackProject(Ref<CVMat> data, Ref<CVMat> mean, Ref<CVMat> eigenvectors){
+Ref<CVMat> CVCore::pca_back_project(Ref<CVMat> data, Ref<CVMat> mean, Ref<CVMat> eigenvectors){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat result;
@@ -827,7 +827,7 @@ Ref<CVMat> CVCore::PCABackProject(Ref<CVMat> data, Ref<CVMat> mean, Ref<CVMat> e
 	return output;
 }
 
-Ref<CVMat> CVCore::PCACompute(Ref<CVMat> data, Ref<CVMat> mean, float retainedVariance){
+Ref<CVMat> CVCore::pca_compute(Ref<CVMat> data, Ref<CVMat> mean, float retainedVariance){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat eigenvectors;
@@ -842,7 +842,7 @@ Ref<CVMat> CVCore::PCACompute(Ref<CVMat> data, Ref<CVMat> mean, float retainedVa
 	return output;
 }
 
-Ref<CVMat> CVCore::PCAProject(Ref<CVMat> data, Ref<CVMat> mean, Ref<CVMat> eigenvectors){
+Ref<CVMat> CVCore::pca_project(Ref<CVMat> data, Ref<CVMat> mean, Ref<CVMat> eigenvectors){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat result;
@@ -858,7 +858,7 @@ Ref<CVMat> CVCore::PCAProject(Ref<CVMat> data, Ref<CVMat> mean, Ref<CVMat> eigen
 	return output;
 }
 
-Ref<CVMat> CVCore::perspectiveTransform(Ref<CVMat> src, Ref<CVMat> m){
+Ref<CVMat> CVCore::perspective_transform(Ref<CVMat> src, Ref<CVMat> m){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -890,7 +890,7 @@ Ref<CVMat> CVCore::phase(Ref<CVMat> x, Ref<CVMat> y, Dictionary additional_param
 	return output;
 }
 
-Dictionary CVCore::polarToCart(Ref<CVMat> magnitude, Ref<CVMat> angle, Dictionary additional_parameters){
+Dictionary CVCore::polar_to_cart(Ref<CVMat> magnitude, Ref<CVMat> angle, Dictionary additional_parameters){
 	Dictionary output;
 	Mat x;
 	Mat y;
@@ -919,7 +919,7 @@ Ref<CVMat> CVCore::pow(Ref<CVMat> src, float power){
 	return output;
 }
 
-float CVCore::PSNR(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters){
+float CVCore::psnr(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters){
 	float output;
 	double defReturn;
 
@@ -995,7 +995,7 @@ Ref<CVMat> CVCore::rotate(Ref<CVMat> src, int rotateCode){
 	return output;
 }
 
-Ref<CVMat> CVCore::scaleAdd(Ref<CVMat> src1, float alpha, Ref<CVMat> src2){
+Ref<CVMat> CVCore::scale_add(Ref<CVMat> src1, float alpha, Ref<CVMat> src2){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -1010,7 +1010,7 @@ Ref<CVMat> CVCore::scaleAdd(Ref<CVMat> src1, float alpha, Ref<CVMat> src2){
 	return output;
 }
 
-void CVCore::setIdentity(Ref<CVMat> mtx, Dictionary additional_parameters){
+void CVCore::set_identity(Ref<CVMat> mtx, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(mtx, , "mtx should not be null.");
 
@@ -1019,7 +1019,7 @@ void CVCore::setIdentity(Ref<CVMat> mtx, Dictionary additional_parameters){
 	SAFE_CALL(cv::setIdentity(mtx->get_mat(), Scalar(s.b, s.g, s.r) * 255));
 }
 
-void CVCore::setRNGSeed(int seed){
+void CVCore::set_rng_seed(int seed){
 
 	SAFE_CALL(cv::setRNGSeed(seed));
 }
@@ -1039,7 +1039,7 @@ Dictionary CVCore::solve(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional
 	return output;
 }
 
-Dictionary CVCore::solveCubic(Ref<CVMat> coeffs){
+Dictionary CVCore::solve_cubic(Ref<CVMat> coeffs){
 	Dictionary output;
 	int defReturn;
 	Mat roots;
@@ -1051,7 +1051,7 @@ Dictionary CVCore::solveCubic(Ref<CVMat> coeffs){
 	return output;
 }
 
-Dictionary CVCore::solvePoly(Ref<CVMat> coeffs, Dictionary additional_parameters){
+Dictionary CVCore::solve_poly(Ref<CVMat> coeffs, Dictionary additional_parameters){
 	Dictionary output;
 	double defReturn;
 	Mat roots;
@@ -1079,7 +1079,7 @@ Ref<CVMat> CVCore::sort(Ref<CVMat> src, int flags){
 	return output;
 }
 
-Ref<CVMat> CVCore::sortIdx(Ref<CVMat> src, int flags){
+Ref<CVMat> CVCore::sort_idx(Ref<CVMat> src, int flags){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -1138,7 +1138,7 @@ Color CVCore::sum(Ref<CVMat> src){
 	return output;
 }
 
-Ref<CVMat> CVCore::SVBackSubst(Ref<CVMat> w, Ref<CVMat> u, Ref<CVMat> vt, Ref<CVMat> rhs){
+Ref<CVMat> CVCore::sv_back_subst(Ref<CVMat> w, Ref<CVMat> u, Ref<CVMat> vt, Ref<CVMat> rhs){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat dst;
@@ -1155,7 +1155,7 @@ Ref<CVMat> CVCore::SVBackSubst(Ref<CVMat> w, Ref<CVMat> u, Ref<CVMat> vt, Ref<CV
 	return output;
 }
 
-Dictionary CVCore::SVDecomp(Ref<CVMat> src, Dictionary additional_parameters){
+Dictionary CVCore::sv_decomp(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
 	Mat w;
 	Mat u;

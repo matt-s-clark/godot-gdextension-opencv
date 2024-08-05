@@ -18,7 +18,6 @@
 
 #define GET_SIMPLE_PROPERTY(type, godotType, variable, defaultValue)                               \
 	type variable = defaultValue;                                                                  \
-	\               
 	 if (additional_parameters.has(#variable)) {                                                   \
 		if (additional_parameters[#variable].get_type() == godotType) {                            \
 			variable = additional_parameters[#variable];                                           \
@@ -31,7 +30,6 @@
 
 #define GET_OBJECT_PROPERTY(type, variable)                                                        \
 	type variable = type();                                                                        \
-	\               
 	 if (additional_parameters.has(#variable)) {                                                   \
 		if (additional_parameters[#variable].get_type() == Variant::OBJECT) {                      \
 			variable = additional_parameters[#variable];                                           \
@@ -44,5 +42,5 @@
                                                                                                    \
 	if (variable.is_null()) {                                                                      \
 		variable.instantiate();                                                                    \
-	}                                                                                              \
+	}                                                                                              
 	

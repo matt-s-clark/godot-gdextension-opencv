@@ -47,6 +47,10 @@ def ProcessTokens(line : str):
 	split = line.split()
 	methodOutputType = split[0]
 	methodName = split[1]
+	newMethodName = re.sub(r"NaN", r"Nan", methodName)
+	newMethodName = re.sub(r"([a-z]+)([A-Z]|\d+)", r"\g<1>_\g<2>", newMethodName)
+	newMethodName = re.sub(r"([A-Z])([A-Z][a-z])", r"\g<1>_\g<2>", newMethodName)
+	newMethodName = newMethodName.lower()
 	filteredInputs = []
 	addtionalParameters = []
 	outputs = [[ methodOutputType, "defReturn" ]] if methodOutputType != "void" else []
@@ -91,12 +95,13 @@ def ProcessTokens(line : str):
 	else:
 		outputType = outputs[0][0]
 
-	return methodOutputType, methodName, inputs, isStatic, filteredInputs, outputs, addtionalParameters, outputType
+	return methodOutputType, methodName, newMethodName, inputs, isStatic, filteredInputs, outputs, addtionalParameters, outputType
 
-def GenerateHeaderLine(methodName, filteredInputs):
+def GenerateHeaderLine(methodName, filteredInputs, isStatic):
 	updatedInputs = ", ".join( map(lambda i : f"{i[0]} {i[1]}" ,filteredInputs) )
+	static = "static " if isStatic else ""
 
-	outputLine = f"{GetOrDefault(outputType, input2Output)} {methodName}({updatedInputs});"
+	outputLine = f"{static}{GetOrDefault(outputType, input2Output)} {methodName}({updatedInputs});"
 
 	return outputLine
 
@@ -109,14 +114,16 @@ def GenerateBinding(isStatic, className, methodName, inputs):
 	else:
 		return f"	ClassDB::bind_method( D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
 
-def GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters):
+def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters):
 	codeLinesList = []
 	methodCall = f"cv::{methodName}" if isStatic else "---- Not Implemented ----"
 	methodInputs = ", ".join([processingLine[i[0]].format(i[1]) if i[0] in processingLine else i[1] for i in inputs])
 	returnName = "output" if len(outputs) == 1 and outputs[0][0] not in openCVInputTypes else "defReturn"
 	callReturn = "" if methodOutputType ==  "void" else f"{returnName} = "
+	first = re.sub(re.escape(newMethodName) + r"\(", f"{className}::{newMethodName}(",headerLine[:-1]) + "{"
+	first = re.sub(r"static ", "", first)
 
-	codeLinesList.append(re.sub(re.escape(methodName) + r"\(", f"{className}::{methodName}(",headerLine[:-1]) + "{")
+	codeLinesList.append(first)
 
 	if len(outputs) != 0:
 		codeLinesList.append(f"	{GetOrDefault(outputType, input2Output)} output;")
@@ -193,13 +200,13 @@ for line in inputHeader:
 	if line[0] == "#":
 		continue
 
-	methodOutputType, methodName, inputs, \
-	isStatic, filteredInputs, outputs, \
-	addtionalParameters, outputType = ProcessTokens(line)
+	methodOutputType, methodName, newMethodName, \
+	inputs, isStatic, filteredInputs, \
+	outputs, addtionalParameters, outputType = ProcessTokens(line)
 	isStatic = isStaticClass or isStatic
-	headerLine = GenerateHeaderLine(methodName, filteredInputs)
-	binding = GenerateBinding(isStatic, className, methodName, filteredInputs)
-	methodImplementation = GenerateCode(className, headerLine, methodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters)
+	headerLine = GenerateHeaderLine(newMethodName, filteredInputs, isStatic)
+	binding = GenerateBinding(isStatic, className, newMethodName, filteredInputs)
+	methodImplementation = GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters)
 
 	headerLines.append(headerLine)
 	bindingLines.append(binding)
