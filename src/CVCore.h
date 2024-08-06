@@ -1,5 +1,5 @@
-#ifndef CVCore_H
-#define CVCore_H
+#ifndef CVCORE_H
+#define CVCORE_H
 
 #include "CVMat.h"
 #include "Macros.h"

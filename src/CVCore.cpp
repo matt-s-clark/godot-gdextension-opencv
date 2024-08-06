@@ -144,7 +144,9 @@ Ref<CVMat> CVCore::add_weighted(Ref<CVMat> src1, float alpha, Ref<CVMat> src2, f
 Dictionary CVCore::batch_distance(Ref<CVMat> src1, Ref<CVMat> src2, int dtype, Dictionary additional_parameters){
 	Dictionary output;
 	Ref<CVMat> outdist;
+	outdist.instantiate();
 	Ref<CVMat> outnidx;
+	outnidx.instantiate();
 	Mat dist;
 	Mat nidx;
 
@@ -264,7 +266,9 @@ Ref<CVMat> CVCore::calc_covar_matrix(Ref<CVMat> samples, Ref<CVMat> mean, int fl
 Dictionary CVCore::cart_to_polar(Ref<CVMat> x, Ref<CVMat> y, Dictionary additional_parameters){
 	Dictionary output;
 	Ref<CVMat> outmagnitude;
+	outmagnitude.instantiate();
 	Ref<CVMat> outangle;
+	outangle.instantiate();
 	Mat magnitude;
 	Mat angle;
 
@@ -430,7 +434,9 @@ Ref<CVMat> CVCore::divide(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additiona
 Dictionary CVCore::eigen(Ref<CVMat> src){
 	Dictionary output;
 	Ref<CVMat> outeigenvalues;
+	outeigenvalues.instantiate();
 	Ref<CVMat> outeigenvectors;
+	outeigenvectors.instantiate();
 	bool defReturn;
 	Mat eigenvalues;
 	Mat eigenvectors = Mat();
@@ -452,7 +458,9 @@ Dictionary CVCore::eigen(Ref<CVMat> src){
 Dictionary CVCore::eigen_non_symmetric(Ref<CVMat> src){
 	Dictionary output;
 	Ref<CVMat> outeigenvalues;
+	outeigenvalues.instantiate();
 	Ref<CVMat> outeigenvectors;
+	outeigenvectors.instantiate();
 	Mat eigenvalues;
 	Mat eigenvectors;
 
@@ -627,6 +635,7 @@ void CVCore::insert_channel(Ref<CVMat> src, Ref<CVMat> dst, int coi){
 Dictionary CVCore::invert(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
 	Ref<CVMat> outdst;
+	outdst.instantiate();
 	double defReturn;
 	Mat dst;
 
@@ -734,7 +743,9 @@ Color CVCore::mean(Ref<CVMat> src, Dictionary additional_parameters){
 Dictionary CVCore::mean_std_dev(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
 	Ref<CVMat> outmean;
+	outmean.instantiate();
 	Ref<CVMat> outstddev;
+	outstddev.instantiate();
 	Mat mean;
 	Mat stddev;
 
@@ -940,7 +951,9 @@ Ref<CVMat> CVCore::phase(Ref<CVMat> x, Ref<CVMat> y, Dictionary additional_param
 Dictionary CVCore::polar_to_cart(Ref<CVMat> magnitude, Ref<CVMat> angle, Dictionary additional_parameters){
 	Dictionary output;
 	Ref<CVMat> outx;
+	outx.instantiate();
 	Ref<CVMat> outy;
+	outy.instantiate();
 	Mat x;
 	Mat y;
 
@@ -1082,6 +1095,7 @@ void CVCore::set_rng_seed(int seed){
 Dictionary CVCore::solve(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters){
 	Dictionary output;
 	Ref<CVMat> outdst;
+	outdst.instantiate();
 	bool defReturn;
 	Mat dst;
 
@@ -1103,6 +1117,7 @@ Dictionary CVCore::solve(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional
 Dictionary CVCore::solve_cubic(Ref<CVMat> coeffs){
 	Dictionary output;
 	Ref<CVMat> outroots;
+	outroots.instantiate();
 	int defReturn;
 	Mat roots;
 
@@ -1121,6 +1136,7 @@ Dictionary CVCore::solve_cubic(Ref<CVMat> coeffs){
 Dictionary CVCore::solve_poly(Ref<CVMat> coeffs, Dictionary additional_parameters){
 	Dictionary output;
 	Ref<CVMat> outroots;
+	outroots.instantiate();
 	double defReturn;
 	Mat roots;
 
@@ -1231,8 +1247,11 @@ Ref<CVMat> CVCore::sv_back_subst(Ref<CVMat> w, Ref<CVMat> u, Ref<CVMat> vt, Ref<
 Dictionary CVCore::sv_decomp(Ref<CVMat> src, Dictionary additional_parameters){
 	Dictionary output;
 	Ref<CVMat> outw;
+	outw.instantiate();
 	Ref<CVMat> outu;
+	outu.instantiate();
 	Ref<CVMat> outvt;
+	outvt.instantiate();
 	Mat w;
 	Mat u;
 	Mat vt;

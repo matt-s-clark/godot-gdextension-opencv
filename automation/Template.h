@@ -1,5 +1,5 @@
-#ifndef <ClassName>_H
-#define <ClassName>_H
+#ifndef <HeaderClassName>_H
+#define <HeaderClassName>_H
 
 #include "CVMat.h"
 #include "Macros.h"

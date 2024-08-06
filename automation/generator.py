@@ -132,6 +132,7 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 			for ou in outputs:
 				if GetOrDefault(ou[0], input2Output) == "Ref<CVMat>":
 					codeLinesList.append(f"	{GetOrDefault(ou[0], input2Output)} out{ou[1]};")
+					codeLinesList.append(f"	out{ou[1]}.instantiate();")
 		if len(outputs) == 1 and GetOrDefault(outputs[0][0], input2Output) == "Ref<CVMat>":
 			codeLinesList.append(f"	output.instantiate();")
 	
@@ -139,7 +140,7 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 		type = initializingType[i[0]] if i[0] in initializingType else i[0]
 		defaultValue = f" = {GetOrDefault(i[2], addParamConversion)}" if len(i) == 3 else ""
 		codeLinesList.append(f"	{GetOrDefault(type, openCVOutputTypes)} {i[1]}{defaultValue};")
-	
+
 	# Check inputs
 	checkNNInputs = [a for a in filteredInputs if "Ref" in GetOrDefault(a[0], input2Output)]
 	outputName = "output" if outputType != "void" else ""
@@ -230,11 +231,12 @@ hTemplate = ""
 with open(f"automation/Template.h", "r") as hTemplateFile:
 	hTemplate = hTemplateFile.read()
 
+hTemplate = re.sub(r"<HeaderClassName>", className.upper(), hTemplate)
 hTemplate = re.sub(r"<ClassName>", className, hTemplate)
 hTemplate = re.sub(r"<Includes>", includes, hTemplate)
 hTemplate = re.sub(r"<Headers>", "\n\t".join(headerLines), hTemplate)
 
-with open(f"automation/{className}.h", "w") as oh:
+with open(f"src/{className}.h", "w") as oh:
 	oh.write(hTemplate)
 
 cTemplate = ""
@@ -245,5 +247,5 @@ cTemplate = re.sub(r"<ClassName>", className, cTemplate)
 cTemplate = re.sub(r"<Bindings>", "\n".join(bindingLines), cTemplate)
 cTemplate = re.sub(r"<Implementation>", "\n\n".join(implementationLines), cTemplate)
 
-with open(f"automation/{className}.cpp", "w") as oc:
+with open(f"src/{className}.cpp", "w") as oc:
 	oc.write(cTemplate)
