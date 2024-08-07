@@ -29,7 +29,7 @@ func test_imread_gray():
 func test_imwrite():
 	var rows = 5
 	var cols = 5
-	var mat := CVMat.ones(rows, cols, CVConsts.MatType.CV_8U)
+	var mat := CVMat.ones(rows, cols, CVConsts.MatType.CV_8UC3)
 	
 	CVImgCodecs.imwrite("./test/testFiles/tmp.png", mat, {})
 	

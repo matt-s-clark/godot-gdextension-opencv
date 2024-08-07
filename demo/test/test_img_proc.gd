@@ -47,9 +47,9 @@ func test_blur():
 	assert_eq(result.get_at(2, 2), 28)
 	
 func test_cvt_color():
-	var mat := CVMat.ones(5, 5, CVConsts.MatType.CV_8UC3)
+	var mat := CVMat.zeros(5, 5, CVConsts.MatType.CV_8UC3)
 	
-	mat.set_at(0, 0, 255)
+	mat.set_at(0, 0, Vector3(255, 0, 0))
 	
 	var result := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, {})
 	
@@ -172,8 +172,10 @@ func test_rectangle():
 	
 	CVImgProc.rectangle(mat, {"rec":rect})
 	
-	assert_eq(mat.get_at(0, 0), 0)
-	assert_eq(mat.get_at(1, 1), 255)
+	print(mat.type())
+	
+	assert_eq(mat.get_at(0, 0), Vector3i(0,255,0))
+	assert_eq(mat.get_at(1, 1), Vector3i(0,0,0))
 	
 func test_threshold():
 	var mat := CVMat.zeros(5, 5, CVConsts.MatType.CV_8U)

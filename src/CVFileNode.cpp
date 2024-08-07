@@ -31,9 +31,6 @@ bool CVFileNode::empty() const {
 Variant CVFileNode::read() {
 	Variant output;
 
-	Ref<CVMat> tmpMat;
-	tmpMat.instantiate();
-
 	switch (rawNode.type()) {
 		case cv::FileNode::NONE:
 			break;
@@ -44,10 +41,13 @@ Variant CVFileNode::read() {
 		case cv::FileNode::STR:
 			output = rawNode.string().c_str();
 			break;
-		case cv::FileNode::MAP:
+		case cv::FileNode::MAP: {
+			Ref<CVMat> tmpMat;
+			tmpMat.instantiate();
 			tmpMat->set_mat(rawNode.mat()); // Fix: There are other maps.
 			output = tmpMat;
 			break;
+		}
 		default:
 			UtilityFunctions::printerr("Not implemented: ", rawNode.type());
 			break;
