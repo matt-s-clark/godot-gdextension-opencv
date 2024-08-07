@@ -1,4 +1,5 @@
-import os
+from os import listdir
+from os.path import isfile, join
 import re
 
 openCVInputTypes = {
@@ -97,7 +98,7 @@ def ProcessTokens(line : str):
 
 	return methodOutputType, methodName, newMethodName, inputs, isStatic, filteredInputs, outputs, addtionalParameters, outputType
 
-def GenerateHeaderLine(methodName, filteredInputs, isStatic):
+def GenerateHeaderLine(methodName, filteredInputs, isStatic, outputType):
 	updatedInputs = ", ".join( map(lambda i : f"{i[0]} {i[1]}" ,filteredInputs) )
 	static = "static " if isStatic else ""
 
@@ -114,7 +115,7 @@ def GenerateBinding(isStatic, className, methodName, inputs):
 	else:
 		return f"	ClassDB::bind_method( D_METHOD(\"{methodName}\"{processedInputs}), &{className}::{methodName});"
 
-def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters):
+def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters, filteredInputs):
 	codeLinesList = []
 	methodCall = f"cv::{methodName}" if isStatic else "---- Not Implemented ----"
 	methodInputs = ", ".join([processingLine[i[0]].format(i[1]) if i[0] in processingLine else i[1] for i in inputs])
@@ -195,57 +196,66 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 
 	return "\n".join(codeLinesList)
 
-className = "CVCore"
-isStaticClass = True
-includes = """#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/imgproc.hpp>"""
-inputHeader = ""
+def ProcessFile(file, className, isStaticClass, includes):
+	inputHeader = ""
+	with open(file, "r") as f:
+		inputHeader = f.readlines()
 
-with open("automation/Core.in", "r") as f:
-	inputHeader = f.readlines()
+	headerLines = []
+	bindingLines = []
+	implementationLines = []
 
-headerLines = []
-bindingLines = []
-implementationLines = []
+	for line in inputHeader:
+		if line == "\n":
+			continue
+		if line[0] == "#":
+			continue
 
-for line in inputHeader:
-	if line == "\n":
-		continue
-	if line[0] == "#":
-		continue
+		methodOutputType, methodName, newMethodName, \
+		inputs, isStatic, filteredInputs, \
+		outputs, addtionalParameters, outputType = ProcessTokens(line)
+		isStatic = isStaticClass or isStatic
+		headerLine = GenerateHeaderLine(newMethodName, filteredInputs, isStatic, outputType)
+		binding = GenerateBinding(isStatic, className, newMethodName, filteredInputs)
+		methodImplementation = GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters, filteredInputs)
 
-	methodOutputType, methodName, newMethodName, \
-	inputs, isStatic, filteredInputs, \
-	outputs, addtionalParameters, outputType = ProcessTokens(line)
-	isStatic = isStaticClass or isStatic
-	headerLine = GenerateHeaderLine(newMethodName, filteredInputs, isStatic)
-	binding = GenerateBinding(isStatic, className, newMethodName, filteredInputs)
-	methodImplementation = GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters)
+		headerLines.append(headerLine)
+		bindingLines.append(binding)
+		implementationLines.append(methodImplementation)
 
-	headerLines.append(headerLine)
-	bindingLines.append(binding)
-	implementationLines.append(methodImplementation)
+	hTemplate = ""
+	with open(f"automation/templates/Template.h", "r") as hTemplateFile:
+		hTemplate = hTemplateFile.read()
 
-hTemplate = ""
-with open(f"automation/Template.h", "r") as hTemplateFile:
-	hTemplate = hTemplateFile.read()
+	hTemplate = re.sub(r"<HeaderClassName>", className.upper(), hTemplate)
+	hTemplate = re.sub(r"<ClassName>", className, hTemplate)
+	hTemplate = re.sub(r"<Includes>", includes, hTemplate)
+	hTemplate = re.sub(r"<Headers>", "\n\t".join(headerLines), hTemplate)
 
-hTemplate = re.sub(r"<HeaderClassName>", className.upper(), hTemplate)
-hTemplate = re.sub(r"<ClassName>", className, hTemplate)
-hTemplate = re.sub(r"<Includes>", includes, hTemplate)
-hTemplate = re.sub(r"<Headers>", "\n\t".join(headerLines), hTemplate)
+	with open(f"src/{className}.h", "w") as oh:
+		oh.write(hTemplate)
 
-with open(f"src/{className}.h", "w") as oh:
-	oh.write(hTemplate)
+	cTemplate = ""
+	with open(f"automation/templates/Template.cpp", "r") as cTemplateFile:
+		cTemplate = cTemplateFile.read()
 
-cTemplate = ""
-with open(f"automation/Template.cpp", "r") as cTemplateFile:
-	cTemplate = cTemplateFile.read()
+	cTemplate = re.sub(r"<ClassName>", className, cTemplate)
+	cTemplate = re.sub(r"<Bindings>", "\n".join(bindingLines), cTemplate)
+	cTemplate = re.sub(r"<Implementation>", "\n\n".join(implementationLines), cTemplate)
 
-cTemplate = re.sub(r"<ClassName>", className, cTemplate)
-cTemplate = re.sub(r"<Bindings>", "\n".join(bindingLines), cTemplate)
-cTemplate = re.sub(r"<Implementation>", "\n\n".join(implementationLines), cTemplate)
+	with open(f"src/{className}.cpp", "w") as oc:
+		oc.write(cTemplate)
 
-with open(f"src/{className}.cpp", "w") as oc:
-	oc.write(cTemplate)
+
+if __name__ == "__main__":
+	isStaticClass = True
+	includes = """#include <opencv2/core.hpp>
+	#include <opencv2/imgcodecs.hpp>
+	#include <opencv2/imgproc.hpp>"""
+
+	inputPath = "automation/inputs/"
+	inputFiles = [f for f in listdir(inputPath) if isfile(join(inputPath, f))]
+
+	for file in inputFiles:
+		ProcessFile(join(inputPath, file), f"CV{file.replace(".in", "")}", isStaticClass, includes)
+
