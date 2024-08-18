@@ -33,7 +33,8 @@ func _process(_delta):
 	if use_adaptative:
 		th = CVImgProc.adaptive_threshold(gray, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV, CVConsts.AdaptiveThresholdTypes.ADAPTIVE_THRESH_GAUSSIAN_C, 301, 2)
 	else:
-		th = CVImgProc.threshold(gray, thresh, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
+		var result = CVImgProc.threshold(gray, thresh, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
+		th = result["dst"]
 	
 	var kernel2 = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(kernel2_size, kernel2_size), {})
 	var cl := CVImgProc.morphology_ex(th, CVConsts.MorphTypes.MORPH_CLOSE, kernel2, {})

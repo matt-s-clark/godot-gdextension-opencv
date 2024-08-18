@@ -8,6 +8,8 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
+#include "CVRect.h"
+#include "HelperFunctions.h"
 
 namespace godot {
 

@@ -54,8 +54,8 @@ func _process(_delta):
 		var mask := CVImgProc.threshold(sub, 20, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
 		var kernel:CVMat = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(15, 15), {})
 		
-		CVImgProc.morphology_ex(mask, CVConsts.MorphTypes.MORPH_GRADIENT, kernel, {"interactions":5})
-		out = CVCore.bitwise_and(mat, mask, {})
+		CVImgProc.morphology_ex(mask["dst"], CVConsts.MorphTypes.MORPH_GRADIENT, kernel, {"interactions":5})
+		out = CVCore.bitwise_and(mat, mask["dst"], {})
 		
 	video_feed.texture = out.get_texture()
 

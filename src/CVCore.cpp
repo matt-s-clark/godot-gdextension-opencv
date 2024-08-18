@@ -1082,9 +1082,9 @@ void CVCore::set_identity(Ref<CVMat> mtx, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(mtx, , "mtx should not be null.");
 
-	GET_SIMPLE_PROPERTY(Color, Variant::COLOR, s, Color());
+	GET_CONVERTIBLE_PROPERTY(Scalar, Variant::COLOR, s, Scalar(1));
 
-	SAFE_CALL(cv::setIdentity(mtx->get_mat(), Scalar(s.b, s.g, s.r) * 255));
+	SAFE_CALL(cv::setIdentity(mtx->get_mat(), s));
 }
 
 void CVCore::set_rng_seed(int seed){

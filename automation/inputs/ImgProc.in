@@ -1,0 +1,256 @@
+void 	cv::bilateralFilter (InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType=BORDER_DEFAULT)
+void 	cv::blur (InputArray src, OutputArray dst, Size ksize, Point anchor=Point(-1,-1), int borderType=BORDER_DEFAULT)
+void 	cv::boxFilter (InputArray src, OutputArray dst, int ddepth, Size ksize, Point anchor=Point(-1,-1), bool normalize=true, int borderType=BORDER_DEFAULT)
+# Array void 	cv::buildPyramid (InputArray src, OutputArrayOfArrays dst, int maxlevel, int borderType=BORDER_DEFAULT)
+void 	cv::dilate (InputArray src, OutputArray dst, InputArray kernel, Point anchor=Point(-1,-1), int iterations=1, int borderType=BORDER_CONSTANT, const Scalar &borderValue=morphologyDefaultBorderValue())
+void 	cv::erode (InputArray src, OutputArray dst, InputArray kernel, Point anchor=Point(-1,-1), int iterations=1, int borderType=BORDER_CONSTANT, const Scalar &borderValue=morphologyDefaultBorderValue())
+void 	cv::filter2D (InputArray src, OutputArray dst, int ddepth, InputArray kernel, Point anchor=Point(-1,-1), double delta=0, int borderType=BORDER_DEFAULT)
+# Algorithm input void 	cv::GaussianBlur (InputArray src, OutputArray dst, Size ksize, double sigmaX, double sigmaY=0, int borderType=BORDER_DEFAULT, AlgorithmHint hint=cv::ALGO_HINT_DEFAULT)
+>CustomImplementation
+static Ref<CVMat> gaussian_blur(Ref<CVMat> src, Vector2 ksize, float sigmaX, Dictionary additional_parameters);
+ClassDB::bind_static_method( get_class_static(), D_METHOD("gaussian_blur", "src", "ksize", "sigmaX", "additional_parameters"), &CVImgProc::gaussian_blur);
+Ref<CVMat> CVImgProc::gaussian_blur(Ref<CVMat> src, Vector2 ksize, float sigmaX, Dictionary additional_parameters) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	float sigmaY = 0;
+	int borderType = 4;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, sigmaY, "sigma_y", Variant::FLOAT, "FLOAT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
+
+	SAFE_CALL(cv::GaussianBlur(src->get_mat(), matOut, cv::Size(ksize.x, ksize.y), sigmaX, sigmaY, borderType));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+<CustomImplementation
+void 	cv::getDerivKernels (OutputArray kx, OutputArray ky, int dx, int dy, int ksize, bool normalize=false, int ktype=CV_32F)
+# Input Processing Mat 	cv::getGaborKernel (Size ksize, double sigma, double theta, double lambd, double gamma, double psi=CV_PI *0.5, int ktype=CV_64F)
+>CustomImplementation
+static Ref<CVMat> get_gabor_kernel(Vector2 ksize, float sigma, float theta, float lambd, float gamma, Dictionary additional_parameters);
+ClassDB::bind_static_method( get_class_static(), D_METHOD("get_gabor_kernel", "ksize", "sigma", "theta", "lambd", "gamma", "additional_parameters"), &CVImgProc::get_gabor_kernel);
+Ref<CVMat> CVImgProc::get_gabor_kernel(Vector2 ksize, float sigma, float theta, float lambd, float gamma, Dictionary additional_parameters) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	int ktype = 6;
+	float psi = 1.5707963267948966;
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, ktype, "ktype", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, psi, "psi", Variant::FLOAT, "FLOAT");
+
+	SAFE_CALL(matOut = cv::getGaborKernel(cv::Size(ksize.x, ksize.y), sigma, theta, lambd, gamma, psi, ktype));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+<CustomImplementation
+Mat 	cv::getGaussianKernel (int ksize, double sigma, int ktype=CV_64F)
+Mat 	cv::getStructuringElement (int shape, Size ksize, Point anchor=Point(-1,-1))
+void 	cv::Laplacian (InputArray src, OutputArray dst, int ddepth, int ksize=1, double scale=1, double delta=0, int borderType=BORDER_DEFAULT)
+void 	cv::medianBlur (InputArray src, OutputArray dst, int ksize)
+static Scalar 	cv::morphologyDefaultBorderValue ()
+void 	cv::morphologyEx (InputArray src, OutputArray dst, int op, InputArray kernel, Point anchor=Point(-1,-1), int iterations=1, int borderType=BORDER_CONSTANT, const Scalar &borderValue=morphologyDefaultBorderValue())
+void 	cv::pyrDown (InputArray src, OutputArray dst, const Size &dstsize=Size(), int borderType=BORDER_DEFAULT)
+# inputs filtering void 	cv::pyrMeanShiftFiltering (InputArray src, OutputArray dst, double sp, double sr, int maxLevel=1, TermCriteria termcrit=TermCriteria(TermCriteria::MAX_ITER+TermCriteria::EPS, 5, 1))
+void 	cv::pyrUp (InputArray src, OutputArray dst, const Size &dstsize=Size(), int borderType=BORDER_DEFAULT)
+void 	cv::Scharr (InputArray src, OutputArray dst, int ddepth, int dx, int dy, double scale=1, double delta=0, int borderType=BORDER_DEFAULT)
+void 	cv::sepFilter2D (InputArray src, OutputArray dst, int ddepth, InputArray kernelX, InputArray kernelY, Point anchor=Point(-1,-1), double delta=0, int borderType=BORDER_DEFAULT)
+void 	cv::Sobel (InputArray src, OutputArray dst, int ddepth, int dx, int dy, int ksize=3, double scale=1, double delta=0, int borderType=BORDER_DEFAULT)
+void 	cv::spatialGradient (InputArray src, OutputArray dx, OutputArray dy, int ksize=3, int borderType=BORDER_DEFAULT)
+# inputs filtering void 	cv::sqrBoxFilter (InputArray src, OutputArray dst, int ddepth, Size ksize, Point anchor=Point(-1, -1), bool normalize=true, int borderType=BORDER_DEFAULT)
+# Not in cv void 	cv::stackBlur (InputArray src, OutputArray dst, Size ksize)
+void 	cv::convertMaps (InputArray map1, InputArray map2, OutputArray dstmap1, OutputArray dstmap2, int dstmap1type, bool nninterpolation=false)
+# Uses points Mat 	cv::getAffineTransform (const Point2f src[], const Point2f dst[])
+Mat 	cv::getAffineTransform (InputArray src, InputArray dst)
+# Repeat Uses points Mat 	cv::getPerspectiveTransform (const Point2f src[], const Point2f dst[], int solveMethod=DECOMP_LU)
+Mat 	cv::getPerspectiveTransform (InputArray src, InputArray dst, int solveMethod=DECOMP_LU)
+void 	cv::getRectSubPix (InputArray image, Size patchSize, Point2f center, OutputArray patch, int patchType=-1)
+Mat 	cv::getRotationMatrix2D (Point2f center, double angle, double scale)
+# Matx23d 	cv::getRotationMatrix2D_ (Point2f center, double angle, double scale)
+void 	cv::invertAffineTransform (InputArray M, OutputArray iM)
+void 	cv::linearPolar (InputArray src, OutputArray dst, Point2f center, double maxRadius, int flags)
+void 	cv::logPolar (InputArray src, OutputArray dst, Point2f center, double M, int flags)
+void 	cv::remap (InputArray src, OutputArray dst, InputArray map1, InputArray map2, int interpolation, int borderMode=BORDER_CONSTANT, const Scalar &borderValue=Scalar())
+void 	cv::resize (InputArray src, OutputArray dst, Size dsize, double fx=0, double fy=0, int interpolation=INTER_LINEAR)
+void 	cv::warpAffine (InputArray src, OutputArray dst, InputArray M, Size dsize, int flags=INTER_LINEAR, int borderMode=BORDER_CONSTANT, const Scalar &borderValue=Scalar())
+void 	cv::warpPerspective (InputArray src, OutputArray dst, InputArray M, Size dsize, int flags=INTER_LINEAR, int borderMode=BORDER_CONSTANT, const Scalar &borderValue=Scalar())
+void 	cv::warpPolar (InputArray src, OutputArray dst, Size dsize, Point2f center, double maxRadius, int flags)
+void 	cv::adaptiveThreshold (InputArray src, OutputArray dst, double maxValue, int adaptiveMethod, int thresholdType, int blockSize, double C)
+void 	cv::blendLinear (InputArray src1, InputArray src2, InputArray weights1, InputArray weights2, OutputArray dst)
+# Repeat void 	cv::distanceTransform (InputArray src, OutputArray dst, int distanceType, int maskSize, int dstType=CV_32F)
+void 	cv::distanceTransform (InputArray src, OutputArray dst, OutputArray labels, int distanceType, int maskSize, int labelType=DIST_LABEL_CCOMP)
+# Uses non implemented class int 	cv::floodFill (InputOutputArray image, InputOutputArray mask, Point seedPoint, Scalar newVal, Rect *rect=0, Scalar loDiff=Scalar(), Scalar upDiff=Scalar(), int flags=4)
+# Repeat int 	cv::floodFill (InputOutputArray image, Point seedPoint, Scalar newVal, Rect *rect=0, Scalar loDiff=Scalar(), Scalar upDiff=Scalar(), int flags=4)
+void 	cv::integral (InputArray src, OutputArray sum, int sdepth=-1)
+# Repeat void 	cv::integral (InputArray src, OutputArray sum, OutputArray sqsum, int sdepth=-1, int sqdepth=-1)
+# Repeat void 	cv::integral (InputArray src, OutputArray sum, OutputArray sqsum, OutputArray tilted, int sdepth=-1, int sqdepth=-1)
+double 	cv::threshold (InputArray src, OutputArray dst, double thresh, double maxval, int type)
+void 	cv::arrowedLine (InputOutputArray img, Point pt1, Point pt2, const Scalar &color, int thickness=1, int line_type=8, int shift=0, double tipLength=0.1)
+void 	cv::circle (InputOutputArray img, Point center, int radius, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
+# References bool 	cv::clipLine (Rect imgRect, Point &pt1, Point &pt2)
+# Repeat bool 	cv::clipLine (Size imgSize, Point &pt1, Point &pt2)
+# Repeat bool 	cv::clipLine (Size2l imgSize, Point2l &pt1, Point2l &pt2)
+# Array void 	cv::drawContours (InputOutputArray image, InputArrayOfArrays contours, int contourIdx, const Scalar &color, int thickness=1, int lineType=LINE_8, InputArray hierarchy=noArray(), int maxLevel=INT_MAX, Point offset=Point())
+void 	cv::drawMarker (InputOutputArray img, Point position, const Scalar &color, int markerType=MARKER_CROSS, int markerSize=20, int thickness=1, int line_type=8)
+# Repeat void 	cv::ellipse (InputOutputArray img, const RotatedRect &box, const Scalar &color, int thickness=1, int lineType=LINE_8)
+void 	cv::ellipse (InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
+# Uses vectors void 	cv::ellipse2Poly (Point center, Size axes, int angle, int arcStart, int arcEnd, int delta, std::vector< Point > &pts)
+# Uses vectors void 	cv::ellipse2Poly (Point2d center, Size2d axes, int angle, int arcStart, int arcEnd, int delta, std::vector< Point2d > &pts)
+# Repeat void 	cv::fillConvexPoly (InputOutputArray img, const Point *pts, int npts, const Scalar &color, int lineType=LINE_8, int shift=0)
+void 	cv::fillConvexPoly (InputOutputArray img, InputArray points, const Scalar &color, int lineType=LINE_8, int shift=0)
+# Repeat void 	cv::fillPoly (InputOutputArray img, const Point **pts, const int *npts, int ncontours, const Scalar &color, int lineType=LINE_8, int shift=0, Point offset=Point())
+# Array void 	cv::fillPoly (InputOutputArray img, InputArrayOfArrays pts, const Scalar &color, int lineType=LINE_8, int shift=0, Point offset=Point())
+double 	cv::getFontScaleFromHeight (const int fontFace, const int pixelHeight, const int thickness=1)
+# String Size 	cv::getTextSize (const String &text, int fontFace, double fontScale, int thickness, int *baseLine)
+void 	cv::line (InputOutputArray img, Point pt1, Point pt2, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
+# References void 	cv::polylines (InputOutputArray img, const Point *const *pts, const int *npts, int ncontours, bool isClosed, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
+# Repeat void 	cv::polylines (InputOutputArray img, InputArrayOfArrays pts, bool isClosed, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
+# String and references void 	cv::putText (InputOutputArray img, const String &text, Point org, int fontFace, double fontScale, Scalar color, int thickness=1, int lineType=LINE_8, bool bottomLeftOrigin=false)
+# Custom Implementation void 	cv::rectangle (InputOutputArray img, Point pt1, Point pt2, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
+>CustomImplementation
+static void rectangle(Ref<CVMat> img, Dictionary additional_parameters);
+ClassDB::bind_static_method(get_class_static(), D_METHOD("rectangle", "img", "additional_parameters"), &CVImgProc::rectangle);
+void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
+	Ref<CVRect> rect;
+	Vector2 pt1 = Vector2(-1, -1), pt2 = Vector2(-1, -1);
+	Color color = Color(0, 255, 0);
+	int thickness = 1, lineType = 8, shift = 0;
+
+	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, rect, "rec", Variant::OBJECT, "CVRECT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, pt1, "pt1", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, pt2, "pt2", Variant::VECTOR2, "VECTOR2");
+	GET_ADITIONAL_PROPERTY(additional_parameters, color, "color", Variant::COLOR, "COLOR");
+	GET_ADITIONAL_PROPERTY(additional_parameters, thickness, "thickness", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, lineType, "line_type", Variant::INT, "INT");
+	GET_ADITIONAL_PROPERTY(additional_parameters, shift, "shift", Variant::INT, "INT");
+
+	if (!rect.is_null()) {
+		SAFE_CALL(cv::rectangle(
+				img->get_mat(),
+				rect->get_rect(),
+				cv::Scalar(color.b, color.g, color.r) * 255,
+				thickness,
+				lineType,
+				shift));
+
+	} else if (pt1.x >= 0 && pt2.x >= 0 && pt1.y >= 0 && pt2.y >= 0) {
+		SAFE_CALL(cv::rectangle(
+				img->get_mat(),
+				cv::Point((int)pt1.x, (int)pt1.y),
+				cv::Point((int)pt2.x, (int)pt2.y),
+				cv::Scalar(color.b, color.g, color.r) * 255,
+				thickness,
+				lineType,
+				shift));
+	} else {
+		UtilityFunctions::push_error("Invalid input: either rec or pt1 and pt2 needed");
+	}
+}
+<CustomImplementation
+# Repeat void 	cv::rectangle (InputOutputArray img, Rect rec, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
+# Algorithm input void 	cv::cvtColor (InputArray src, OutputArray dst, int code, int dstCn=0, AlgorithmHint hint=cv::ALGO_HINT_DEFAULT)
+# Algorithm input void 	cv::cvtColorTwoPlane (InputArray src1, InputArray src2, OutputArray dst, int code, AlgorithmHint hint=cv::ALGO_HINT_DEFAULT)
+>CustomImplementation
+static Ref<CVMat> cvt_color(Ref<CVMat> src, int code, Dictionary additional_parameters);
+ClassDB::bind_static_method( get_class_static(), D_METHOD("cvt_color", "src", "code", "additional_parameters"), &CVImgProc::cvt_color);
+Ref<CVMat> CVImgProc::cvt_color(Ref<CVMat> src, int code, Dictionary additional_parameters) {
+	cv::Mat matOut;
+	Ref<CVMat> output;
+	output.instantiate();
+
+	int dstCn = 0;
+
+	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
+
+	GET_ADITIONAL_PROPERTY(additional_parameters, dstCn, "dst_cn", Variant::INT, "INT");
+
+	SAFE_CALL(cv::cvtColor(src->get_mat(), matOut, code, dstCn));
+
+	output->set_mat(matOut);
+
+	return output;
+}
+<CustomImplementation
+void 	cv::demosaicing (InputArray src, OutputArray dst, int code, int dstCn=0)
+void 	cv::applyColorMap (InputArray src, OutputArray dst, InputArray userColor)
+# Repeat void 	cv::applyColorMap (InputArray src, OutputArray dst, int colormap)
+# SparseMat void 	cv::calcBackProject (const Mat *images, int nimages, const int *channels, const SparseMat &hist, OutputArray backProject, const float **ranges, double scale=1, bool uniform=true)
+# Repeat void 	cv::calcBackProject (const Mat *images, int nimages, const int *channels, InputArray hist, OutputArray backProject, const float **ranges, double scale=1, bool uniform=true)
+# Uses vectors void 	cv::calcBackProject (InputArrayOfArrays images, const std::vector< int > &channels, InputArray hist, OutputArray dst, const std::vector< float > &ranges, double scale)
+# References void 	cv::calcHist (const Mat *images, int nimages, const int *channels, InputArray mask, OutputArray hist, int dims, const int *histSize, const float **ranges, bool uniform=true, bool accumulate=false)
+# Repeat void 	cv::calcHist (const Mat *images, int nimages, const int *channels, InputArray mask, SparseMat &hist, int dims, const int *histSize, const float **ranges, bool uniform=true, bool accumulate=false)
+# Uses vector void 	cv::calcHist (InputArrayOfArrays images, const std::vector< int > &channels, InputArray mask, OutputArray hist, const std::vector< int > &histSize, const std::vector< float > &ranges, bool accumulate=false)
+# Repeat double 	cv::compareHist (const SparseMat &H1, const SparseMat &H2, int method)
+double 	cv::compareHist (InputArray H1, InputArray H2, int method)
+# inputs filtering Ptr< CLAHE > 	cv::createCLAHE (double clipLimit=40.0, Size tileGridSize=Size(8, 8))
+# References float 	cv::EMD (InputArray signature1, InputArray signature2, int distType, InputArray cost=noArray(), float *lowerBound=0, OutputArray flow=noArray())
+void 	cv::equalizeHist (InputArray src, OutputArray dst)
+# References float 	cv::wrapperEMD (InputArray signature1, InputArray signature2, int distType, InputArray cost=noArray(), Ptr< float > lowerBound=Ptr< float >(), OutputArray flow=noArray())
+# Not in cv namespace void 	cv::approxPolyDP (InputArray curve, OutputArray approxCurve, double epsilon, bool closed)
+# Not in cv namespace void 	cv::approxPolyN (InputArray curve, OutputArray approxCurve, int nsides, float epsilon_percentage=-1.0, bool ensure_convex=true)
+double 	cv::arcLength (InputArray curve, bool closed)
+Rect 	cv::boundingRect (InputArray array)
+# RotatedRect void 	cv::boxPoints (RotatedRect box, OutputArray points)
+int 	cv::connectedComponents (InputArray image, OutputArray labels, int connectivity, int ltype, int ccltype)
+# Repeat int 	cv::connectedComponents (InputArray image, OutputArray labels, int connectivity=8, int ltype=CV_32S)
+int 	cv::connectedComponentsWithStats (InputArray image, OutputArray labels, OutputArray stats, OutputArray centroids, int connectivity, int ltype, int ccltype)
+# Repeat int 	cv::connectedComponentsWithStats (InputArray image, OutputArray labels, OutputArray stats, OutputArray centroids, int connectivity=8, int ltype=CV_32S)
+double 	cv::contourArea (InputArray contour, bool oriented=false)
+void 	cv::convexHull (InputArray points, OutputArray hull, bool clockwise=false, bool returnPoints=true)
+void 	cv::convexityDefects (InputArray contour, InputArray convexhull, OutputArray convexityDefects)
+# Ptr< GeneralizedHoughBallard > 	cv::createGeneralizedHoughBallard ()
+# Ptr< GeneralizedHoughGuil > 	cv::createGeneralizedHoughGuil ()
+# Uses Points void 	cv::findContours (InputArray image, OutputArrayOfArrays contours, int mode, int method, Point offset=Point())
+# Repeat void 	cv::findContours (InputArray image, OutputArrayOfArrays contours, OutputArray hierarchy, int mode, int method, Point offset=Point())
+# Repeat void 	cv::findContoursLinkRuns (InputArray image, OutputArrayOfArrays contours)
+# Not in cv namespace void 	cv::findContoursLinkRuns (InputArray image, OutputArrayOfArrays contours, OutputArray hierarchy)
+# RotatedRect RotatedRect 	cv::fitEllipse (InputArray points)
+# RotatedRect RotatedRect 	cv::fitEllipseAMS (InputArray points)
+# RotatedRect RotatedRect 	cv::fitEllipseDirect (InputArray points)
+void 	cv::fitLine (InputArray points, OutputArray line, int distType, double param, double reps, double aeps)
+# Moments void 	cv::HuMoments (const Moments &m, OutputArray hu)
+# Repeat void 	cv::HuMoments (const Moments &moments, double hu[7])
+float 	cv::intersectConvexConvex (InputArray p1, InputArray p2, OutputArray p12, bool handleNested=true)
+bool 	cv::isContourConvex (InputArray contour)
+double 	cv::matchShapes (InputArray contour1, InputArray contour2, int method, double parameter)
+# # RotatedRect RotatedRect 	cv::minAreaRect (InputArray points)
+# Reference void 	cv::minEnclosingCircle (InputArray points, Point2f &center, float &radius)
+double 	cv::minEnclosingTriangle (InputArray points, OutputArray triangle)
+# Moments 	cv::moments (InputArray array, bool binaryImage=false)
+double 	cv::pointPolygonTest (InputArray contour, Point2f pt, bool measureDist)
+# RotatedRect int 	cv::rotatedRectangleIntersection (const RotatedRect &rect1, const RotatedRect &rect2, OutputArray intersectingRegion)
+void 	cv::accumulate (InputArray src, InputOutputArray dst, InputArray mask=noArray())
+void 	cv::accumulateProduct (InputArray src1, InputArray src2, InputOutputArray dst, InputArray mask=noArray())
+void 	cv::accumulateSquare (InputArray src, InputOutputArray dst, InputArray mask=noArray())
+void 	cv::accumulateWeighted (InputArray src, InputOutputArray dst, double alpha, InputArray mask=noArray())
+void 	cv::createHanningWindow (OutputArray dst, Size winSize, int type)
+# Not in cv namespace void 	cv::divSpectrums (InputArray a, InputArray b, OutputArray c, int flags, bool conjB=false)
+# References Point2d 	cv::phaseCorrelate (InputArray src1, InputArray src2, InputArray window=noArray(), double *response=0)
+# Repeat void 	cv::Canny (InputArray dx, InputArray dy, OutputArray edges, double threshold1, double threshold2, bool L2gradient=false)
+void 	cv::Canny (InputArray image, OutputArray edges, double threshold1, double threshold2, int apertureSize=3, bool L2gradient=false)
+void 	cv::cornerEigenValsAndVecs (InputArray src, OutputArray dst, int blockSize, int ksize, int borderType=BORDER_DEFAULT)
+void 	cv::cornerHarris (InputArray src, OutputArray dst, int blockSize, int ksize, double k, int borderType=BORDER_DEFAULT)
+void 	cv::cornerMinEigenVal (InputArray src, OutputArray dst, int blockSize, int ksize=3, int borderType=BORDER_DEFAULT)
+# Term criteria void 	cv::cornerSubPix (InputArray image, InputOutputArray corners, Size winSize, Size zeroZone, TermCriteria criteria)
+# Ptr< LineSegmentDetector > 	cv::createLineSegmentDetector (int refine=LSD_REFINE_STD, double scale=0.8, double sigma_scale=0.6, double quant=2.0, double ang_th=22.5, double log_eps=0, double density_th=0.7, int n_bins=1024)
+# Repeat void 	cv::goodFeaturesToTrack (InputArray image, OutputArray corners, int maxCorners, double qualityLevel, double minDistance, InputArray mask, int blockSize, int gradientSize, bool useHarrisDetector=false, double k=0.04)
+# Repeat void 	cv::goodFeaturesToTrack (InputArray image, OutputArray corners, int maxCorners, double qualityLevel, double minDistance, InputArray mask, OutputArray cornersQuality, int blockSize=3, int gradientSize=3, bool useHarrisDetector=false, double k=0.04)
+void 	cv::goodFeaturesToTrack (InputArray image, OutputArray corners, int maxCorners, double qualityLevel, double minDistance, InputArray mask=noArray(), int blockSize=3, bool useHarrisDetector=false, double k=0.04)
+void 	cv::HoughCircles (InputArray image, OutputArray circles, int method, double dp, double minDist, double param1=100, double param2=100, int minRadius=0, int maxRadius=0)
+void 	cv::HoughLines (InputArray image, OutputArray lines, double rho, double theta, int threshold, double srn=0, double stn=0, double min_theta=0, double max_theta=CV_PI)
+void 	cv::HoughLinesP (InputArray image, OutputArray lines, double rho, double theta, int threshold, double minLineLength=0, double maxLineGap=0)
+void 	cv::HoughLinesPointSet (InputArray point, OutputArray lines, int lines_max, int threshold, double min_rho, double max_rho, double rho_step, double min_theta, double max_theta, double theta_step)
+void 	cv::preCornerDetect (InputArray src, OutputArray dst, int ksize, int borderType=BORDER_DEFAULT)
+void 	cv::matchTemplate (InputArray image, InputArray templ, OutputArray result, int method, InputArray mask=noArray())
+void 	cv::grabCut (InputArray img, InputOutputArray mask, Rect rect, InputOutputArray bgdModel, InputOutputArray fgdModel, int iterCount, int mode=GC_EVAL)
+void 	cv::watershed (InputArray image, InputOutputArray markers)

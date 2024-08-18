@@ -184,11 +184,13 @@ func test_threshold():
 	
 	var result := CVImgProc.threshold(mat, 128, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
 	
-	assert_eq(result.cols, mat.cols)
-	assert_eq(result.rows, mat.rows)
+	var dst = result["dst"]
 	
-	assert_eq(result.get_at(0, 0), 255)
-	assert_eq(result.get_at(2, 2), 0)
+	assert_eq(dst.cols, mat.cols)
+	assert_eq(dst.rows, mat.rows)
+	
+	assert_eq(dst.get_at(0, 0), 255)
+	assert_eq(dst.get_at(2, 2), 0)
 	
 func test_sobel():
 	# Could be better
@@ -216,10 +218,10 @@ func test_laplacian():
 	assert_eq(result.get_at(3,0), 255)
 	assert_eq(result.get_at(4,0), 0)
 	
-func test_filter2D():
+func test_filter_2D():
 	var mat := CVMat.ones(5, 5, CVConsts.MatType.CV_8U)
 	var kernel := CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(3, 3), {})
-	var result := CVImgProc.filter2D(mat, -1, kernel, {})
+	var result := CVImgProc.filter_2d(mat, -1, kernel, {})
 	
 	assert_eq(result.cols, mat.cols)
 	assert_eq(result.rows, mat.rows)

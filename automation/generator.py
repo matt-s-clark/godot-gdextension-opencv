@@ -4,9 +4,13 @@ import re
 
 openCVInputTypes = {
 	"Scalar":"Color",
+	"Point": "Vector2",
+	"Point2f": "Vector2",
+	"Size": "Vector2",
 	"Mat":"Ref<CVMat>",
 	"InputArray":"Ref<CVMat>",
 	"InputOutputArray":"Ref<CVMat>",
+	"Rect":"Ref<CVRect>",
 	"InputArrayOfArrays":"Array"
 }
 openCVOutputTypes = {
@@ -24,7 +28,11 @@ processingLine = {
 	"Mat": "{0}->get_mat()",
 	"InputArray": "{0}->get_mat()",
 	"InputOutputArray": "{0}->get_mat()",
-	"Scalar": "Scalar({0}.b, {0}.g, {0}.r) * 255" ## Simplify
+	"Rect": "{0}->get_rect()",
+	"Scalar": "Scalar({0}.b, {0}.g, {0}.r) * 255", ## Simplify
+	"Point": "Point({0}.x, {0}.y)",
+	"Point2f": "Point2f({0}.x, {0}.y)",
+	"Size": "Size({0}.x, {0}.y)",
 }
 initializingType = {
 	"Mat":"Mat",
@@ -35,7 +43,7 @@ initializingType = {
 addParamConversion = {
 	"noArray()":"Mat()",
 }
-convertibleTypes = ["Color"]
+convertibleTypes = ["Scalar", "Point", "Size", "Point2f"]
 
 def GetOrDefault(val : str, list : dict):
 	tmp = list.get(val)
@@ -44,7 +52,7 @@ def GetOrDefault(val : str, list : dict):
 def ProcessTokens(line : str):
 	isStatic = bool(re.match(r"static ", line))
 	line = re.sub(r"([\w\d]+::)|const |&|static |(?<=<) | (?=>)|\*", "", line)
-	inputs = re.search(r"(?<=\()[\w\d ,_()=\-&*\.<>]+(?=\))", line)
+	inputs = re.search(r"(?<=\()[\w\d ,_()=\-&*\.<>+\[\]]+(?=\))", line)
 	split = line.split()
 	methodOutputType = split[0]
 	methodName = split[1]
@@ -76,12 +84,12 @@ def ProcessTokens(line : str):
 			filteredInputs.append(newInput)
 		
 		if len(input) == 3:
-			newInput = [GetOrDefault(input[0], input2Output)]
-			newInput.extend(input[1:])
+			newInput = [GetOrDefault(input[0], input2Output), input[1], input[2], input[0]]
 			addtionalParameters.append(newInput)
 
 		if len(input) < 2 or len(input) > 3:
 			print("Failed input ", input)
+			print(line)
 			break
 	
 	if len(addtionalParameters):
@@ -118,7 +126,8 @@ def GenerateBinding(isStatic, className, methodName, inputs):
 def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inputs, outputs, methodOutputType, outputType, addtionalParameters, filteredInputs):
 	codeLinesList = []
 	methodCall = f"cv::{methodName}" if isStatic else "---- Not Implemented ----"
-	methodInputs = ", ".join([processingLine[i[0]].format(i[1]) if i[0] in processingLine else i[1] for i in inputs])
+	methodInputs = ", ".join([processingLine[i[0]].format(i[1]) if i[0] in processingLine and (i[0] in initializingType or i[1] not in map(lambda ad : ad[1], addtionalParameters)) else i[1] for i in inputs])
+		
 	returnName = "output" if len(outputs) == 1 and outputs[0][0] not in openCVInputTypes else "defReturn"
 	callReturn = "" if methodOutputType ==  "void" else f"{returnName} = "
 	first = re.sub(re.escape(newMethodName) + r"\(", f"{className}::{newMethodName}(",headerLine[:-1]) + "{"
@@ -156,9 +165,10 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 	for ad in addtionalParameters:
 		if "Ref" in ad[0]:
 			codeLinesList.append(f"	GET_OBJECT_PROPERTY({ad[0]}, {ad[1]});")
+		elif ad[3] in convertibleTypes:
+			codeLinesList.append(f"	GET_CONVERTIBLE_PROPERTY({ad[3]}, Variant::{ad[0].upper()}, {ad[1]}, {ad[2]});")
 		else:
-			default = ad[2] if ad[0] not in convertibleTypes else f"{ad[0]}()"
-			codeLinesList.append(f"	GET_SIMPLE_PROPERTY({ad[0]}, Variant::{ad[0].upper()}, {ad[1]}, {default});")
+			codeLinesList.append(f"	GET_SIMPLE_PROPERTY({ad[0]}, Variant::{ad[0].upper()}, {ad[1]}, {ad[2]});")
 
 
 	codeLinesList.append("")
@@ -205,12 +215,40 @@ def ProcessFile(file, className, isStaticClass, includes):
 	bindingLines = []
 	implementationLines = []
 
+	CustomImplementationFlag = 0
+	CustomImplementationCode = []
+
 	for line in inputHeader:
-		if line == "\n":
-			continue
 		if line[0] == "#":
 			continue
+		
+		# Process Custom Implementation
+		if line.startswith(">CustomImplementation"):
+			CustomImplementationFlag = 1
+			continue
+		if line.startswith("<CustomImplementation"):
+			CustomImplementationFlag = 0
+			implementationLines.append("// Custom Implementation")
+			implementationLines.append("\n".join(CustomImplementationCode))
+			CustomImplementationCode = []
+			continue
+		
+		if CustomImplementationFlag == 1:
+			headerLines.append(line[:-1])
+			CustomImplementationFlag +=1
+			continue
+		elif CustomImplementationFlag == 2:
+			bindingLines.append(f"	{line[:-1]}")
+			CustomImplementationFlag +=1
+			continue
+		elif CustomImplementationFlag == 3:
+			CustomImplementationCode.append(line[:-1])
+			continue
 
+		if line == "\n":
+			continue
+
+		# Process input line
 		methodOutputType, methodName, newMethodName, \
 		inputs, isStatic, filteredInputs, \
 		outputs, addtionalParameters, outputType = ProcessTokens(line)
@@ -250,8 +288,10 @@ def ProcessFile(file, className, isStaticClass, includes):
 if __name__ == "__main__":
 	isStaticClass = True
 	includes = """#include <opencv2/core.hpp>
-	#include <opencv2/imgcodecs.hpp>
-	#include <opencv2/imgproc.hpp>"""
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc.hpp>
+#include \"CVRect.h\"
+#include \"HelperFunctions.h\""""
 
 	inputPath = "automation/inputs/"
 	inputFiles = [f for f in listdir(inputPath) if isfile(join(inputPath, f))]
