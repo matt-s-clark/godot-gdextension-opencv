@@ -562,14 +562,123 @@ enum SortFlags {
   SORT_DESCENDING = 16
 }
 
-enum CmpTypes {
-  CMP_EQ = 0 ,
-  CMP_GT = 1 ,
-  CMP_GE = 2 ,
-  CMP_LT = 3 ,
-  CMP_LE = 4 ,
+enum  	BorderTypes {
+  BORDER_CONSTANT = 0,
+  BORDER_REPLICATE = 1,
+  BORDER_REFLECT = 2,
+  BORDER_WRAP = 3,
+  BORDER_REFLECT_101 = 4,
+  BORDER_TRANSPARENT = 5,
+  BORDER_REFLECT101 = BORDER_REFLECT_101,
+  BORDER_DEFAULT = BORDER_REFLECT_101,
+  BORDER_ISOLATED = 16
+}
+ 
+enum  	CmpTypes {
+  CMP_EQ = 0,
+  CMP_GT = 1,
+  CMP_GE = 2,
+  CMP_LT = 3,
+  CMP_LE = 4,
   CMP_NE = 5
 }
+ 
+enum  	ErrorCode {
+  ErrorStsOk = 0,
+  ErrorStsBackTrace = -1,
+  ErrorStsError = -2,
+  ErrorStsInternal = -3,
+  ErrorStsNoMem = -4,
+  ErrorStsBadArg = -5,
+  ErrorStsBadFunc = -6,
+  ErrorStsNoConv = -7,
+  ErrorStsAutoTrace = -8,
+  ErrorHeaderIsNull = -9,
+  ErrorBadImageSize = -10,
+  ErrorBadOffset = -11,
+  ErrorBadDataPtr = -12,
+  ErrorBadStep = -13,
+  ErrorBadModelOrChSeq = -14,
+  ErrorBadNumChannels = -15,
+  ErrorBadNumChannel1U = -16,
+  ErrorBadDepth = -17,
+  ErrorBadAlphaChannel = -18,
+  ErrorBadOrder = -19,
+  ErrorBadOrigin = -20,
+  ErrorBadAlign = -21,
+  ErrorBadCallBack = -22,
+  ErrorBadTileSize = -23,
+  ErrorBadCOI = -24,
+  ErrorBadROISize = -25,
+  ErrorMaskIsTiled = -26,
+  ErrorStsNullPtr = -27,
+  ErrorStsVecLengthErr = -28,
+  ErrorStsFilterStructContentErr = -29,
+  ErrorStsKernelStructContentErr = -30,
+  ErrorStsFilterOffsetErr = -31,
+  ErrorStsBadSize = -201,
+  ErrorStsDivByZero = -202,
+  ErrorStsInplaceNotSupported = -203,
+  ErrorStsObjectNotFound = -204,
+  ErrorStsUnmatchedFormats = -205,
+  ErrorStsBadFlag = -206,
+  ErrorStsBadPoint = -207,
+  ErrorStsBadMask = -208,
+  ErrorStsUnmatchedSizes = -209,
+  ErrorStsUnsupportedFormat = -210,
+  ErrorStsOutOfRange = -211,
+  ErrorStsParseError = -212,
+  ErrorStsNotImplemented = -213,
+  ErrorStsBadMemBlock = -214,
+  ErrorStsAssert = -215,
+  ErrorGpuNotSupported = -216,
+  ErrorGpuApiCallError = -217,
+  ErrorOpenGlNotSupported = -218,
+  ErrorOpenGlApiCallError = -219,
+  ErrorOpenCLApiCallError = -220,
+  ErrorOpenCLDoubleNotSupported = -221,
+  ErrorOpenCLInitError = -222,
+  ErrorOpenCLNoAMDBlasFft = -223
+}
+ 
+enum  	DecompTypes {
+  DECOMP_LU = 0,
+  DECOMP_SVD = 1,
+  DECOMP_EIG = 2,
+  DECOMP_CHOLESKY = 3,
+  DECOMP_QR = 4,
+  DECOMP_NORMAL = 16
+}
+ 
+enum  	DftFlags {
+  DFT_INVERSE = 1,
+  DFT_SCALE = 2,
+  DFT_ROWS = 4,
+  DFT_COMPLEX_OUTPUT = 16,
+  DFT_REAL_OUTPUT = 32,
+  DFT_COMPLEX_INPUT = 64,
+  DCT_INVERSE = DFT_INVERSE,
+  DCT_ROWS = DFT_ROWS
+}
+ 
+enum  	GemmFlags {
+  GEMM_1_T = 1,
+  GEMM_2_T = 2,
+  GEMM_3_T = 4
+}
+ 
+enum  	NormTypes {
+  NORM_INF = 1,
+  NORM_L1 = 2,
+  NORM_L2 = 4,
+  NORM_L2SQR = 5,
+  NORM_HAMMING = 6,
+  NORM_HAMMING2 = 7,
+  NORM_TYPE_MASK = 7,
+  NORM_RELATIVE = 8,
+  NORM_MINMAX = 32
+}
+
 #imgproc
 
 enum ColorConversionCodes {

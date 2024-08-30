@@ -241,3 +241,205 @@ func test_gaussian_kernel():
 	assert_almost_eq(mat.get_at(0,0), 0.25, 0.001)
 	assert_almost_eq(mat.get_at(1,0), 0.5, 0.001)
 	assert_almost_eq(mat.get_at(2,0), 0.25, 0.001)
+
+func test_box_filter():
+	pass
+
+func test_filter_2d():
+	pass
+
+func test_get_deriv_kernels():
+	pass
+
+func test_get_gaussian_kernel():
+	pass
+
+func test_morphology_default_border_value():
+	pass
+
+func test_pyr_down():
+	pass
+
+func test_pyr_up():
+	pass
+
+func test_scharr():
+	pass
+
+func test_sep_filter_2d():
+	pass
+
+func test_spatial_gradient():
+	pass
+
+func test_convert_maps():
+	pass
+
+func test_get_affine_transform():
+	pass
+
+func test_get_perspective_transform():
+	pass
+
+func test_get_rect_sub_pix():
+	pass
+
+func test_get_rotation_matrix_2d():
+	pass
+
+func test_invert_affine_transform():
+	pass
+
+func test_linear_polar():
+	pass
+
+func test_log_polar():
+	pass
+
+func test_remap():
+	pass
+
+func test_resize():
+	pass
+
+func test_warp_affine():
+	pass
+
+func test_warp_perspective():
+	pass
+
+func test_warp_polar():
+	pass
+
+func test_blend_linear():
+	pass
+
+func test_distance_transform():
+	pass
+
+func test_integral():
+	pass
+
+func test_arrowed_line():
+	pass
+
+func test_circle():
+	pass
+
+func test_draw_marker():
+	pass
+
+func test_ellipse():
+	pass
+
+func test_fill_convex_poly():
+	pass
+
+func test_get_font_scale_from_height():
+	pass
+
+func test_line():
+	pass
+
+func test_demosaicing():
+	pass
+
+func test_apply_color_map():
+	pass
+
+func test_compare_hist():
+	pass
+
+func test_arc_length():
+	pass
+
+func test_bounding_rect():
+	pass
+
+func test_connected_components():
+	pass
+
+func test_connected_components_with_stats():
+	pass
+
+func test_contour_area():
+	pass
+
+func test_convex_hull():
+	pass
+
+func test_convexity_defects():
+	pass
+
+func test_fit_line():
+	pass
+
+func test_intersect_convex_convex():
+	pass
+
+func test_is_contour_convex():
+	pass
+
+func test_match_shapes():
+	pass
+
+func test_min_enclosing_triangle():
+	pass
+
+func test_point_polygon_test():
+	pass
+
+func test_accumulate():
+	pass
+
+func test_accumulate_product():
+	pass
+
+func test_accumulate_square():
+	pass
+
+func test_accumulate_weighted():
+	pass
+
+func test_create_hanning_window():
+	pass
+
+func test_canny():
+	pass
+
+func test_corner_eigen_vals_and_vecs():
+	pass
+
+func test_corner_harris():
+	pass
+
+func test_corner_min_eigen_val():
+	pass
+
+func test_good_features_to_track():
+	pass
+
+func test_hough_circles():
+	pass
+
+func test_hough_lines():
+	pass
+
+func test_hough_lines_p():
+	pass
+
+func test_hough_lines_point_set():
+	pass
+
+func test_pre_corner_detect():
+	pass
+
+func test_match_template():
+	pass
+
+func test_grab_cut():
+	pass
+
+func test_watershed():
+	pass
+
