@@ -416,7 +416,7 @@ func test_mean():
 	
 	var result := CVCore.mean(mat, {})
 	
-	assert_almost_eq(result.r, 0.333, 0.001)
+	assert_almost_eq(result.get_vector3(), Vector3(0.333, 0, 0), Vector3.ONE * 0.001)
 	
 func test_mean_std_dev():
 	var mat := CVMat.eye(3, 3, CVConsts.MatType.CV_32FC3)
@@ -699,7 +699,7 @@ func test_sum():
 	
 	var result := CVCore.sum(mat)
 	
-	assert_eq(int(result.r), 9)
+	assert_eq(int(result.get_int()), 9)
 	
 func test_sv_back_subst():
 	pass
@@ -730,7 +730,7 @@ func test_trace():
 	
 	var result := CVCore.trace(mat)
 	
-	assert_eq(result.r, 3.0)
+	assert_eq(result.get_float(), 3.0)
 	
 func test_transpose():
 	var mat1 := CVMat.ones(3, 4, CVConsts.MatType.CV_32F)

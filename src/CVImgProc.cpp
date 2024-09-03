@@ -104,9 +104,9 @@ Ref<CVMat> CVImgProc::bilateral_filter(Ref<CVMat> src, int d, float sigmaColor, 
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::bilateralFilter(src->get_mat(), dst, d, sigmaColor, sigmaSpace, borderType));
+	SAFE_CALL(cv::bilateralFilter(src->get_pointer(), dst, d, sigmaColor, sigmaSpace, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -121,9 +121,9 @@ Ref<CVMat> CVImgProc::blur(Ref<CVMat> src, Vector2 ksize, Dictionary additional_
 	GET_CONVERTIBLE_PROPERTY(Point, Variant::VECTOR2, anchor, Point(-1,-1));
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::blur(src->get_mat(), dst, Size(ksize.x, ksize.y), anchor, borderType));
+	SAFE_CALL(cv::blur(src->get_pointer(), dst, Size(ksize.x, ksize.y), anchor, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -139,9 +139,9 @@ Ref<CVMat> CVImgProc::box_filter(Ref<CVMat> src, int ddepth, Vector2 ksize, Dict
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, normalize, true);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::boxFilter(src->get_mat(), dst, ddepth, Size(ksize.x, ksize.y), anchor, normalize, borderType));
+	SAFE_CALL(cv::boxFilter(src->get_pointer(), dst, ddepth, Size(ksize.x, ksize.y), anchor, normalize, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -157,11 +157,11 @@ Ref<CVMat> CVImgProc::dilate(Ref<CVMat> src, Ref<CVMat> kernel, Dictionary addit
 	GET_CONVERTIBLE_PROPERTY(Point, Variant::VECTOR2, anchor, Point(-1,-1));
 	GET_SIMPLE_PROPERTY(int, Variant::INT, iterations, 1);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_CONSTANT);
-	GET_CONVERTIBLE_PROPERTY(Scalar, Variant::COLOR, borderValue, morphologyDefaultBorderValue());
+	GET_OBJECT_PROPERTY(Ref<CVScalar>, borderValue, morphologyDefaultBorderValue());
 
-	SAFE_CALL(cv::dilate(src->get_mat(), dst, kernel->get_mat(), anchor, iterations, borderType, borderValue));
+	SAFE_CALL(cv::dilate(src->get_pointer(), dst, kernel->get_pointer(), anchor, iterations, borderType, borderValue->get_pointer()));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -177,11 +177,11 @@ Ref<CVMat> CVImgProc::erode(Ref<CVMat> src, Ref<CVMat> kernel, Dictionary additi
 	GET_CONVERTIBLE_PROPERTY(Point, Variant::VECTOR2, anchor, Point(-1,-1));
 	GET_SIMPLE_PROPERTY(int, Variant::INT, iterations, 1);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_CONSTANT);
-	GET_CONVERTIBLE_PROPERTY(Scalar, Variant::COLOR, borderValue, morphologyDefaultBorderValue());
+	GET_OBJECT_PROPERTY(Ref<CVScalar>, borderValue, morphologyDefaultBorderValue());
 
-	SAFE_CALL(cv::erode(src->get_mat(), dst, kernel->get_mat(), anchor, iterations, borderType, borderValue));
+	SAFE_CALL(cv::erode(src->get_pointer(), dst, kernel->get_pointer(), anchor, iterations, borderType, borderValue->get_pointer()));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -198,9 +198,9 @@ Ref<CVMat> CVImgProc::filter_2d(Ref<CVMat> src, int ddepth, Ref<CVMat> kernel, D
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, delta, 0);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::filter2D(src->get_mat(), dst, ddepth, kernel->get_mat(), anchor, delta, borderType));
+	SAFE_CALL(cv::filter2D(src->get_pointer(), dst, ddepth, kernel->get_pointer(), anchor, delta, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -220,9 +220,9 @@ Ref<CVMat> CVImgProc::gaussian_blur(Ref<CVMat> src, Vector2 ksize, float sigmaX,
 	GET_ADITIONAL_PROPERTY(additional_parameters, sigmaY, "sigma_y", Variant::FLOAT, "FLOAT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 
-	SAFE_CALL(cv::GaussianBlur(src->get_mat(), matOut, cv::Size(ksize.x, ksize.y), sigmaX, sigmaY, borderType));
+	SAFE_CALL(cv::GaussianBlur(src->get_pointer(), matOut, cv::Size(ksize.x, ksize.y), sigmaX, sigmaY, borderType));
 
-	output->set_mat(matOut);
+	output->set_pointer(matOut);
 
 	return output;
 }
@@ -241,8 +241,8 @@ Dictionary CVImgProc::get_deriv_kernels(int dx, int dy, int ksize, Dictionary ad
 
 	SAFE_CALL(cv::getDerivKernels(kx, ky, dx, dy, ksize, normalize, ktype));
 
-	outkx->set_mat(kx);
-	outky->set_mat(ky);
+	outkx->set_pointer(kx);
+	outky->set_pointer(ky);
 
 	output["kx"] = outkx;
 	output["ky"] = outky;
@@ -265,7 +265,7 @@ Ref<CVMat> CVImgProc::get_gabor_kernel(Vector2 ksize, float sigma, float theta, 
 
 	SAFE_CALL(matOut = cv::getGaborKernel(cv::Size(ksize.x, ksize.y), sigma, theta, lambd, gamma, psi, ktype));
 
-	output->set_mat(matOut);
+	output->set_pointer(matOut);
 
 	return output;
 }
@@ -279,7 +279,7 @@ Ref<CVMat> CVImgProc::get_gaussian_kernel(int ksize, float sigma, Dictionary add
 
 	SAFE_CALL(defReturn = cv::getGaussianKernel(ksize, sigma, ktype));
 
-	output->set_mat(defReturn);
+	output->set_pointer(defReturn);
 
 	return output;
 }
@@ -293,7 +293,7 @@ Ref<CVMat> CVImgProc::get_structuring_element(int shape, Vector2 ksize, Dictiona
 
 	SAFE_CALL(defReturn = cv::getStructuringElement(shape, Size(ksize.x, ksize.y), anchor));
 
-	output->set_mat(defReturn);
+	output->set_pointer(defReturn);
 
 	return output;
 }
@@ -310,9 +310,9 @@ Ref<CVMat> CVImgProc::laplacian(Ref<CVMat> src, int ddepth, Dictionary additiona
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, delta, 0);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::Laplacian(src->get_mat(), dst, ddepth, ksize, scale, delta, borderType));
+	SAFE_CALL(cv::Laplacian(src->get_pointer(), dst, ddepth, ksize, scale, delta, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -324,20 +324,21 @@ Ref<CVMat> CVImgProc::median_blur(Ref<CVMat> src, int ksize){
 
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
-	SAFE_CALL(cv::medianBlur(src->get_mat(), dst, ksize));
+	SAFE_CALL(cv::medianBlur(src->get_pointer(), dst, ksize));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
 
-Color CVImgProc::morphology_default_border_value(){
-	Color output;
+Ref<CVScalar> CVImgProc::morphology_default_border_value(){
+	Ref<CVScalar> output;
+	output.instantiate();
 	Scalar defReturn;
 
 	SAFE_CALL(defReturn = cv::morphologyDefaultBorderValue());
 
-	output = Color(defReturn[0], defReturn[1], defReturn[2]);
+	output->set_pointer(defReturn);
 
 	return output;
 }
@@ -353,11 +354,11 @@ Ref<CVMat> CVImgProc::morphology_ex(Ref<CVMat> src, int op, Ref<CVMat> kernel, D
 	GET_CONVERTIBLE_PROPERTY(Point, Variant::VECTOR2, anchor, Point(-1,-1));
 	GET_SIMPLE_PROPERTY(int, Variant::INT, iterations, 1);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_CONSTANT);
-	GET_CONVERTIBLE_PROPERTY(Scalar, Variant::COLOR, borderValue, morphologyDefaultBorderValue());
+	GET_OBJECT_PROPERTY(Ref<CVScalar>, borderValue, morphologyDefaultBorderValue());
 
-	SAFE_CALL(cv::morphologyEx(src->get_mat(), dst, op, kernel->get_mat(), anchor, iterations, borderType, borderValue));
+	SAFE_CALL(cv::morphologyEx(src->get_pointer(), dst, op, kernel->get_pointer(), anchor, iterations, borderType, borderValue->get_pointer()));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -372,9 +373,9 @@ Ref<CVMat> CVImgProc::pyr_down(Ref<CVMat> src, Dictionary additional_parameters)
 	GET_CONVERTIBLE_PROPERTY(Size, Variant::VECTOR2, dstsize, Size());
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::pyrDown(src->get_mat(), dst, dstsize, borderType));
+	SAFE_CALL(cv::pyrDown(src->get_pointer(), dst, dstsize, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -389,9 +390,9 @@ Ref<CVMat> CVImgProc::pyr_up(Ref<CVMat> src, Dictionary additional_parameters){
 	GET_CONVERTIBLE_PROPERTY(Size, Variant::VECTOR2, dstsize, Size());
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::pyrUp(src->get_mat(), dst, dstsize, borderType));
+	SAFE_CALL(cv::pyrUp(src->get_pointer(), dst, dstsize, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -407,9 +408,9 @@ Ref<CVMat> CVImgProc::scharr(Ref<CVMat> src, int ddepth, int dx, int dy, Diction
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, delta, 0);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::Scharr(src->get_mat(), dst, ddepth, dx, dy, scale, delta, borderType));
+	SAFE_CALL(cv::Scharr(src->get_pointer(), dst, ddepth, dx, dy, scale, delta, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -427,9 +428,9 @@ Ref<CVMat> CVImgProc::sep_filter_2d(Ref<CVMat> src, int ddepth, Ref<CVMat> kerne
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, delta, 0);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::sepFilter2D(src->get_mat(), dst, ddepth, kernelX->get_mat(), kernelY->get_mat(), anchor, delta, borderType));
+	SAFE_CALL(cv::sepFilter2D(src->get_pointer(), dst, ddepth, kernelX->get_pointer(), kernelY->get_pointer(), anchor, delta, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -446,9 +447,9 @@ Ref<CVMat> CVImgProc::sobel(Ref<CVMat> src, int ddepth, int dx, int dy, Dictiona
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, delta, 0);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::Sobel(src->get_mat(), dst, ddepth, dx, dy, ksize, scale, delta, borderType));
+	SAFE_CALL(cv::Sobel(src->get_pointer(), dst, ddepth, dx, dy, ksize, scale, delta, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -467,10 +468,10 @@ Dictionary CVImgProc::spatial_gradient(Ref<CVMat> src, Dictionary additional_par
 	GET_SIMPLE_PROPERTY(int, Variant::INT, ksize, 3);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::spatialGradient(src->get_mat(), dx, dy, ksize, borderType));
+	SAFE_CALL(cv::spatialGradient(src->get_pointer(), dx, dy, ksize, borderType));
 
-	outdx->set_mat(dx);
-	outdy->set_mat(dy);
+	outdx->set_pointer(dx);
+	outdy->set_pointer(dy);
 
 	output["dx"] = outdx;
 	output["dy"] = outdy;
@@ -492,10 +493,10 @@ Dictionary CVImgProc::convert_maps(Ref<CVMat> map1, Ref<CVMat> map2, int dstmap1
 
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, nninterpolation, false);
 
-	SAFE_CALL(cv::convertMaps(map1->get_mat(), map2->get_mat(), dstmap1, dstmap2, dstmap1type, nninterpolation));
+	SAFE_CALL(cv::convertMaps(map1->get_pointer(), map2->get_pointer(), dstmap1, dstmap2, dstmap1type, nninterpolation));
 
-	outdstmap1->set_mat(dstmap1);
-	outdstmap2->set_mat(dstmap2);
+	outdstmap1->set_pointer(dstmap1);
+	outdstmap2->set_pointer(dstmap2);
 
 	output["dstmap1"] = outdstmap1;
 	output["dstmap2"] = outdstmap2;
@@ -511,9 +512,9 @@ Ref<CVMat> CVImgProc::get_affine_transform(Ref<CVMat> src, Ref<CVMat> dst){
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 	ERR_FAIL_NULL_V_MSG(dst, output, "dst should not be null.");
 
-	SAFE_CALL(defReturn = cv::getAffineTransform(src->get_mat(), dst->get_mat()));
+	SAFE_CALL(defReturn = cv::getAffineTransform(src->get_pointer(), dst->get_pointer()));
 
-	output->set_mat(defReturn);
+	output->set_pointer(defReturn);
 
 	return output;
 }
@@ -528,9 +529,9 @@ Ref<CVMat> CVImgProc::get_perspective_transform(Ref<CVMat> src, Ref<CVMat> dst, 
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, solveMethod, DECOMP_LU);
 
-	SAFE_CALL(defReturn = cv::getPerspectiveTransform(src->get_mat(), dst->get_mat(), solveMethod));
+	SAFE_CALL(defReturn = cv::getPerspectiveTransform(src->get_pointer(), dst->get_pointer(), solveMethod));
 
-	output->set_mat(defReturn);
+	output->set_pointer(defReturn);
 
 	return output;
 }
@@ -544,9 +545,9 @@ Ref<CVMat> CVImgProc::get_rect_sub_pix(Ref<CVMat> image, Vector2 patchSize, Vect
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, patchType, -1);
 
-	SAFE_CALL(cv::getRectSubPix(image->get_mat(), Size(patchSize.x, patchSize.y), Point2f(center.x, center.y), patch, patchType));
+	SAFE_CALL(cv::getRectSubPix(image->get_pointer(), Size(patchSize.x, patchSize.y), Point2f(center.x, center.y), patch, patchType));
 
-	output->set_mat(patch);
+	output->set_pointer(patch);
 
 	return output;
 }
@@ -558,7 +559,7 @@ Ref<CVMat> CVImgProc::get_rotation_matrix_2d(Vector2 center, float angle, float 
 
 	SAFE_CALL(defReturn = cv::getRotationMatrix2D(Point2f(center.x, center.y), angle, scale));
 
-	output->set_mat(defReturn);
+	output->set_pointer(defReturn);
 
 	return output;
 }
@@ -570,9 +571,9 @@ Ref<CVMat> CVImgProc::invert_affine_transform(Ref<CVMat> M){
 
 	ERR_FAIL_NULL_V_MSG(M, output, "M should not be null.");
 
-	SAFE_CALL(cv::invertAffineTransform(M->get_mat(), iM));
+	SAFE_CALL(cv::invertAffineTransform(M->get_pointer(), iM));
 
-	output->set_mat(iM);
+	output->set_pointer(iM);
 
 	return output;
 }
@@ -584,9 +585,9 @@ Ref<CVMat> CVImgProc::linear_polar(Ref<CVMat> src, Vector2 center, float maxRadi
 
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
-	SAFE_CALL(cv::linearPolar(src->get_mat(), dst, Point2f(center.x, center.y), maxRadius, flags));
+	SAFE_CALL(cv::linearPolar(src->get_pointer(), dst, Point2f(center.x, center.y), maxRadius, flags));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -598,9 +599,9 @@ Ref<CVMat> CVImgProc::log_polar(Ref<CVMat> src, Vector2 center, float M, int fla
 
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
-	SAFE_CALL(cv::logPolar(src->get_mat(), dst, Point2f(center.x, center.y), M, flags));
+	SAFE_CALL(cv::logPolar(src->get_pointer(), dst, Point2f(center.x, center.y), M, flags));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -615,11 +616,11 @@ Ref<CVMat> CVImgProc::remap(Ref<CVMat> src, Ref<CVMat> map1, Ref<CVMat> map2, in
 	ERR_FAIL_NULL_V_MSG(map2, output, "map2 should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderMode, BORDER_CONSTANT);
-	GET_CONVERTIBLE_PROPERTY(Scalar, Variant::COLOR, borderValue, Scalar());
+	GET_OBJECT_PROPERTY(Ref<CVScalar>, borderValue, Scalar());
 
-	SAFE_CALL(cv::remap(src->get_mat(), dst, map1->get_mat(), map2->get_mat(), interpolation, borderMode, borderValue));
+	SAFE_CALL(cv::remap(src->get_pointer(), dst, map1->get_pointer(), map2->get_pointer(), interpolation, borderMode, borderValue->get_pointer()));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -635,9 +636,9 @@ Ref<CVMat> CVImgProc::resize(Ref<CVMat> src, Vector2 dsize, Dictionary additiona
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, fy, 0);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, interpolation, INTER_LINEAR);
 
-	SAFE_CALL(cv::resize(src->get_mat(), dst, Size(dsize.x, dsize.y), fx, fy, interpolation));
+	SAFE_CALL(cv::resize(src->get_pointer(), dst, Size(dsize.x, dsize.y), fx, fy, interpolation));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -652,11 +653,11 @@ Ref<CVMat> CVImgProc::warp_affine(Ref<CVMat> src, Ref<CVMat> M, Vector2 dsize, D
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, INTER_LINEAR);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderMode, BORDER_CONSTANT);
-	GET_CONVERTIBLE_PROPERTY(Scalar, Variant::COLOR, borderValue, Scalar());
+	GET_OBJECT_PROPERTY(Ref<CVScalar>, borderValue, Scalar());
 
-	SAFE_CALL(cv::warpAffine(src->get_mat(), dst, M->get_mat(), Size(dsize.x, dsize.y), flags, borderMode, borderValue));
+	SAFE_CALL(cv::warpAffine(src->get_pointer(), dst, M->get_pointer(), Size(dsize.x, dsize.y), flags, borderMode, borderValue->get_pointer()));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -671,11 +672,11 @@ Ref<CVMat> CVImgProc::warp_perspective(Ref<CVMat> src, Ref<CVMat> M, Vector2 dsi
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, flags, INTER_LINEAR);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderMode, BORDER_CONSTANT);
-	GET_CONVERTIBLE_PROPERTY(Scalar, Variant::COLOR, borderValue, Scalar());
+	GET_OBJECT_PROPERTY(Ref<CVScalar>, borderValue, Scalar());
 
-	SAFE_CALL(cv::warpPerspective(src->get_mat(), dst, M->get_mat(), Size(dsize.x, dsize.y), flags, borderMode, borderValue));
+	SAFE_CALL(cv::warpPerspective(src->get_pointer(), dst, M->get_pointer(), Size(dsize.x, dsize.y), flags, borderMode, borderValue->get_pointer()));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -687,9 +688,9 @@ Ref<CVMat> CVImgProc::warp_polar(Ref<CVMat> src, Vector2 dsize, Vector2 center, 
 
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
-	SAFE_CALL(cv::warpPolar(src->get_mat(), dst, Size(dsize.x, dsize.y), Point2f(center.x, center.y), maxRadius, flags));
+	SAFE_CALL(cv::warpPolar(src->get_pointer(), dst, Size(dsize.x, dsize.y), Point2f(center.x, center.y), maxRadius, flags));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -701,9 +702,9 @@ Ref<CVMat> CVImgProc::adaptive_threshold(Ref<CVMat> src, float maxValue, int ada
 
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
-	SAFE_CALL(cv::adaptiveThreshold(src->get_mat(), dst, maxValue, adaptiveMethod, thresholdType, blockSize, C));
+	SAFE_CALL(cv::adaptiveThreshold(src->get_pointer(), dst, maxValue, adaptiveMethod, thresholdType, blockSize, C));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -718,9 +719,9 @@ Ref<CVMat> CVImgProc::blend_linear(Ref<CVMat> src1, Ref<CVMat> src2, Ref<CVMat> 
 	ERR_FAIL_NULL_V_MSG(weights1, output, "weights1 should not be null.");
 	ERR_FAIL_NULL_V_MSG(weights2, output, "weights2 should not be null.");
 
-	SAFE_CALL(cv::blendLinear(src1->get_mat(), src2->get_mat(), weights1->get_mat(), weights2->get_mat(), dst));
+	SAFE_CALL(cv::blendLinear(src1->get_pointer(), src2->get_pointer(), weights1->get_pointer(), weights2->get_pointer(), dst));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -738,10 +739,10 @@ Dictionary CVImgProc::distance_transform(Ref<CVMat> src, int distanceType, int m
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, labelType, DIST_LABEL_CCOMP);
 
-	SAFE_CALL(cv::distanceTransform(src->get_mat(), dst, labels, distanceType, maskSize, labelType));
+	SAFE_CALL(cv::distanceTransform(src->get_pointer(), dst, labels, distanceType, maskSize, labelType));
 
-	outdst->set_mat(dst);
-	outlabels->set_mat(labels);
+	outdst->set_pointer(dst);
+	outlabels->set_pointer(labels);
 
 	output["dst"] = outdst;
 	output["labels"] = outlabels;
@@ -758,9 +759,9 @@ Ref<CVMat> CVImgProc::integral(Ref<CVMat> src, Dictionary additional_parameters)
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, sdepth, -1);
 
-	SAFE_CALL(cv::integral(src->get_mat(), sum, sdepth));
+	SAFE_CALL(cv::integral(src->get_pointer(), sum, sdepth));
 
-	output->set_mat(sum);
+	output->set_pointer(sum);
 
 	return output;
 }
@@ -774,9 +775,9 @@ Dictionary CVImgProc::threshold(Ref<CVMat> src, float thresh, float maxval, int 
 
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
-	SAFE_CALL(defReturn = cv::threshold(src->get_mat(), dst, thresh, maxval, type));
+	SAFE_CALL(defReturn = cv::threshold(src->get_pointer(), dst, thresh, maxval, type));
 
-	outdst->set_mat(dst);
+	outdst->set_pointer(dst);
 
 	output["defReturn"] = defReturn;
 	output["dst"] = outdst;
@@ -784,61 +785,66 @@ Dictionary CVImgProc::threshold(Ref<CVMat> src, float thresh, float maxval, int 
 	return output;
 }
 
-void CVImgProc::arrowed_line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Color color, Dictionary additional_parameters){
+void CVImgProc::arrowed_line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Ref<CVScalar> color, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
+	ERR_FAIL_NULL_V_MSG(color, , "color should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, thickness, 1);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, line_type, 8);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, shift, 0);
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, tipLength, 0.1);
 
-	SAFE_CALL(cv::arrowedLine(img->get_mat(), Point(pt1.x, pt1.y), Point(pt2.x, pt2.y), Scalar(color.b, color.g, color.r) * 255, thickness, line_type, shift, tipLength));
+	SAFE_CALL(cv::arrowedLine(img->get_pointer(), Point(pt1.x, pt1.y), Point(pt2.x, pt2.y), color->get_pointer(), thickness, line_type, shift, tipLength));
 }
 
-void CVImgProc::circle(Ref<CVMat> img, Vector2 center, int radius, Color color, Dictionary additional_parameters){
+void CVImgProc::circle(Ref<CVMat> img, Vector2 center, int radius, Ref<CVScalar> color, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
+	ERR_FAIL_NULL_V_MSG(color, , "color should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, thickness, 1);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, lineType, LINE_8);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, shift, 0);
 
-	SAFE_CALL(cv::circle(img->get_mat(), Point(center.x, center.y), radius, Scalar(color.b, color.g, color.r) * 255, thickness, lineType, shift));
+	SAFE_CALL(cv::circle(img->get_pointer(), Point(center.x, center.y), radius, color->get_pointer(), thickness, lineType, shift));
 }
 
-void CVImgProc::draw_marker(Ref<CVMat> img, Vector2 position, Color color, Dictionary additional_parameters){
+void CVImgProc::draw_marker(Ref<CVMat> img, Vector2 position, Ref<CVScalar> color, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
+	ERR_FAIL_NULL_V_MSG(color, , "color should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, markerType, MARKER_CROSS);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, markerSize, 20);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, thickness, 1);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, line_type, 8);
 
-	SAFE_CALL(cv::drawMarker(img->get_mat(), Point(position.x, position.y), Scalar(color.b, color.g, color.r) * 255, markerType, markerSize, thickness, line_type));
+	SAFE_CALL(cv::drawMarker(img->get_pointer(), Point(position.x, position.y), color->get_pointer(), markerType, markerSize, thickness, line_type));
 }
 
-void CVImgProc::ellipse(Ref<CVMat> img, Vector2 center, Vector2 axes, float angle, float startAngle, float endAngle, Color color, Dictionary additional_parameters){
+void CVImgProc::ellipse(Ref<CVMat> img, Vector2 center, Vector2 axes, float angle, float startAngle, float endAngle, Ref<CVScalar> color, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
+	ERR_FAIL_NULL_V_MSG(color, , "color should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, thickness, 1);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, lineType, LINE_8);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, shift, 0);
 
-	SAFE_CALL(cv::ellipse(img->get_mat(), Point(center.x, center.y), Size(axes.x, axes.y), angle, startAngle, endAngle, Scalar(color.b, color.g, color.r) * 255, thickness, lineType, shift));
+	SAFE_CALL(cv::ellipse(img->get_pointer(), Point(center.x, center.y), Size(axes.x, axes.y), angle, startAngle, endAngle, color->get_pointer(), thickness, lineType, shift));
 }
 
-void CVImgProc::fill_convex_poly(Ref<CVMat> img, Ref<CVMat> points, Color color, Dictionary additional_parameters){
+void CVImgProc::fill_convex_poly(Ref<CVMat> img, Ref<CVMat> points, Ref<CVScalar> color, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
 	ERR_FAIL_NULL_V_MSG(points, , "points should not be null.");
+	ERR_FAIL_NULL_V_MSG(color, , "color should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, lineType, LINE_8);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, shift, 0);
 
-	SAFE_CALL(cv::fillConvexPoly(img->get_mat(), points->get_mat(), Scalar(color.b, color.g, color.r) * 255, lineType, shift));
+	SAFE_CALL(cv::fillConvexPoly(img->get_pointer(), points->get_pointer(), color->get_pointer(), lineType, shift));
 }
 
 float CVImgProc::get_font_scale_from_height(int fontFace, int pixelHeight, Dictionary additional_parameters){
@@ -852,15 +858,16 @@ float CVImgProc::get_font_scale_from_height(int fontFace, int pixelHeight, Dicti
 	return output;
 }
 
-void CVImgProc::line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Color color, Dictionary additional_parameters){
+void CVImgProc::line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Ref<CVScalar> color, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
+	ERR_FAIL_NULL_V_MSG(color, , "color should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, thickness, 1);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, lineType, LINE_8);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, shift, 0);
 
-	SAFE_CALL(cv::line(img->get_mat(), Point(pt1.x, pt1.y), Point(pt2.x, pt2.y), Scalar(color.b, color.g, color.r) * 255, thickness, lineType, shift));
+	SAFE_CALL(cv::line(img->get_pointer(), Point(pt1.x, pt1.y), Point(pt2.x, pt2.y), color->get_pointer(), thickness, lineType, shift));
 }
 
 // Custom Implementation
@@ -883,7 +890,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 
 	if (!rect.is_null()) {
 		SAFE_CALL(cv::rectangle(
-				img->get_mat(),
+				img->get_pointer(),
 				rect->get_rect(),
 				cv::Scalar(color.b, color.g, color.r) * 255,
 				thickness,
@@ -892,7 +899,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 
 	} else if (pt1.x >= 0 && pt2.x >= 0 && pt1.y >= 0 && pt2.y >= 0) {
 		SAFE_CALL(cv::rectangle(
-				img->get_mat(),
+				img->get_pointer(),
 				cv::Point((int)pt1.x, (int)pt1.y),
 				cv::Point((int)pt2.x, (int)pt2.y),
 				cv::Scalar(color.b, color.g, color.r) * 255,
@@ -917,9 +924,9 @@ Ref<CVMat> CVImgProc::cvt_color(Ref<CVMat> src, int code, Dictionary additional_
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, dstCn, "dst_cn", Variant::INT, "INT");
 
-	SAFE_CALL(cv::cvtColor(src->get_mat(), matOut, code, dstCn));
+	SAFE_CALL(cv::cvtColor(src->get_pointer(), matOut, code, dstCn));
 
-	output->set_mat(matOut);
+	output->set_pointer(matOut);
 
 	return output;
 }
@@ -933,9 +940,9 @@ Ref<CVMat> CVImgProc::demosaicing(Ref<CVMat> src, int code, Dictionary additiona
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, dstCn, 0);
 
-	SAFE_CALL(cv::demosaicing(src->get_mat(), dst, code, dstCn));
+	SAFE_CALL(cv::demosaicing(src->get_pointer(), dst, code, dstCn));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -948,9 +955,9 @@ Ref<CVMat> CVImgProc::apply_color_map(Ref<CVMat> src, Ref<CVMat> userColor){
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 	ERR_FAIL_NULL_V_MSG(userColor, output, "userColor should not be null.");
 
-	SAFE_CALL(cv::applyColorMap(src->get_mat(), dst, userColor->get_mat()));
+	SAFE_CALL(cv::applyColorMap(src->get_pointer(), dst, userColor->get_pointer()));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -962,7 +969,7 @@ float CVImgProc::compare_hist(Ref<CVMat> H1, Ref<CVMat> H2, int method){
 	ERR_FAIL_NULL_V_MSG(H1, output, "H1 should not be null.");
 	ERR_FAIL_NULL_V_MSG(H2, output, "H2 should not be null.");
 
-	SAFE_CALL(output = cv::compareHist(H1->get_mat(), H2->get_mat(), method));
+	SAFE_CALL(output = cv::compareHist(H1->get_pointer(), H2->get_pointer(), method));
 
 	return output;
 }
@@ -974,9 +981,9 @@ Ref<CVMat> CVImgProc::equalize_hist(Ref<CVMat> src){
 
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
-	SAFE_CALL(cv::equalizeHist(src->get_mat(), dst));
+	SAFE_CALL(cv::equalizeHist(src->get_pointer(), dst));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -987,18 +994,19 @@ float CVImgProc::arc_length(Ref<CVMat> curve, bool closed){
 
 	ERR_FAIL_NULL_V_MSG(curve, output, "curve should not be null.");
 
-	SAFE_CALL(output = cv::arcLength(curve->get_mat(), closed));
+	SAFE_CALL(output = cv::arcLength(curve->get_pointer(), closed));
 
 	return output;
 }
 
 Ref<CVRect> CVImgProc::bounding_rect(Ref<CVMat> array){
 	Ref<CVRect> output;
+	output.instantiate();
 	Rect defReturn;
 
 	ERR_FAIL_NULL_V_MSG(array, output, "array should not be null.");
 
-	SAFE_CALL(defReturn = cv::boundingRect(array->get_mat()));
+	SAFE_CALL(defReturn = cv::boundingRect(array->get_pointer()));
 
 	return output;
 }
@@ -1012,9 +1020,9 @@ Dictionary CVImgProc::connected_components(Ref<CVMat> image, int connectivity, i
 
 	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
 
-	SAFE_CALL(defReturn = cv::connectedComponents(image->get_mat(), labels, connectivity, ltype, ccltype));
+	SAFE_CALL(defReturn = cv::connectedComponents(image->get_pointer(), labels, connectivity, ltype, ccltype));
 
-	outlabels->set_mat(labels);
+	outlabels->set_pointer(labels);
 
 	output["defReturn"] = defReturn;
 	output["labels"] = outlabels;
@@ -1037,11 +1045,11 @@ Dictionary CVImgProc::connected_components_with_stats(Ref<CVMat> image, int conn
 
 	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
 
-	SAFE_CALL(defReturn = cv::connectedComponentsWithStats(image->get_mat(), labels, stats, centroids, connectivity, ltype, ccltype));
+	SAFE_CALL(defReturn = cv::connectedComponentsWithStats(image->get_pointer(), labels, stats, centroids, connectivity, ltype, ccltype));
 
-	outlabels->set_mat(labels);
-	outstats->set_mat(stats);
-	outcentroids->set_mat(centroids);
+	outlabels->set_pointer(labels);
+	outstats->set_pointer(stats);
+	outcentroids->set_pointer(centroids);
 
 	output["defReturn"] = defReturn;
 	output["labels"] = outlabels;
@@ -1059,7 +1067,7 @@ float CVImgProc::contour_area(Ref<CVMat> contour, Dictionary additional_paramete
 
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, oriented, false);
 
-	SAFE_CALL(output = cv::contourArea(contour->get_mat(), oriented));
+	SAFE_CALL(output = cv::contourArea(contour->get_pointer(), oriented));
 
 	return output;
 }
@@ -1074,9 +1082,9 @@ Ref<CVMat> CVImgProc::convex_hull(Ref<CVMat> points, Dictionary additional_param
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, clockwise, false);
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, returnPoints, true);
 
-	SAFE_CALL(cv::convexHull(points->get_mat(), hull, clockwise, returnPoints));
+	SAFE_CALL(cv::convexHull(points->get_pointer(), hull, clockwise, returnPoints));
 
-	output->set_mat(hull);
+	output->set_pointer(hull);
 
 	return output;
 }
@@ -1089,9 +1097,9 @@ Ref<CVMat> CVImgProc::convexity_defects(Ref<CVMat> contour, Ref<CVMat> convexhul
 	ERR_FAIL_NULL_V_MSG(contour, output, "contour should not be null.");
 	ERR_FAIL_NULL_V_MSG(convexhull, output, "convexhull should not be null.");
 
-	SAFE_CALL(cv::convexityDefects(contour->get_mat(), convexhull->get_mat(), convexityDefects));
+	SAFE_CALL(cv::convexityDefects(contour->get_pointer(), convexhull->get_pointer(), convexityDefects));
 
-	output->set_mat(convexityDefects);
+	output->set_pointer(convexityDefects);
 
 	return output;
 }
@@ -1103,9 +1111,9 @@ Ref<CVMat> CVImgProc::fit_line(Ref<CVMat> points, int distType, float param, flo
 
 	ERR_FAIL_NULL_V_MSG(points, output, "points should not be null.");
 
-	SAFE_CALL(cv::fitLine(points->get_mat(), line, distType, param, reps, aeps));
+	SAFE_CALL(cv::fitLine(points->get_pointer(), line, distType, param, reps, aeps));
 
-	output->set_mat(line);
+	output->set_pointer(line);
 
 	return output;
 }
@@ -1122,9 +1130,9 @@ Dictionary CVImgProc::intersect_convex_convex(Ref<CVMat> p1, Ref<CVMat> p2, Dict
 
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, handleNested, true);
 
-	SAFE_CALL(defReturn = cv::intersectConvexConvex(p1->get_mat(), p2->get_mat(), p12, handleNested));
+	SAFE_CALL(defReturn = cv::intersectConvexConvex(p1->get_pointer(), p2->get_pointer(), p12, handleNested));
 
-	outp12->set_mat(p12);
+	outp12->set_pointer(p12);
 
 	output["defReturn"] = defReturn;
 	output["p12"] = outp12;
@@ -1138,7 +1146,7 @@ bool CVImgProc::is_contour_convex(Ref<CVMat> contour){
 
 	ERR_FAIL_NULL_V_MSG(contour, output, "contour should not be null.");
 
-	SAFE_CALL(output = cv::isContourConvex(contour->get_mat()));
+	SAFE_CALL(output = cv::isContourConvex(contour->get_pointer()));
 
 	return output;
 }
@@ -1150,7 +1158,7 @@ float CVImgProc::match_shapes(Ref<CVMat> contour1, Ref<CVMat> contour2, int meth
 	ERR_FAIL_NULL_V_MSG(contour1, output, "contour1 should not be null.");
 	ERR_FAIL_NULL_V_MSG(contour2, output, "contour2 should not be null.");
 
-	SAFE_CALL(output = cv::matchShapes(contour1->get_mat(), contour2->get_mat(), method, parameter));
+	SAFE_CALL(output = cv::matchShapes(contour1->get_pointer(), contour2->get_pointer(), method, parameter));
 
 	return output;
 }
@@ -1164,9 +1172,9 @@ Dictionary CVImgProc::min_enclosing_triangle(Ref<CVMat> points){
 
 	ERR_FAIL_NULL_V_MSG(points, output, "points should not be null.");
 
-	SAFE_CALL(defReturn = cv::minEnclosingTriangle(points->get_mat(), triangle));
+	SAFE_CALL(defReturn = cv::minEnclosingTriangle(points->get_pointer(), triangle));
 
-	outtriangle->set_mat(triangle);
+	outtriangle->set_pointer(triangle);
 
 	output["defReturn"] = defReturn;
 	output["triangle"] = outtriangle;
@@ -1180,7 +1188,7 @@ float CVImgProc::point_polygon_test(Ref<CVMat> contour, Vector2 pt, bool measure
 
 	ERR_FAIL_NULL_V_MSG(contour, output, "contour should not be null.");
 
-	SAFE_CALL(output = cv::pointPolygonTest(contour->get_mat(), Point2f(pt.x, pt.y), measureDist));
+	SAFE_CALL(output = cv::pointPolygonTest(contour->get_pointer(), Point2f(pt.x, pt.y), measureDist));
 
 	return output;
 }
@@ -1190,9 +1198,9 @@ void CVImgProc::accumulate(Ref<CVMat> src, Ref<CVMat> dst, Dictionary additional
 	ERR_FAIL_NULL_V_MSG(src, , "src should not be null.");
 	ERR_FAIL_NULL_V_MSG(dst, , "dst should not be null.");
 
-	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask, Mat());
 
-	SAFE_CALL(cv::accumulate(src->get_mat(), dst->get_mat(), mask->get_mat()));
+	SAFE_CALL(cv::accumulate(src->get_pointer(), dst->get_pointer(), mask->get_pointer()));
 }
 
 void CVImgProc::accumulate_product(Ref<CVMat> src1, Ref<CVMat> src2, Ref<CVMat> dst, Dictionary additional_parameters){
@@ -1201,9 +1209,9 @@ void CVImgProc::accumulate_product(Ref<CVMat> src1, Ref<CVMat> src2, Ref<CVMat> 
 	ERR_FAIL_NULL_V_MSG(src2, , "src2 should not be null.");
 	ERR_FAIL_NULL_V_MSG(dst, , "dst should not be null.");
 
-	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask, Mat());
 
-	SAFE_CALL(cv::accumulateProduct(src1->get_mat(), src2->get_mat(), dst->get_mat(), mask->get_mat()));
+	SAFE_CALL(cv::accumulateProduct(src1->get_pointer(), src2->get_pointer(), dst->get_pointer(), mask->get_pointer()));
 }
 
 void CVImgProc::accumulate_square(Ref<CVMat> src, Ref<CVMat> dst, Dictionary additional_parameters){
@@ -1211,9 +1219,9 @@ void CVImgProc::accumulate_square(Ref<CVMat> src, Ref<CVMat> dst, Dictionary add
 	ERR_FAIL_NULL_V_MSG(src, , "src should not be null.");
 	ERR_FAIL_NULL_V_MSG(dst, , "dst should not be null.");
 
-	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask, Mat());
 
-	SAFE_CALL(cv::accumulateSquare(src->get_mat(), dst->get_mat(), mask->get_mat()));
+	SAFE_CALL(cv::accumulateSquare(src->get_pointer(), dst->get_pointer(), mask->get_pointer()));
 }
 
 void CVImgProc::accumulate_weighted(Ref<CVMat> src, Ref<CVMat> dst, float alpha, Dictionary additional_parameters){
@@ -1221,9 +1229,9 @@ void CVImgProc::accumulate_weighted(Ref<CVMat> src, Ref<CVMat> dst, float alpha,
 	ERR_FAIL_NULL_V_MSG(src, , "src should not be null.");
 	ERR_FAIL_NULL_V_MSG(dst, , "dst should not be null.");
 
-	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask, Mat());
 
-	SAFE_CALL(cv::accumulateWeighted(src->get_mat(), dst->get_mat(), alpha, mask->get_mat()));
+	SAFE_CALL(cv::accumulateWeighted(src->get_pointer(), dst->get_pointer(), alpha, mask->get_pointer()));
 }
 
 Ref<CVMat> CVImgProc::create_hanning_window(Vector2 winSize, int type){
@@ -1233,7 +1241,7 @@ Ref<CVMat> CVImgProc::create_hanning_window(Vector2 winSize, int type){
 
 	SAFE_CALL(cv::createHanningWindow(dst, Size(winSize.x, winSize.y), type));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -1248,9 +1256,9 @@ Ref<CVMat> CVImgProc::canny(Ref<CVMat> image, float threshold1, float threshold2
 	GET_SIMPLE_PROPERTY(int, Variant::INT, apertureSize, 3);
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, L2gradient, false);
 
-	SAFE_CALL(cv::Canny(image->get_mat(), edges, threshold1, threshold2, apertureSize, L2gradient));
+	SAFE_CALL(cv::Canny(image->get_pointer(), edges, threshold1, threshold2, apertureSize, L2gradient));
 
-	output->set_mat(edges);
+	output->set_pointer(edges);
 
 	return output;
 }
@@ -1264,9 +1272,9 @@ Ref<CVMat> CVImgProc::corner_eigen_vals_and_vecs(Ref<CVMat> src, int blockSize, 
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::cornerEigenValsAndVecs(src->get_mat(), dst, blockSize, ksize, borderType));
+	SAFE_CALL(cv::cornerEigenValsAndVecs(src->get_pointer(), dst, blockSize, ksize, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -1280,9 +1288,9 @@ Ref<CVMat> CVImgProc::corner_harris(Ref<CVMat> src, int blockSize, int ksize, fl
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::cornerHarris(src->get_mat(), dst, blockSize, ksize, k, borderType));
+	SAFE_CALL(cv::cornerHarris(src->get_pointer(), dst, blockSize, ksize, k, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -1297,9 +1305,9 @@ Ref<CVMat> CVImgProc::corner_min_eigen_val(Ref<CVMat> src, int blockSize, Dictio
 	GET_SIMPLE_PROPERTY(int, Variant::INT, ksize, 3);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::cornerMinEigenVal(src->get_mat(), dst, blockSize, ksize, borderType));
+	SAFE_CALL(cv::cornerMinEigenVal(src->get_pointer(), dst, blockSize, ksize, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -1311,14 +1319,14 @@ Ref<CVMat> CVImgProc::good_features_to_track(Ref<CVMat> image, int maxCorners, f
 
 	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
 
-	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask, Mat());
 	GET_SIMPLE_PROPERTY(int, Variant::INT, blockSize, 3);
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, useHarrisDetector, false);
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, k, 0.04);
 
-	SAFE_CALL(cv::goodFeaturesToTrack(image->get_mat(), corners, maxCorners, qualityLevel, minDistance, mask->get_mat(), blockSize, useHarrisDetector, k));
+	SAFE_CALL(cv::goodFeaturesToTrack(image->get_pointer(), corners, maxCorners, qualityLevel, minDistance, mask->get_pointer(), blockSize, useHarrisDetector, k));
 
-	output->set_mat(corners);
+	output->set_pointer(corners);
 
 	return output;
 }
@@ -1335,9 +1343,9 @@ Ref<CVMat> CVImgProc::hough_circles(Ref<CVMat> image, int method, float dp, floa
 	GET_SIMPLE_PROPERTY(int, Variant::INT, minRadius, 0);
 	GET_SIMPLE_PROPERTY(int, Variant::INT, maxRadius, 0);
 
-	SAFE_CALL(cv::HoughCircles(image->get_mat(), circles, method, dp, minDist, param1, param2, minRadius, maxRadius));
+	SAFE_CALL(cv::HoughCircles(image->get_pointer(), circles, method, dp, minDist, param1, param2, minRadius, maxRadius));
 
-	output->set_mat(circles);
+	output->set_pointer(circles);
 
 	return output;
 }
@@ -1354,9 +1362,9 @@ Ref<CVMat> CVImgProc::hough_lines(Ref<CVMat> image, float rho, float theta, int 
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, min_theta, 0);
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, max_theta, CV_PI);
 
-	SAFE_CALL(cv::HoughLines(image->get_mat(), lines, rho, theta, threshold, srn, stn, min_theta, max_theta));
+	SAFE_CALL(cv::HoughLines(image->get_pointer(), lines, rho, theta, threshold, srn, stn, min_theta, max_theta));
 
-	output->set_mat(lines);
+	output->set_pointer(lines);
 
 	return output;
 }
@@ -1371,9 +1379,9 @@ Ref<CVMat> CVImgProc::hough_lines_p(Ref<CVMat> image, float rho, float theta, in
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, minLineLength, 0);
 	GET_SIMPLE_PROPERTY(float, Variant::FLOAT, maxLineGap, 0);
 
-	SAFE_CALL(cv::HoughLinesP(image->get_mat(), lines, rho, theta, threshold, minLineLength, maxLineGap));
+	SAFE_CALL(cv::HoughLinesP(image->get_pointer(), lines, rho, theta, threshold, minLineLength, maxLineGap));
 
-	output->set_mat(lines);
+	output->set_pointer(lines);
 
 	return output;
 }
@@ -1385,9 +1393,9 @@ Ref<CVMat> CVImgProc::hough_lines_point_set(Ref<CVMat> point, int lines_max, int
 
 	ERR_FAIL_NULL_V_MSG(point, output, "point should not be null.");
 
-	SAFE_CALL(cv::HoughLinesPointSet(point->get_mat(), lines, lines_max, threshold, min_rho, max_rho, rho_step, min_theta, max_theta, theta_step));
+	SAFE_CALL(cv::HoughLinesPointSet(point->get_pointer(), lines, lines_max, threshold, min_rho, max_rho, rho_step, min_theta, max_theta, theta_step));
 
-	output->set_mat(lines);
+	output->set_pointer(lines);
 
 	return output;
 }
@@ -1401,9 +1409,9 @@ Ref<CVMat> CVImgProc::pre_corner_detect(Ref<CVMat> src, int ksize, Dictionary ad
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, borderType, BORDER_DEFAULT);
 
-	SAFE_CALL(cv::preCornerDetect(src->get_mat(), dst, ksize, borderType));
+	SAFE_CALL(cv::preCornerDetect(src->get_pointer(), dst, ksize, borderType));
 
-	output->set_mat(dst);
+	output->set_pointer(dst);
 
 	return output;
 }
@@ -1416,11 +1424,11 @@ Ref<CVMat> CVImgProc::match_template(Ref<CVMat> image, Ref<CVMat> templ, int met
 	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
 	ERR_FAIL_NULL_V_MSG(templ, output, "templ should not be null.");
 
-	GET_OBJECT_PROPERTY(Ref<CVMat>, mask);
+	GET_OBJECT_PROPERTY(Ref<CVMat>, mask, Mat());
 
-	SAFE_CALL(cv::matchTemplate(image->get_mat(), templ->get_mat(), result, method, mask->get_mat()));
+	SAFE_CALL(cv::matchTemplate(image->get_pointer(), templ->get_pointer(), result, method, mask->get_pointer()));
 
-	output->set_mat(result);
+	output->set_pointer(result);
 
 	return output;
 }
@@ -1435,7 +1443,7 @@ void CVImgProc::grab_cut(Ref<CVMat> img, Ref<CVMat> mask, Ref<CVRect> rect, Ref<
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, mode, GC_EVAL);
 
-	SAFE_CALL(cv::grabCut(img->get_mat(), mask->get_mat(), rect->get_rect(), bgdModel->get_mat(), fgdModel->get_mat(), iterCount, mode));
+	SAFE_CALL(cv::grabCut(img->get_pointer(), mask->get_pointer(), rect->get_rect(), bgdModel->get_pointer(), fgdModel->get_pointer(), iterCount, mode));
 }
 
 void CVImgProc::watershed(Ref<CVMat> image, Ref<CVMat> markers){
@@ -1443,7 +1451,7 @@ void CVImgProc::watershed(Ref<CVMat> image, Ref<CVMat> markers){
 	ERR_FAIL_NULL_V_MSG(image, , "image should not be null.");
 	ERR_FAIL_NULL_V_MSG(markers, , "markers should not be null.");
 
-	SAFE_CALL(cv::watershed(image->get_mat(), markers->get_mat()));
+	SAFE_CALL(cv::watershed(image->get_pointer(), markers->get_pointer()));
 }
 
 godot::String CVImgProc::_to_string() const {

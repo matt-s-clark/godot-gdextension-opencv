@@ -30,7 +30,6 @@ public:
 	Variant get_at(int row, int col);
 	int get_cols();
 	Ref<Image> get_image(); // <Helper>
-	cv::Mat get_mat();
 	int get_rows();
 	Ref<Texture> get_texture(); // <Helper>
 	void multiply(Variant value); // <Helper>
@@ -38,10 +37,12 @@ public:
 	Ref<Image> image;
 	void set_at(int row, int col, Variant value);
 	void set_image(Ref<Image> image); // <Helper>
-	void set_mat(cv::Mat _mat);
 	void set_read_only(int input);
 	void set_texture(Ref<Texture2D> texture); // <Helper>
 	int type() const;
+
+	cv::Mat get_pointer();
+	void set_pointer(cv::Mat _mat);
 
 	static Ref<CVMat> eye(int rows, int cols, int type);
 	static Ref<CVMat> from_image(Ref<Image> image); // <Helper>

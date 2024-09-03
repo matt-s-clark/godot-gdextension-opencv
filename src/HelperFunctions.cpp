@@ -9,10 +9,6 @@ HelperFunctions::HelperFunctions() {
 HelperFunctions::~HelperFunctions() {
 }
 
-Scalar HelperFunctions::convertScalar(Color input) {
-	return Scalar(input.b, input.g, input.r);
-}
-
 Point HelperFunctions::convertPoint(Vector2 input) {
 	return Point(input.x, input.y);
 }

@@ -14,7 +14,6 @@ public:
 	HelperFunctions();
 	~HelperFunctions();
 
-	static Scalar convertScalar(Color input);
 	static Point convertPoint(Vector2 input);
 	static Point2f convertPoint2f(Vector2 input);
 	static Size convertSize(Vector2 input);

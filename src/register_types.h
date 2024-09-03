@@ -14,6 +14,7 @@
 #include "CVMat.h"
 #include "CVNet.h"
 #include "CVRect.h"
+#include "CVScalar.h"
 #include "CVTrackerCSRT.h"
 #include "CVTrackerDaSiamRPN.h"
 #include "CVTrackerGOTURN.h"

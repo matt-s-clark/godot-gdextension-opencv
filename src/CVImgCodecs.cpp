@@ -34,7 +34,7 @@ Ref<CVMat> CVImgCodecs::imread(
 
 	SAFE_CALL(outMat = cv::imread(path, flags));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }
@@ -55,7 +55,7 @@ bool CVImgCodecs::imwrite(
 		UtilityFunctions::print(params[i]);
 	}
 
-	SAFE_CALL(output = cv::imwrite(path, img->get_mat(), p));
+	SAFE_CALL(output = cv::imwrite(path, img->get_pointer(), p));
 
 	return output;
 }

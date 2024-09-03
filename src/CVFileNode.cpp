@@ -44,7 +44,7 @@ Variant CVFileNode::read() {
 		case cv::FileNode::MAP: {
 			Ref<CVMat> tmpMat;
 			tmpMat.instantiate();
-			tmpMat->set_mat(rawNode.mat()); // Fix: There are other maps.
+			tmpMat->set_pointer(rawNode.mat()); // Fix: There are other maps.
 			output = tmpMat;
 			break;
 		}

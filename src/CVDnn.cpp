@@ -40,13 +40,13 @@ Ref<CVMat> CVDnn::blobFromImage(Ref<CVMat> image, Dictionary additional_paramete
 	GET_ADITIONAL_PROPERTY(additional_parameters, crop, "crop", Variant::BOOL, "BOOL");
 	GET_ADITIONAL_PROPERTY(additional_parameters, ddepth, "ddepth", Variant::INT, "INT");
 
-	SAFE_CALL(outMat = cv::dnn::blobFromImage(image->get_mat(),
+	SAFE_CALL(outMat = cv::dnn::blobFromImage(image->get_pointer(),
 					  scaleFactor,
 					  cv::Size(size.x, size.y),
 					  cv::Scalar(mean.x, mean.y),
 					  swapRB, crop, ddepth));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }

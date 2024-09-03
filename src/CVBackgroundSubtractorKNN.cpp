@@ -32,9 +32,9 @@ Ref<CVMat> CVBackgroundSubtractorKNN::apply(Ref<CVMat> image, Dictionary additio
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, learning_rate, "learning_rate", Variant::FLOAT, "FLOAT");
 
-	SAFE_CALL(rawPointer->apply(image->get_mat(), outMat, learning_rate));
+	SAFE_CALL(rawPointer->apply(image->get_pointer(), outMat, learning_rate));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }
@@ -66,7 +66,7 @@ Ref<CVMat> CVBackgroundSubtractorKNN::get_background_image() {
 
 	SAFE_CALL(rawPointer->getBackgroundImage(outMat));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }

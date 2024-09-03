@@ -22,9 +22,9 @@ Ref<CVMat> CVImgProc::gaussian_blur(Ref<CVMat> src, Vector2 ksize, float sigmaX,
 	GET_ADITIONAL_PROPERTY(additional_parameters, sigmaY, "sigma_y", Variant::FLOAT, "FLOAT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, borderType, "border_type", Variant::INT, "INT");
 
-	SAFE_CALL(cv::GaussianBlur(src->get_mat(), matOut, cv::Size(ksize.x, ksize.y), sigmaX, sigmaY, borderType));
+	SAFE_CALL(cv::GaussianBlur(src->get_pointer(), matOut, cv::Size(ksize.x, ksize.y), sigmaX, sigmaY, borderType));
 
-	output->set_mat(matOut);
+	output->set_pointer(matOut);
 
 	return output;
 }
@@ -47,7 +47,7 @@ Ref<CVMat> CVImgProc::get_gabor_kernel(Vector2 ksize, float sigma, float theta, 
 
 	SAFE_CALL(matOut = cv::getGaborKernel(cv::Size(ksize.x, ksize.y), sigma, theta, lambd, gamma, psi, ktype));
 
-	output->set_mat(matOut);
+	output->set_pointer(matOut);
 
 	return output;
 }
@@ -136,7 +136,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 
 	if (!rect.is_null()) {
 		SAFE_CALL(cv::rectangle(
-				img->get_mat(),
+				img->get_pointer(),
 				rect->get_rect(),
 				cv::Scalar(color.b, color.g, color.r) * 255,
 				thickness,
@@ -145,7 +145,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 
 	} else if (pt1.x >= 0 && pt2.x >= 0 && pt1.y >= 0 && pt2.y >= 0) {
 		SAFE_CALL(cv::rectangle(
-				img->get_mat(),
+				img->get_pointer(),
 				cv::Point((int)pt1.x, (int)pt1.y),
 				cv::Point((int)pt2.x, (int)pt2.y),
 				cv::Scalar(color.b, color.g, color.r) * 255,
@@ -174,9 +174,9 @@ Ref<CVMat> CVImgProc::cvt_color(Ref<CVMat> src, int code, Dictionary additional_
 
 	GET_ADITIONAL_PROPERTY(additional_parameters, dstCn, "dst_cn", Variant::INT, "INT");
 
-	SAFE_CALL(cv::cvtColor(src->get_mat(), matOut, code, dstCn));
+	SAFE_CALL(cv::cvtColor(src->get_pointer(), matOut, code, dstCn));
 
-	output->set_mat(matOut);
+	output->set_pointer(matOut);
 
 	return output;
 }

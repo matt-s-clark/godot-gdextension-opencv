@@ -467,11 +467,11 @@ int CVMat::get_cols() {
 	return rawMat.cols;
 }
 
-void CVMat::set_mat(cv::Mat _mat) {
+void CVMat::set_pointer(cv::Mat _mat) {
 	rawMat = _mat;
 }
 
-cv::Mat CVMat::get_mat() {
+cv::Mat CVMat::get_pointer() {
 	return rawMat;
 }
 
@@ -496,7 +496,7 @@ Ref<CVMat> CVMat::ones(int rows, int cols, int type) {
 
 	SAFE_CALL(outMat = cv::Mat::ones(rows, cols, type));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }
@@ -508,7 +508,7 @@ Ref<CVMat> CVMat::zeros(int rows, int cols, int type) {
 
 	SAFE_CALL(outMat = cv::Mat::zeros(rows, cols, type));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }
@@ -520,7 +520,7 @@ Ref<CVMat> CVMat::eye(int rows, int cols, int type) {
 
 	SAFE_CALL(outMat = cv::Mat::eye(rows, cols, type));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }
@@ -532,7 +532,7 @@ Ref<CVMat> CVMat::col(int x) {
 
 	SAFE_CALL(outMat = rawMat.col(x));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }
@@ -544,7 +544,7 @@ Ref<CVMat> CVMat::row(int y) {
 
 	SAFE_CALL(outMat = rawMat.row(y));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }
@@ -556,7 +556,7 @@ Ref<CVMat> CVMat::copy() {
 
 	SAFE_CALL(rawMat.copyTo(outMat));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }

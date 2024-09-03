@@ -9,6 +9,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 #include "CVRect.h"
+#include "CVScalar.h"
 #include "HelperFunctions.h"
 
 namespace godot {
@@ -39,7 +40,7 @@ public:
 	static Ref<CVMat> get_structuring_element(int shape, Vector2 ksize, Dictionary additional_parameters);
 	static Ref<CVMat> laplacian(Ref<CVMat> src, int ddepth, Dictionary additional_parameters);
 	static Ref<CVMat> median_blur(Ref<CVMat> src, int ksize);
-	static Color morphology_default_border_value();
+	static Ref<CVScalar> morphology_default_border_value();
 	static Ref<CVMat> morphology_ex(Ref<CVMat> src, int op, Ref<CVMat> kernel, Dictionary additional_parameters);
 	static Ref<CVMat> pyr_down(Ref<CVMat> src, Dictionary additional_parameters);
 	static Ref<CVMat> pyr_up(Ref<CVMat> src, Dictionary additional_parameters);
@@ -65,13 +66,13 @@ public:
 	static Dictionary distance_transform(Ref<CVMat> src, int distanceType, int maskSize, Dictionary additional_parameters);
 	static Ref<CVMat> integral(Ref<CVMat> src, Dictionary additional_parameters);
 	static Dictionary threshold(Ref<CVMat> src, float thresh, float maxval, int type);
-	static void arrowed_line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Color color, Dictionary additional_parameters);
-	static void circle(Ref<CVMat> img, Vector2 center, int radius, Color color, Dictionary additional_parameters);
-	static void draw_marker(Ref<CVMat> img, Vector2 position, Color color, Dictionary additional_parameters);
-	static void ellipse(Ref<CVMat> img, Vector2 center, Vector2 axes, float angle, float startAngle, float endAngle, Color color, Dictionary additional_parameters);
-	static void fill_convex_poly(Ref<CVMat> img, Ref<CVMat> points, Color color, Dictionary additional_parameters);
+	static void arrowed_line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Ref<CVScalar> color, Dictionary additional_parameters);
+	static void circle(Ref<CVMat> img, Vector2 center, int radius, Ref<CVScalar> color, Dictionary additional_parameters);
+	static void draw_marker(Ref<CVMat> img, Vector2 position, Ref<CVScalar> color, Dictionary additional_parameters);
+	static void ellipse(Ref<CVMat> img, Vector2 center, Vector2 axes, float angle, float startAngle, float endAngle, Ref<CVScalar> color, Dictionary additional_parameters);
+	static void fill_convex_poly(Ref<CVMat> img, Ref<CVMat> points, Ref<CVScalar> color, Dictionary additional_parameters);
 	static float get_font_scale_from_height(int fontFace, int pixelHeight, Dictionary additional_parameters);
-	static void line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Color color, Dictionary additional_parameters);
+	static void line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Ref<CVScalar> color, Dictionary additional_parameters);
 	static void rectangle(Ref<CVMat> img, Dictionary additional_parameters);
 	static Ref<CVMat> cvt_color(Ref<CVMat> src, int code, Dictionary additional_parameters);
 	static Ref<CVMat> demosaicing(Ref<CVMat> src, int code, Dictionary additional_parameters);

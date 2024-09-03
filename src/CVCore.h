@@ -9,6 +9,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 #include "CVRect.h"
+#include "CVScalar.h"
 #include "HelperFunctions.h"
 
 namespace godot {
@@ -66,7 +67,7 @@ public:
 	static Ref<CVMat> magnitude(Ref<CVMat> x, Ref<CVMat> y);
 	static float mahalanobis(Ref<CVMat> v1, Ref<CVMat> v2, Ref<CVMat> icovar);
 	static Ref<CVMat> max(Ref<CVMat> src1, Ref<CVMat> src2);
-	static Color mean(Ref<CVMat> src, Dictionary additional_parameters);
+	static Ref<CVScalar> mean(Ref<CVMat> src, Dictionary additional_parameters);
 	static Dictionary mean_std_dev(Ref<CVMat> src, Dictionary additional_parameters);
 	static Ref<CVMat> min(Ref<CVMat> src1, Ref<CVMat> src2);
 	static Ref<CVMat> mul_spectrums(Ref<CVMat> a, Ref<CVMat> b, int flags, Dictionary additional_parameters);
@@ -98,10 +99,10 @@ public:
 	static Ref<CVMat> sort_idx(Ref<CVMat> src, int flags);
 	static Ref<CVMat> sqrt(Ref<CVMat> src);
 	static Ref<CVMat> subtract(Ref<CVMat> src1, Ref<CVMat> src2, Dictionary additional_parameters);
-	static Color sum(Ref<CVMat> src);
+	static Ref<CVScalar> sum(Ref<CVMat> src);
 	static Ref<CVMat> sv_back_subst(Ref<CVMat> w, Ref<CVMat> u, Ref<CVMat> vt, Ref<CVMat> rhs);
 	static Dictionary sv_decomp(Ref<CVMat> src, Dictionary additional_parameters);
-	static Color trace(Ref<CVMat> mtx);
+	static Ref<CVScalar> trace(Ref<CVMat> mtx);
 	static Ref<CVMat> transform(Ref<CVMat> src, Ref<CVMat> m);
 	static Ref<CVMat> transpose(Ref<CVMat> src);
 	static Ref<CVMat> vconcat(Ref<CVMat> src1, Ref<CVMat> src2);

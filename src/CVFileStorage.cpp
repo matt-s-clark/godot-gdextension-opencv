@@ -75,7 +75,7 @@ void CVFileStorage::write(const String name, Variant val) {
 			break;
 		case Variant::OBJECT:
 			if (!mat.is_null()) {
-				rawFile.write(nameIn, mat->get_mat());
+				rawFile.write(nameIn, mat->get_pointer());
 			} else {
 				UtilityFunctions::printerr("Type not supported");
 			}
@@ -116,7 +116,7 @@ Variant CVFileStorage::read(const String name) {
 		case cv::FileNode::MAP: {
 			Ref<CVMat> tmpMat;
 			tmpMat.instantiate();
-			tmpMat->set_mat(filenode.mat());
+			tmpMat->set_pointer(filenode.mat());
 			output = tmpMat;
 			break;
 		}

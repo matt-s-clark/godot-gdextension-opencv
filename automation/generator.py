@@ -3,7 +3,7 @@ from os.path import isfile, join
 import re
 
 openCVInputTypes = {
-	"Scalar":"Color",
+	"Scalar":"Ref<CVScalar>",
 	"Point": "Vector2",
 	"Point2f": "Vector2",
 	"Size": "Vector2",
@@ -25,11 +25,11 @@ input2Output.update(openCVInputTypes)
 input2Output.update(openCVOutputTypes)
 
 processingLine = {
-	"Mat": "{0}->get_mat()",
-	"InputArray": "{0}->get_mat()",
-	"InputOutputArray": "{0}->get_mat()",
+	"Mat": "{0}->get_pointer()",
+	"InputArray": "{0}->get_pointer()",
+	"InputOutputArray": "{0}->get_pointer()",
 	"Rect": "{0}->get_rect()",
-	"Scalar": "Scalar({0}.b, {0}.g, {0}.r) * 255", ## Simplify
+	"Scalar": "{0}->get_pointer()",
 	"Point": "Point({0}.x, {0}.y)",
 	"Point2f": "Point2f({0}.x, {0}.y)",
 	"Size": "Size({0}.x, {0}.y)",
@@ -39,11 +39,12 @@ initializingType = {
 	"InputArray":"Mat",
 	"InputOutputArray":"Mat",
 	"OutputArray": "Mat",
+	"Scalar": "Scalar"
 }
 addParamConversion = {
 	"noArray()":"Mat()",
 }
-convertibleTypes = ["Scalar", "Point", "Size", "Point2f"]
+convertibleTypes = ["Point", "Size", "Point2f"]
 
 def GetOrDefault(val : str, list : dict):
 	tmp = list.get(val)
@@ -140,10 +141,10 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 
 		if len(outputs) > 1:
 			for ou in outputs:
-				if GetOrDefault(ou[0], input2Output) == "Ref<CVMat>":
+				if "Ref<" in GetOrDefault(ou[0], input2Output):
 					codeLinesList.append(f"	{GetOrDefault(ou[0], input2Output)} out{ou[1]};")
 					codeLinesList.append(f"	out{ou[1]}.instantiate();")
-		if len(outputs) == 1 and GetOrDefault(outputs[0][0], input2Output) == "Ref<CVMat>":
+		if len(outputs) == 1 and "Ref<" in GetOrDefault(outputs[0][0], input2Output):
 			codeLinesList.append(f"	output.instantiate();")
 	
 	for i in outputs:
@@ -152,7 +153,7 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 		codeLinesList.append(f"	{GetOrDefault(type, openCVOutputTypes)} {i[1]}{defaultValue};")
 
 	# Check inputs
-	checkNNInputs = [a for a in filteredInputs if "Ref" in GetOrDefault(a[0], input2Output)]
+	checkNNInputs = [a for a in filteredInputs if "Ref<" in GetOrDefault(a[0], input2Output)]
 	outputName = "output" if outputType != "void" else ""
 	if len(checkNNInputs) > 0:
 		codeLinesList.append("")
@@ -164,7 +165,7 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 		codeLinesList.append("")
 	for ad in addtionalParameters:
 		if "Ref" in ad[0]:
-			codeLinesList.append(f"	GET_OBJECT_PROPERTY({ad[0]}, {ad[1]});")
+			codeLinesList.append(f"	GET_OBJECT_PROPERTY({ad[0]}, {ad[1]}, {GetOrDefault(ad[2], addParamConversion)});")
 		elif ad[3] in convertibleTypes:
 			codeLinesList.append(f"	GET_CONVERTIBLE_PROPERTY({ad[3]}, Variant::{ad[0].upper()}, {ad[1]}, {ad[2]});")
 		else:
@@ -180,15 +181,15 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 		so = outputs[0][1]
 		if GetOrDefault(outputs[0][0], input2Output) == "Ref<CVMat>":
 			codeLinesList.append("")
-			codeLinesList.append(f"	output->set_mat({so});")
-		if GetOrDefault(outputs[0][0], input2Output) == "Color":
+			codeLinesList.append(f"	output->set_pointer({so});")
+		if GetOrDefault(outputs[0][0], input2Output) == "Ref<CVScalar>":
 			codeLinesList.append("")
-			codeLinesList.append(f"	output = Color({so}[0], {so}[1], {so}[2]);")
+			codeLinesList.append(f"	output->set_pointer({so});")
 	elif len(outputs) > 1:
 		codeLinesList.append("")
 		for i in outputs:
 			if GetOrDefault(i[0], input2Output) == "Ref<CVMat>":
-				codeLinesList.append(f"	out{i[1]}->set_mat({i[1]});")
+				codeLinesList.append(f"	out{i[1]}->set_pointer({i[1]});")
 		
 		codeLinesList.append("")
 		
@@ -291,6 +292,7 @@ if __name__ == "__main__":
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 #include \"CVRect.h\"
+#include \"CVScalar.h\"
 #include \"HelperFunctions.h\""""
 
 	inputPath = "automation/inputs/"
