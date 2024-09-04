@@ -112,6 +112,11 @@ void CVScalar::set(Variant value) {
 			rawScalar = cv::Scalar((int)value);
 			break;
 		}
+		case Variant::COLOR: {
+			Color tmp = value;
+			rawScalar = 255 * cv::Scalar(tmp.b, tmp.g, tmp.r, tmp.a);
+			break;
+		}
 		default:
 			UtilityFunctions::push_error("Type ", value.get_type_name, " can't be converted to CVScalar");
 			break;

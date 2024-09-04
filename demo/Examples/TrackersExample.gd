@@ -37,11 +37,11 @@ func _process(_delta):
 	elif tracker_initiated:
 		if use_csrt:
 			var rectCSRT := trackerCSRT.update(mat)
-			CVImgProc.rectangle(mat, {"rec":rectCSRT, "color":Color.BLUE})
+			CVImgProc.rectangle(mat, {"rec":rectCSRT, "color":CVScalar.create(Color.BLUE)})
 		
 		if use_kcf:
 			var rectKCF := trackerKCF.update(mat)
-			CVImgProc.rectangle(mat, {"rec":rectKCF, "color":Color.RED})
+			CVImgProc.rectangle(mat, {"rec":rectKCF, "color":CVScalar.create(Color.RED)})
 	
 	video_feed.texture = mat.get_texture()
 

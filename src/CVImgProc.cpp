@@ -875,7 +875,6 @@ void CVImgProc::line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Ref<CVScalar> col
 void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 	Ref<CVRect> rect;
 	Vector2 pt1 = Vector2(-1, -1), pt2 = Vector2(-1, -1);
-	Color color = Color(0, 255, 0);
 	int thickness = 1, lineType = 8, shift = 0;
 
 	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
@@ -883,7 +882,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 	GET_ADITIONAL_PROPERTY(additional_parameters, rect, "rec", Variant::OBJECT, "CVRECT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, pt1, "pt1", Variant::VECTOR2, "VECTOR2");
 	GET_ADITIONAL_PROPERTY(additional_parameters, pt2, "pt2", Variant::VECTOR2, "VECTOR2");
-	GET_ADITIONAL_PROPERTY(additional_parameters, color, "color", Variant::COLOR, "COLOR");
+	GET_OBJECT_PROPERTY(Ref<CVScalar>, color, cv::Scalar(0, 255, 0));
 	GET_ADITIONAL_PROPERTY(additional_parameters, thickness, "thickness", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, lineType, "line_type", Variant::INT, "INT");
 	GET_ADITIONAL_PROPERTY(additional_parameters, shift, "shift", Variant::INT, "INT");
@@ -892,7 +891,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 		SAFE_CALL(cv::rectangle(
 				img->get_pointer(),
 				rect->get_rect(),
-				cv::Scalar(color.b, color.g, color.r) * 255,
+				color->get_pointer(),
 				thickness,
 				lineType,
 				shift));
@@ -902,7 +901,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 				img->get_pointer(),
 				cv::Point((int)pt1.x, (int)pt1.y),
 				cv::Point((int)pt2.x, (int)pt2.y),
-				cv::Scalar(color.b, color.g, color.r) * 255,
+				color->get_pointer(),
 				thickness,
 				lineType,
 				shift));
