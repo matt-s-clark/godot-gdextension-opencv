@@ -890,7 +890,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 	if (!rect.is_null()) {
 		SAFE_CALL(cv::rectangle(
 				img->get_pointer(),
-				rect->get_rect(),
+				rect->get_pointer(),
 				color->get_pointer(),
 				thickness,
 				lineType,
@@ -1006,6 +1006,8 @@ Ref<CVRect> CVImgProc::bounding_rect(Ref<CVMat> array){
 	ERR_FAIL_NULL_V_MSG(array, output, "array should not be null.");
 
 	SAFE_CALL(defReturn = cv::boundingRect(array->get_pointer()));
+
+	output->set_pointer(defReturn);
 
 	return output;
 }
@@ -1442,7 +1444,7 @@ void CVImgProc::grab_cut(Ref<CVMat> img, Ref<CVMat> mask, Ref<CVRect> rect, Ref<
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, mode, GC_EVAL);
 
-	SAFE_CALL(cv::grabCut(img->get_pointer(), mask->get_pointer(), rect->get_rect(), bgdModel->get_pointer(), fgdModel->get_pointer(), iterCount, mode));
+	SAFE_CALL(cv::grabCut(img->get_pointer(), mask->get_pointer(), rect->get_pointer(), bgdModel->get_pointer(), fgdModel->get_pointer(), iterCount, mode));
 }
 
 void CVImgProc::watershed(Ref<CVMat> image, Ref<CVMat> markers){

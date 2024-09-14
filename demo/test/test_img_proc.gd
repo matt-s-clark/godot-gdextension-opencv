@@ -300,7 +300,11 @@ func test_remap():
 	pass
 
 func test_resize():
-	pass
+	var mat := CVMat.eye(3, 3, CVConsts.MatType.CV_8U)
+	var result := CVImgProc.resize(mat, Vector2(7, 7), {})
+	
+	assert_eq(result.rows, 7)
+	assert_eq(result.cols, 7)
 
 func test_warp_affine():
 	pass
@@ -330,7 +334,11 @@ func test_draw_marker():
 	pass
 
 func test_ellipse():
-	pass
+	var mat := CVMat.zeros(3, 3, CVConsts.MatType.CV_8U)
+	CVImgProc.ellipse(mat, Vector2.ZERO, Vector2.ONE, 0, 0, 360, CVScalar.create(5), {})
+	
+	assert_eq(mat.get_at(0, 1), 5)
+	assert_eq(mat.get_at(1, 0), 5)
 
 func test_fill_convex_poly():
 	pass
@@ -339,7 +347,11 @@ func test_get_font_scale_from_height():
 	pass
 
 func test_line():
-	pass
+	var mat := CVMat.zeros(3, 3, CVConsts.MatType.CV_8U)
+	CVImgProc.line(mat, Vector2.ZERO, Vector2.ONE, CVScalar.create(5), {})
+	
+	assert_eq(mat.get_at(0, 0), 5)
+	assert_eq(mat.get_at(1, 1), 5)
 
 func test_demosaicing():
 	pass
@@ -351,10 +363,27 @@ func test_compare_hist():
 	pass
 
 func test_arc_length():
-	pass
+	var mat := CVMat.zeros(2, 2, CVConsts.MatType.CV_32F)
+	mat.set_at(1, 0, 1)
+	mat.set_at(1, 1, 1)
+	
+	var result := CVImgProc.arc_length(mat, false)
+	
+	assert_almost_eq(result, 1.414, 0.001)
 
 func test_bounding_rect():
-	pass
+	var mat := CVMat.zeros(4, 2, CVConsts.MatType.CV_32F)
+	mat.set_at(1, 0, 3)
+	mat.set_at(1, 1, 5)
+	mat.set_at(2, 0, 2)
+	mat.set_at(2, 1, 3)
+	mat.set_at(3, 0, 4)
+	mat.set_at(3, 1, 1)
+	
+	var result := CVImgProc.bounding_rect(mat)
+	
+	assert_eq(result.br(), Vector2(5,6))
+	assert_eq(result.tl(), Vector2.ZERO)
 
 func test_connected_components():
 	pass
@@ -363,10 +392,37 @@ func test_connected_components_with_stats():
 	pass
 
 func test_contour_area():
-	pass
+	var mat := CVMat.zeros(4, 2, CVConsts.MatType.CV_32F)
+	mat.set_at(1, 0, 3)
+	mat.set_at(1, 1, 5)
+	mat.set_at(2, 0, 2)
+	mat.set_at(2, 1, 3)
+	mat.set_at(3, 0, 4)
+	mat.set_at(3, 1, 1)
+	
+	var result := CVImgProc.contour_area(mat, {})
+	
+	assert_almost_eq(result, 5.5, .001)
 
 func test_convex_hull():
-	pass
+	var mat := CVMat.zeros(4, 2, CVConsts.MatType.CV_32F)
+	mat.set_at(1, 0, 3)
+	mat.set_at(1, 1, 5)
+	mat.set_at(2, 0, 2)
+	mat.set_at(2, 1, 3)
+	mat.set_at(3, 0, 4)
+	mat.set_at(3, 1, 1)
+	
+	var result := CVImgProc.convex_hull(mat, {})
+	
+	for i in result.rows:
+		for j in result.cols:
+			print(result.get_at(i, j))
+		print()
+	
+	assert_eq(result.get_at(0,0), Vector2(4,1))
+	assert_eq(result.get_at(1,0), Vector2(3,5))
+	assert_eq(result.get_at(2,0), Vector2.ZERO)
 
 func test_convexity_defects():
 	pass

@@ -87,7 +87,7 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 	for (cv::Rect obj : objects) {
 		Ref<CVRect> tempRect;
 		tempRect.instantiate();
-		tempRect->set_rect(obj);
+		tempRect->set_pointer(obj);
 		objectsOut.push_back(tempRect);
 	}
 

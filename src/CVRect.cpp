@@ -114,7 +114,7 @@ Variant CVRect::get_height() {
 	return rawRect.height;
 }
 
-cv::Rect CVRect::get_rect() {
+cv::Rect CVRect::get_pointer() {
 	return rawRect;
 }
 
@@ -134,7 +134,7 @@ void CVRect::set_height(Variant value) {
 	rawRect.height = value;
 }
 
-void CVRect::set_rect(cv::Rect rect) {
+void CVRect::set_pointer(cv::Rect rect) {
 	rawRect = rect;
 }
 

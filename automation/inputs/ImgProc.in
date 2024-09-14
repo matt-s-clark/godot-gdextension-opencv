@@ -136,7 +136,7 @@ void CVImgProc::rectangle(Ref<CVMat> img, Dictionary additional_parameters) {
 	if (!rect.is_null()) {
 		SAFE_CALL(cv::rectangle(
 				img->get_pointer(),
-				rect->get_rect(),
+				rect->get_pointer(),
 				color->get_pointer(),
 				thickness,
 				lineType,

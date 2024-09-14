@@ -98,7 +98,7 @@ Array CVFaceDetectorYN::detect_simplified(Ref<CVMat> image) {
 				outMat.at<float>(i, 12),
 				outMat.at<float>(i, 13));
 
-		out->set_rect(outRect);
+		out->set_pointer(outRect);
 
 		face["rect"] = out;
 		face["right_eye"] = right_eye;

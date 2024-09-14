@@ -25,7 +25,7 @@ void CVTrackerKCF::init(Ref<CVMat> image, Ref<CVRect> boundingBox) {
 	ERR_FAIL_NULL_V_MSG(image, , "image should not be null.");
 	ERR_FAIL_NULL_V_MSG(boundingBox, , "boundingBox should not be null.");
 
-	SAFE_CALL(rawTracker->init(image->get_pointer(), boundingBox->get_rect()));
+	SAFE_CALL(rawTracker->init(image->get_pointer(), boundingBox->get_pointer()));
 }
 
 Ref<CVRect> CVTrackerKCF::update(Ref<CVMat> image) {
@@ -37,7 +37,7 @@ Ref<CVRect> CVTrackerKCF::update(Ref<CVMat> image) {
 
 	SAFE_CALL(rawTracker->update(image->get_pointer(), outRect));
 
-	output->set_rect(outRect);
+	output->set_pointer(outRect);
 
 	return output;
 }

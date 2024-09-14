@@ -27,17 +27,18 @@ public:
 	bool contains(Vector2 point);
 	bool empty();
 	Variant get_height();
-	cv::Rect get_rect();
 	Variant get_width();
 	Variant get_x();
 	Variant get_y();
 	void set_height(Variant value);
-	void set_rect(cv::Rect rect);
 	void set_values(Variant x, Variant y, Variant width, Variant height); // <Helper>
 	void set_width(Variant value);
 	void set_x(Variant value);
 	void set_y(Variant value);
 	Vector2 tl();
+
+	cv::Rect get_pointer();
+	void set_pointer(cv::Rect rect);
 
 	static Ref<CVRect> from_values(Variant x, Variant y, Variant width, Variant height); // <Helper>
 };

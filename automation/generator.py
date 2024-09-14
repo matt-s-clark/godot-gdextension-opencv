@@ -28,7 +28,7 @@ processingLine = {
 	"Mat": "{0}->get_pointer()",
 	"InputArray": "{0}->get_pointer()",
 	"InputOutputArray": "{0}->get_pointer()",
-	"Rect": "{0}->get_rect()",
+	"Rect": "{0}->get_pointer()",
 	"Scalar": "{0}->get_pointer()",
 	"Point": "Point({0}.x, {0}.y)",
 	"Point2f": "Point2f({0}.x, {0}.y)",
@@ -45,6 +45,7 @@ addParamConversion = {
 	"noArray()":"Mat()",
 }
 convertibleTypes = ["Point", "Size", "Point2f"]
+pointerTypes = ["Ref<CVMat>", "Ref<CVScalar>", "Ref<CVRect>"]
 
 def GetOrDefault(val : str, list : dict):
 	tmp = list.get(val)
@@ -179,16 +180,13 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 	## convertOutput
 	if len(outputs) == 1:
 		so = outputs[0][1]
-		if GetOrDefault(outputs[0][0], input2Output) == "Ref<CVMat>":
-			codeLinesList.append("")
-			codeLinesList.append(f"	output->set_pointer({so});")
-		if GetOrDefault(outputs[0][0], input2Output) == "Ref<CVScalar>":
+		if GetOrDefault(outputs[0][0], input2Output) in pointerTypes:
 			codeLinesList.append("")
 			codeLinesList.append(f"	output->set_pointer({so});")
 	elif len(outputs) > 1:
 		codeLinesList.append("")
 		for i in outputs:
-			if GetOrDefault(i[0], input2Output) == "Ref<CVMat>":
+			if GetOrDefault(i[0], input2Output) in pointerTypes:
 				codeLinesList.append(f"	out{i[1]}->set_pointer({i[1]});")
 		
 		codeLinesList.append("")
