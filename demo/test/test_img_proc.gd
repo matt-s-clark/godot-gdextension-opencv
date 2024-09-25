@@ -172,8 +172,6 @@ func test_rectangle():
 	
 	CVImgProc.rectangle(mat, {"rec":rect})
 	
-	print(mat.type())
-	
 	assert_eq(mat.get_at(0, 0), Vector3i(0,255,0))
 	assert_eq(mat.get_at(1, 1), Vector3i(0,0,0))
 	
@@ -328,7 +326,15 @@ func test_arrowed_line():
 	pass
 
 func test_circle():
-	pass
+	var mat := CVMat.zeros(9, 9, CVConsts.MatType.CV_8U)
+	CVImgProc.circle(mat, Vector2(4, 4), 3, CVScalar.create(255), {})
+	
+	var array := [13, 20, 21, 23, 24, 29, 33, 37, 43, 47, 51, 56, 57, 59, 60, 67]
+	
+	for i in 9:
+		for j in 9:
+			assert_eq(mat.get_at(i, j), 0 if j+9*i not in array else 255, str(" ", i, " - ", j))
+		print()
 
 func test_draw_marker():
 	pass
@@ -415,11 +421,6 @@ func test_convex_hull():
 	
 	var result := CVImgProc.convex_hull(mat, {})
 	
-	for i in result.rows:
-		for j in result.cols:
-			print(result.get_at(i, j))
-		print()
-	
 	assert_eq(result.get_at(0,0), Vector2(4,1))
 	assert_eq(result.get_at(1,0), Vector2(3,5))
 	assert_eq(result.get_at(2,0), Vector2.ZERO)
@@ -461,13 +462,25 @@ func test_create_hanning_window():
 	pass
 
 func test_canny():
-	pass
-
+	var mat := CVMat.from_array([0, 0, 0, 15, 15, 15, 0, 0, 0], 3, CVConsts.MatType.CV_32F)
+	mat.convert_to(CVConsts.MatType.CV_8U)
+	var result := CVImgProc.canny(mat, 10, 20, {})
+	
+	for i in mat.rows:
+		for j in mat.cols:
+			assert_eq(result.get_at(i, j), 255 if i%2 == 0 else 0)
+	
 func test_corner_eigen_vals_and_vecs():
 	pass
 
 func test_corner_harris():
-	pass
+	var mat := CVMat.from_array([0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0,0,0, 0, 0, 0,0,0, 0, 0, 0,0,0], 5, CVConsts.MatType.CV_32F)
+	mat.convert_to(CVConsts.MatType.CV_8U)
+	var result := CVImgProc.corner_harris(mat, 3, 3, 0, {})
+	
+	for i in mat.rows:
+		for j in mat.cols:
+			assert_lt(result.get_at(i, j), 0.062 if i%2 == 0 else 0.034, str(i, " - ", j))
 
 func test_corner_min_eigen_val():
 	pass
@@ -477,13 +490,27 @@ func test_good_features_to_track():
 
 func test_hough_circles():
 	pass
-
+	
 func test_hough_lines():
-	pass
-
+	var mat := CVMat.eye(10, 10, CVConsts.MatType.CV_8U)
+	var line := CVMat.ones(1, 10, CVConsts.MatType.CV_8U)
+	mat = CVCore.vconcat(mat, line)
+	
+	var result := CVImgProc.hough_lines(mat, 2, 5*PI/180, 10, {})
+	
+	assert_eq(Vector2i(result.get_at(0, 0)), Vector2i(9, 1))
+	assert_eq(Vector2i(result.get_at(1, 0)), Vector2i(-1, 2))
+	
 func test_hough_lines_p():
-	pass
-
+	var mat := CVMat.eye(10, 10, CVConsts.MatType.CV_8U)
+	var line := CVMat.ones(1, 10, CVConsts.MatType.CV_8U)
+	mat = CVCore.vconcat(mat, line)
+	
+	var result := CVImgProc.hough_lines_p(mat, 1, PI/180, 5, {})
+	
+	assert_eq(result.get_at(0, 0), Vector4i(0,0,8,8))
+	assert_eq(result.get_at(1, 0), Vector4i(0,10,9,10))
+	
 func test_hough_lines_point_set():
 	pass
 

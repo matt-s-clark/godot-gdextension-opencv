@@ -990,7 +990,15 @@ enum FileNodeType {
   NAMED = 64
 }
 
-## ImgCodecs
+enum HoughModes {
+  HOUGH_STANDARD = 0 ,
+  HOUGH_PROBABILISTIC = 1 ,
+  HOUGH_MULTI_SCALE = 2 ,
+  HOUGH_GRADIENT = 3 ,
+  HOUGH_GRADIENT_ALT = 4
+}
+
+# ImgCodecs
 enum  	ImreadModes {
   IMREAD_UNCHANGED = -1 ,
   IMREAD_GRAYSCALE = 0 ,

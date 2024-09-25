@@ -58,6 +58,12 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("get_texture"),
 			&CVMat::get_texture);
+	ClassDB::bind_method(
+			D_METHOD("get_array"),
+			&CVMat::get_array);
+	ClassDB::bind_method(
+			D_METHOD("set_array", "array", "columns", "type"),
+			&CVMat::set_array);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "cols"), "set_read_only", "get_cols");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "rows"), "set_read_only", "get_rows");
 
@@ -84,6 +90,10 @@ void CVMat::_bind_methods() {
 			get_class_static(),
 			D_METHOD("from_texture", "image"),
 			&CVMat::from_texture);
+	ClassDB::bind_static_method(
+			get_class_static(),
+			D_METHOD("from_array", "array", "columns", "type"),
+			&CVMat::from_array);
 }
 
 CVMat::CVMat() {
@@ -291,11 +301,12 @@ void CVMat::set_at(int row, int col, Variant value) {
 	}
 
 	int t = value.get_type();
-	int inputChannels = 
-		t == Variant::VECTOR4 || t == Variant::VECTOR4I ? 4 :
-		t == Variant::VECTOR3 || t == Variant::VECTOR3I ? 3 :
-		t == Variant::VECTOR2 || t == Variant::VECTOR2I ? 2 :
-		t == Variant::FLOAT || t == Variant::INT ? 1 : 0;
+	int inputChannels =
+		t == Variant::VECTOR4 || t == Variant::VECTOR4I ? 4 
+		: t == Variant::VECTOR3 || t == Variant::VECTOR3I ? 3
+		: t == Variant::VECTOR2 || t == Variant::VECTOR2I ? 2
+		: t == Variant::FLOAT || t == Variant::INT ? 1
+		: 0;
 
 	if (rawMat.channels() != inputChannels) {
 		UtilityFunctions::push_error("Mat channels and input mismatch: ", rawMat.channels(), " x ", inputChannels);
@@ -614,6 +625,46 @@ void CVMat::set_texture(Ref<Texture2D> texture) {
 		return;
 
 	set_image(im);
+}
+
+Ref<CVMat> CVMat::from_array(Array array, int columns, int type) {
+	Ref<CVMat> output;
+	output.instantiate();
+
+	output->set_array(array, columns, type);
+
+	return output;
+}
+
+Array CVMat::get_array() {
+	Array output;
+
+	int sizear = rawMat.cols * rawMat.rows * rawMat.channels();
+
+	PackedByteArray bytes;
+	bytes.resize(sizear);
+	memcpy(bytes.ptrw(), rawMat.data, sizear);
+
+	output = Array(bytes);
+
+	return output;
+}
+
+void CVMat::set_array(Array array, int columns, int type) {
+	int channels = 1 + type / 8;
+
+	if (type % 8 == 4) {
+		PackedInt32Array data = PackedInt32Array(array);
+		rawMat = cv::Mat(array.size() / (columns * channels), columns, type, data.ptrw());
+	} else if (type % 8 == 5) {
+		PackedFloat32Array data = PackedFloat32Array(array);
+		rawMat = cv::Mat(array.size() / (columns * channels), columns, type, data.ptrw());
+	} else if (type % 8 == 6) {
+		PackedFloat64Array data = PackedFloat64Array(array);
+		rawMat = cv::Mat(array.size() / (columns * channels), columns, type, data.ptrw());
+	} else {
+		UtilityFunctions::push_error("Type is not supported by godot Variant.");
+	}
 }
 
 String CVMat::_to_string() const {

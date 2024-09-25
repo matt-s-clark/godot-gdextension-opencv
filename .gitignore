@@ -3,8 +3,10 @@ src/opencv2/
 .vscode/
 src/*.obj
 build/
-*.os
 .DS_Store
 demo/Models/goturn.prototxt
 demo/Models/goturn.caffemodel
 
+# Objects generated during build process
+*.o
+*.os
