@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVTrackerCSRT" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="create" qualifiers="static">
+			<return type="CVTrackerCSRT" />
+			<param index="0" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="init">
+			<return type="void" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="bounding_box" type="CVRect" />
+			<description>
+			</description>
+		</method>
+		<method name="update">
+			<return type="CVRect" />
+			<param index="0" name="image" type="CVMat" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>

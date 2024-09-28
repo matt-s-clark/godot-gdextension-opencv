@@ -64,6 +64,9 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("set_array", "array", "columns", "type"),
 			&CVMat::set_array);
+	ClassDB::bind_method(
+			D_METHOD("dump"),
+			&CVMat::dump);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "cols"), "set_read_only", "get_cols");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "rows"), "set_read_only", "get_rows");
 
@@ -302,11 +305,11 @@ void CVMat::set_at(int row, int col, Variant value) {
 
 	int t = value.get_type();
 	int inputChannels =
-		t == Variant::VECTOR4 || t == Variant::VECTOR4I ? 4 
-		: t == Variant::VECTOR3 || t == Variant::VECTOR3I ? 3
-		: t == Variant::VECTOR2 || t == Variant::VECTOR2I ? 2
-		: t == Variant::FLOAT || t == Variant::INT ? 1
-		: 0;
+			t == Variant::VECTOR4 || t == Variant::VECTOR4I	  ? 4
+			: t == Variant::VECTOR3 || t == Variant::VECTOR3I ? 3
+			: t == Variant::VECTOR2 || t == Variant::VECTOR2I ? 2
+			: t == Variant::FLOAT || t == Variant::INT		  ? 1
+															  : 0;
 
 	if (rawMat.channels() != inputChannels) {
 		UtilityFunctions::push_error("Mat channels and input mismatch: ", rawMat.channels(), " x ", inputChannels);
@@ -665,6 +668,22 @@ void CVMat::set_array(Array array, int columns, int type) {
 	} else {
 		UtilityFunctions::push_error("Type is not supported by godot Variant.");
 	}
+}
+
+String CVMat::dump() {
+	String output = "";
+
+	for (size_t i = 0; i < MIN(rawMat.rows, 11); i++) {
+		for (size_t j = 0; j < MIN(rawMat.cols, 11); j++) {
+			if(i == 10 || j == 10)
+				output = UtilityFunctions::str(output, "...", "\t");
+			else
+				output = UtilityFunctions::str(output, get_at(i, j), "\t");
+		}
+		output = UtilityFunctions::str(output, "\n");
+	}
+
+	return output;
 }
 
 String CVMat::_to_string() const {

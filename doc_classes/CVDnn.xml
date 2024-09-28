@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVDnn" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="blobFromImage" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="readNet" qualifiers="static">
+			<return type="CVNet" />
+			<param index="0" name="model" type="String" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>

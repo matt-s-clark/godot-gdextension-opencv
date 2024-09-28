@@ -233,7 +233,7 @@ func test_get_gabor_kernel():
 	assert_almost_eq(mat.get_at(0,1), -0.873, 0.001)
 	assert_almost_eq(mat.get_at(0,2), -0.45, 0.001)
 	
-func test_gaussian_kernel():
+func test_get_gaussian_kernel():
 	var mat := CVImgProc.get_gaussian_kernel(3, 0, {})
 	
 	assert_almost_eq(mat.get_at(0,0), 0.25, 0.001)
@@ -241,28 +241,75 @@ func test_gaussian_kernel():
 	assert_almost_eq(mat.get_at(2,0), 0.25, 0.001)
 
 func test_box_filter():
-	pass
-
-func test_filter_2d():
-	pass
+	var mat := CVMat.eye(5, 5, CVConsts.MatType.CV_32F)
+	var result := CVImgProc.box_filter(mat, -1, Vector2(3, 3), {})
+	
+	assert_eq(result.cols, mat.cols)
+	assert_eq(result.rows, mat.rows)
+	
+	assert_almost_eq(result.get_at(0,0), .555, .001)
 
 func test_get_deriv_kernels():
-	pass
-
-func test_get_gaussian_kernel():
-	pass
+	var dict := CVImgProc.get_deriv_kernels(1, 2, 3, {})
+	
+	var kx : CVMat = dict["kx"]
+	var ky : CVMat = dict["ky"]
+	
+	assert_eq(kx.get_at(0,0), -1.0)
+	assert_eq(kx.get_at(1,0), 0.0)
+	assert_eq(kx.get_at(2,0), 1.0)
+	
+	assert_eq(ky.get_at(0,0), 1.0)
+	assert_eq(ky.get_at(1,0), -2.0)
+	assert_eq(ky.get_at(2,0), 1.0)
 
 func test_morphology_default_border_value():
-	pass
+	var m := CVImgProc.morphology_default_border_value()
+	
+	assert_eq(m.get_vector4(), Vector4.INF)
+	assert_eq(m.get_int(), -2147483648)
 
 func test_pyr_down():
-	pass
+	var mat := CVMat.eye(20, 20, CVConsts.MatType.CV_32F)
+	var result := CVImgProc.pyr_down(mat, {})
+	
+	assert_eq(result.cols, mat.cols/2)
+	assert_eq(result.rows, mat.rows/2)
+	
+	assert_almost_eq(result.get_at(0,0), 0.406, 0.001)
 
 func test_pyr_up():
-	pass
+	var mat := CVMat.eye(20, 20, CVConsts.MatType.CV_32F)
+	var result := CVImgProc.pyr_up(mat, {})
+	
+	assert_eq(result.cols, mat.cols*2)
+	assert_eq(result.rows, mat.rows*2)
+	
+	assert_almost_eq(result.get_at(0,0), 0.625, 0.001)
 
 func test_scharr():
-	pass
+	var mat := CVMat.eye(10, 10, CVConsts.MatType.CV_32F)
+	var result := CVImgProc.scharr(mat, -1, 0, 1, {})
+	
+	for i in result.rows:
+		for j in result.cols:
+			var val := 0.0
+			if (i == 0 and j == 1) or (i == 0 and j == 2) or (i == 9 and j == 7) or (i == 9 and j == 8):
+				pass
+			else:
+				if i == 2 and j == 0:
+					val = -6
+				elif i == 7 and j == 9:
+					val = 6
+				elif i == j+1:
+					val = -10
+				elif i+1 == j:
+					val = 10
+				elif i == j+2:
+					val = -3
+				elif i+2 == j:
+					val = 3
+			assert_eq(result.get_at(i, j), val, str(i, " - ", j))
 
 func test_sep_filter_2d():
 	pass
@@ -468,7 +515,7 @@ func test_canny():
 	
 	for i in mat.rows:
 		for j in mat.cols:
-			assert_eq(result.get_at(i, j), 255 if i%2 == 0 else 0)
+			assert_eq(result.get_at(i, j), 255 if i%2 == 0 else 0, str(i, " - ", j))
 	
 func test_corner_eigen_vals_and_vecs():
 	pass
@@ -490,6 +537,20 @@ func test_good_features_to_track():
 
 func test_hough_circles():
 	pass
+	#var mat := CVMat.zeros(250, 250, CVConsts.MatType.CV_8U)
+	#CVImgProc.circle(mat, Vector2(50, 50), 40, CVScalar.create(255), {"thickness":3})
+	#CVImgProc.circle(mat, Vector2(100, 100), 80, CVScalar.create(255), {"thickness":30})
+	#mat = CVCore.bitwise_not(mat, {})
+	#
+	#var result := CVImgProc.hough_circles(mat, CVConsts.HoughModes.HOUGH_GRADIENT, 1, 1, {})
+	#CVImgCodecs.imwrite("teste.png", mat, {})
+	#print(result)
+	#
+	#for i in result.rows:
+		#for j in result.cols:
+			#print(result.get_at(i, j))
+		#print()
+	#fail_test("Not Finished")
 	
 func test_hough_lines():
 	var mat := CVMat.eye(10, 10, CVConsts.MatType.CV_8U)
@@ -525,4 +586,3 @@ func test_grab_cut():
 
 func test_watershed():
 	pass
-

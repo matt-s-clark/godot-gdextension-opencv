@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVRect" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	Wrapper for Rect type.
+	</brief_description>
+	<description>
+	The cv::Rect is the type used to represent rectangular regions.[url=https://docs.opencv.org/4.x/dc/d84/group__core__basic.html]More information here[/url].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="area">
+			<return type="Variant" />
+			<description>
+			Returns the area of the rect.
+			</description>
+		</method>
+		<method name="br">
+			<return type="Vector2" />
+			<description>
+			Returns the bottom right position of the rect.
+			</description>
+		</method>
+		<method name="contains">
+			<return type="bool" />
+			<param index="0" name="point" type="Vector2" />
+			<description>
+			Checks whether the rectangle contains the point.
+			</description>
+		</method>
+		<method name="empty">
+			<return type="bool" />
+			<description>
+			True if empty.
+			</description>
+		</method>
+		<method name="from_values" qualifiers="static">
+			<return type="CVRect" />
+			<param index="0" name="x" type="Variant" />
+			<param index="1" name="y" type="Variant" />
+			<param index="2" name="width" type="Variant" />
+			<param index="3" name="height" type="Variant" />
+			<description>
+			Returns a rect with the specified values.
+			</description>
+		</method>
+		<method name="set_values">
+			<return type="void" />
+			<param index="0" name="x" type="Variant" />
+			<param index="1" name="y" type="Variant" />
+			<param index="2" name="width" type="Variant" />
+			<param index="3" name="height" type="Variant" />
+			<description>
+			Helper method used to quickly set rect values.
+			</description>
+		</method>
+		<method name="tl">
+			<return type="Vector2" />
+			<description>
+			Returns the top left position of the rect.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="height" type="Variant" setter="set_height" getter="get_height" default="0">
+		Height of the rectangle.
+		</member>
+		<member name="width" type="Variant" setter="set_width" getter="get_width" default="0">
+		Width of the rectangle.
+		</member>
+		<member name="x" type="Variant" setter="set_x" getter="get_x" default="0">
+		X coordinate of the top-left corner.
+		</member>
+		<member name="y" type="Variant" setter="set_y" getter="get_y" default="0">
+		Y coordinate of the top-left corner.
+		</member>
+	</members>
+</class>

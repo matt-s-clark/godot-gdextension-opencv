@@ -141,5 +141,5 @@ Ref<CVScalar> CVScalar::create(Variant value) {
 }
 
 String CVScalar::_to_string() const {
-	return UtilityFunctions::str("[ CVScalar instance (", ") ]");
+	return UtilityFunctions::str("[ CVScalar instance (", Vector4(rawScalar[0], rawScalar[1], rawScalar[2], rawScalar[3]), ") ]");
 }

@@ -41,6 +41,7 @@ public:
 	void set_texture(Ref<Texture2D> texture); // <Helper>
 	Array get_array(); // <Helper>
 	void set_array(Array array, int columns, int type); // <Helper>
+	String dump(); // <Helper>
 	int type() const;
 
 	cv::Mat get_pointer();

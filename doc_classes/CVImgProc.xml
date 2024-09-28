@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVImgProc" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="accumulate" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dst" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="accumulate_product" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="dst" type="CVMat" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="accumulate_square" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dst" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="accumulate_weighted" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dst" type="CVMat" />
+			<param index="2" name="alpha" type="float" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="adaptive_threshold" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="maxValue" type="float" />
+			<param index="2" name="adaptiveMethod" type="int" />
+			<param index="3" name="thresholdType" type="int" />
+			<param index="4" name="blockSize" type="int" />
+			<param index="5" name="C" type="float" />
+			<description>
+			</description>
+		</method>
+		<method name="apply_color_map" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="userColor" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="arc_length" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="curve" type="CVMat" />
+			<param index="1" name="closed" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="arrowed_line" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="img" type="CVMat" />
+			<param index="1" name="pt1" type="Vector2" />
+			<param index="2" name="pt2" type="Vector2" />
+			<param index="3" name="color" type="CVScalar" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="bilateral_filter" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="d" type="int" />
+			<param index="2" name="sigmaColor" type="float" />
+			<param index="3" name="sigmaSpace" type="float" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="blend_linear" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="weights1" type="CVMat" />
+			<param index="3" name="weights2" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="blur" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ksize" type="Vector2" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="bounding_rect" qualifiers="static">
+			<return type="CVRect" />
+			<param index="0" name="array" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="box_filter" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ddepth" type="int" />
+			<param index="2" name="ksize" type="Vector2" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="canny" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="threshold1" type="float" />
+			<param index="2" name="threshold2" type="float" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="circle" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="img" type="CVMat" />
+			<param index="1" name="center" type="Vector2" />
+			<param index="2" name="radius" type="int" />
+			<param index="3" name="color" type="CVScalar" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="compare_hist" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="H1" type="CVMat" />
+			<param index="1" name="H2" type="CVMat" />
+			<param index="2" name="method" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="connected_components" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="connectivity" type="int" />
+			<param index="2" name="ltype" type="int" />
+			<param index="3" name="ccltype" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="connected_components_with_stats" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="connectivity" type="int" />
+			<param index="2" name="ltype" type="int" />
+			<param index="3" name="ccltype" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="contour_area" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="contour" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="convert_maps" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="map1" type="CVMat" />
+			<param index="1" name="map2" type="CVMat" />
+			<param index="2" name="dstmap1type" type="int" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="convex_hull" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="points" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="convexity_defects" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="contour" type="CVMat" />
+			<param index="1" name="convexhull" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="corner_eigen_vals_and_vecs" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="blockSize" type="int" />
+			<param index="2" name="ksize" type="int" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="corner_harris" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="blockSize" type="int" />
+			<param index="2" name="ksize" type="int" />
+			<param index="3" name="k" type="float" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="corner_min_eigen_val" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="blockSize" type="int" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="create_hanning_window" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="winSize" type="Vector2" />
+			<param index="1" name="type" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="cvt_color" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="code" type="int" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="demosaicing" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="code" type="int" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="dilate" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="kernel" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="distance_transform" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="distanceType" type="int" />
+			<param index="2" name="maskSize" type="int" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="draw_marker" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="img" type="CVMat" />
+			<param index="1" name="position" type="Vector2" />
+			<param index="2" name="color" type="CVScalar" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="ellipse" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="img" type="CVMat" />
+			<param index="1" name="center" type="Vector2" />
+			<param index="2" name="axes" type="Vector2" />
+			<param index="3" name="angle" type="float" />
+			<param index="4" name="startAngle" type="float" />
+			<param index="5" name="endAngle" type="float" />
+			<param index="6" name="color" type="CVScalar" />
+			<param index="7" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="equalize_hist" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="erode" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="kernel" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="fill_convex_poly" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="img" type="CVMat" />
+			<param index="1" name="points" type="CVMat" />
+			<param index="2" name="color" type="CVScalar" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="filter_2d" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ddepth" type="int" />
+			<param index="2" name="kernel" type="CVMat" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="fit_line" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="points" type="CVMat" />
+			<param index="1" name="distType" type="int" />
+			<param index="2" name="param" type="float" />
+			<param index="3" name="reps" type="float" />
+			<param index="4" name="aeps" type="float" />
+			<description>
+			</description>
+		</method>
+		<method name="gaussian_blur" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ksize" type="Vector2" />
+			<param index="2" name="sigmaX" type="float" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="get_affine_transform" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dst" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="get_deriv_kernels" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="dx" type="int" />
+			<param index="1" name="dy" type="int" />
+			<param index="2" name="ksize" type="int" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="get_font_scale_from_height" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="fontFace" type="int" />
+			<param index="1" name="pixelHeight" type="int" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="get_gabor_kernel" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="ksize" type="Vector2" />
+			<param index="1" name="sigma" type="float" />
+			<param index="2" name="theta" type="float" />
+			<param index="3" name="lambd" type="float" />
+			<param index="4" name="gamma" type="float" />
+			<param index="5" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="get_gaussian_kernel" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="ksize" type="int" />
+			<param index="1" name="sigma" type="float" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="get_perspective_transform" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dst" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="get_rect_sub_pix" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="patchSize" type="Vector2" />
+			<param index="2" name="center" type="Vector2" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="get_rotation_matrix_2d" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="center" type="Vector2" />
+			<param index="1" name="angle" type="float" />
+			<param index="2" name="scale" type="float" />
+			<description>
+			</description>
+		</method>
+		<method name="get_structuring_element" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="shape" type="int" />
+			<param index="1" name="ksize" type="Vector2" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="good_features_to_track" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="maxCorners" type="int" />
+			<param index="2" name="qualityLevel" type="float" />
+			<param index="3" name="minDistance" type="float" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="grab_cut" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="img" type="CVMat" />
+			<param index="1" name="mask" type="CVMat" />
+			<param index="2" name="rect" type="CVRect" />
+			<param index="3" name="bgdModel" type="CVMat" />
+			<param index="4" name="fgdModel" type="CVMat" />
+			<param index="5" name="iterCount" type="int" />
+			<param index="6" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="hough_circles" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="method" type="int" />
+			<param index="2" name="dp" type="float" />
+			<param index="3" name="minDist" type="float" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="hough_lines" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="rho" type="float" />
+			<param index="2" name="theta" type="float" />
+			<param index="3" name="threshold" type="int" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="hough_lines_p" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="rho" type="float" />
+			<param index="2" name="theta" type="float" />
+			<param index="3" name="threshold" type="int" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="hough_lines_point_set" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="point" type="CVMat" />
+			<param index="1" name="lines_max" type="int" />
+			<param index="2" name="threshold" type="int" />
+			<param index="3" name="min_rho" type="float" />
+			<param index="4" name="max_rho" type="float" />
+			<param index="5" name="rho_step" type="float" />
+			<param index="6" name="min_theta" type="float" />
+			<param index="7" name="max_theta" type="float" />
+			<param index="8" name="theta_step" type="float" />
+			<description>
+			</description>
+		</method>
+		<method name="integral" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="intersect_convex_convex" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="p1" type="CVMat" />
+			<param index="1" name="p2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="invert_affine_transform" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="M" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="is_contour_convex" qualifiers="static">
+			<return type="bool" />
+			<param index="0" name="contour" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="laplacian" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ddepth" type="int" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="line" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="img" type="CVMat" />
+			<param index="1" name="pt1" type="Vector2" />
+			<param index="2" name="pt2" type="Vector2" />
+			<param index="3" name="color" type="CVScalar" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="linear_polar" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="center" type="Vector2" />
+			<param index="2" name="maxRadius" type="float" />
+			<param index="3" name="flags" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="log_polar" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="center" type="Vector2" />
+			<param index="2" name="M" type="float" />
+			<param index="3" name="flags" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="match_shapes" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="contour1" type="CVMat" />
+			<param index="1" name="contour2" type="CVMat" />
+			<param index="2" name="method" type="int" />
+			<param index="3" name="parameter" type="float" />
+			<description>
+			</description>
+		</method>
+		<method name="match_template" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="templ" type="CVMat" />
+			<param index="2" name="method" type="int" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="median_blur" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ksize" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="min_enclosing_triangle" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="points" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="morphology_default_border_value" qualifiers="static">
+			<return type="CVScalar" />
+			<description>
+			</description>
+		</method>
+		<method name="morphology_ex" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="op" type="int" />
+			<param index="2" name="kernel" type="CVMat" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="point_polygon_test" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="contour" type="CVMat" />
+			<param index="1" name="pt" type="Vector2" />
+			<param index="2" name="measureDist" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="pre_corner_detect" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ksize" type="int" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="pyr_down" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="pyr_up" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="rectangle" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="img" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="remap" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="map1" type="CVMat" />
+			<param index="2" name="map2" type="CVMat" />
+			<param index="3" name="interpolation" type="int" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="resize" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dsize" type="Vector2" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="scharr" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ddepth" type="int" />
+			<param index="2" name="dx" type="int" />
+			<param index="3" name="dy" type="int" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="sep_filter_2d" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ddepth" type="int" />
+			<param index="2" name="kernelX" type="CVMat" />
+			<param index="3" name="kernelY" type="CVMat" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="sobel" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ddepth" type="int" />
+			<param index="2" name="dx" type="int" />
+			<param index="3" name="dy" type="int" />
+			<param index="4" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="spatial_gradient" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="threshold" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="thresh" type="float" />
+			<param index="2" name="maxval" type="float" />
+			<param index="3" name="type" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="warp_affine" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="M" type="CVMat" />
+			<param index="2" name="dsize" type="Vector2" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="warp_perspective" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="M" type="CVMat" />
+			<param index="2" name="dsize" type="Vector2" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="warp_polar" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dsize" type="Vector2" />
+			<param index="2" name="center" type="Vector2" />
+			<param index="3" name="maxRadius" type="float" />
+			<param index="4" name="flags" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="watershed" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="markers" type="CVMat" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>
