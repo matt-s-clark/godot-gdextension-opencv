@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="CVDnn" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
 	<brief_description>
+	Deep neural networks module.
 	</brief_description>
 	<description>
+	Module for operating with deep neural networks. [url=https://docs.opencv.org/4.x/d6/d0f/group__dnn.html]More information here[/url].
 	</description>
 	<tutorials>
 	</tutorials>
@@ -12,6 +14,10 @@
 			<param index="0" name="image" type="CVMat" />
 			<param index="1" name="additional_parameters" type="Dictionary" />
 			<description>
+			Creates 4-dimensional blob from image. Optionally resizes and crops image from center, subtract mean values, scales values by scalefactor, swap Blue and Red channels.
+
+[u]Additional parameters:[/u] scale_factor: Float, size: Vector2, mean: Vector3, swap_rb: Bool, crop: Bool, ddepth: Int
+
 			</description>
 		</method>
 		<method name="readNet" qualifiers="static">
@@ -19,6 +25,14 @@
 			<param index="0" name="model" type="String" />
 			<param index="1" name="additional_parameters" type="Dictionary" />
 			<description>
+			Read deep learning network represented in one of the supported formats:
+
+[url=http://caffe.berkeleyvision.org/]Caffe[/url], [url=https://www.tensorflow.org/]TensorFlow[/url], [url=http://torch.ch/]Torch[/url], [url=https://pjreddie.com/darknet/]Darknet[/url], [OpenVINO](https://software.intel.com/openvino-toolkit), [url=https://onnx.ai/]ONNX[/url]
+
+Returns a CVNet object.
+
+[u]Additional parameters:[/u] config: String, framework: String
+
 			</description>
 		</method>
 	</methods>

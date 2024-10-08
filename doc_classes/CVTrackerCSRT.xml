@@ -3,6 +3,7 @@
 	<brief_description>
 	</brief_description>
 	<description>
+	Updates the position of a bounding box in order to track an object in a video. [url=https://docs.opencv.org/4.x/d9/df8/group__tracking.html]More information here[/url].
 	</description>
 	<tutorials>
 	</tutorials>
@@ -11,6 +12,9 @@
 			<return type="CVTrackerCSRT" />
 			<param index="0" name="additional_parameters" type="Dictionary" />
 			<description>
+			Creates an instance of the tracker.
+
+[u]Additional parameters:[/u] admm_iterations: Int, background_ratio: Int, cheb_attenuation: Float, filter_lr: Float, gsl_sigma: Float, histogram_bins: Int, histogram_lr: Float, hog_clip: Float, hog_orientations: Float, kaiser_alpha: Float, num_hog_channels_used: Int, number_of_scales: Int, padding: Float, psr_threshold: Float, scale_lr: Float, scale_model_max_area: Float, scale_sigma_factor: Float, scale_step: Float, template_size: Float, use_channel_weights: Bool, use_color_names: Bool, use_gray: Bool, use_hog: Bool, use_rgb: Bool, use_segmentation: Bool, weights_lr: Float, window_function: String
 			</description>
 		</method>
 		<method name="init">
@@ -18,12 +22,14 @@
 			<param index="0" name="image" type="CVMat" />
 			<param index="1" name="bounding_box" type="CVRect" />
 			<description>
+			Initialize the tracker with a known bounding box that surrounded the target.
 			</description>
 		</method>
 		<method name="update">
 			<return type="CVRect" />
 			<param index="0" name="image" type="CVMat" />
 			<description>
+			Updates the tracker, find the new most likely bounding box for the target.
 			</description>
 		</method>
 	</methods>

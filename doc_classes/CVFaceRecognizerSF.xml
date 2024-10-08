@@ -3,6 +3,7 @@
 	<brief_description>
 	</brief_description>
 	<description>
+	Implementation of SFACE face recognition. [url=https://docs.opencv.org/4.x/da/d09/classcv_1_1FaceRecognizerSF.html]More information here[/url].
 	</description>
 	<tutorials>
 	</tutorials>
@@ -12,6 +13,7 @@
 			<param index="0" name="src_img" type="CVMat" />
 			<param index="1" name="face_box" type="CVMat" />
 			<description>
+			Aligns detected face with the source input image and crops it.
 			</description>
 		</method>
 		<method name="create" qualifiers="static">
@@ -20,12 +22,16 @@
 			<param index="1" name="config" type="String" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Creates an instance of this class with given parameters.
+
+[u]Additional parameters:[/u] backend_id: Int, target_id: Int
 			</description>
 		</method>
 		<method name="feature">
 			<return type="CVMat" />
 			<param index="0" name="aligned_img" type="CVMat" />
 			<description>
+			Extracts face feature from aligned image.
 			</description>
 		</method>
 		<method name="match">
@@ -34,6 +40,9 @@
 			<param index="1" name="face_feature2" type="CVMat" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Calculates the distance between two face features.
+
+[u]Additional parameters:[/u] dis_type: Int
 			</description>
 		</method>
 	</methods>

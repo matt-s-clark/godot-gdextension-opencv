@@ -3,6 +3,7 @@
 	<brief_description>
 	</brief_description>
 	<description>
+	Module responsible for image filtering, color space conversion, histogram analysis, basic mat drawing and other matrix manipulation options. [url=https://docs.opencv.org/4.x/d7/dbd/group__imgproc.html]More information here[/url].
 	</description>
 	<tutorials>
 	</tutorials>
@@ -50,6 +51,7 @@
 			<param index="4" name="blockSize" type="int" />
 			<param index="5" name="C" type="float" />
 			<description>
+			Applies an adaptive threshold to a mat.
 			</description>
 		</method>
 		<method name="apply_color_map" qualifiers="static">
@@ -84,6 +86,8 @@
 			<param index="3" name="sigmaSpace" type="float" />
 			<param index="4" name="additional_parameters" type="Dictionary" />
 			<description>
+			Applies the bilateral filter to an image. It's excellent for removal of noise without losing edge sharpness, but may be very computational expensive.
+[u]Additional parameters:[/u] border_type: Int
 			</description>
 		</method>
 		<method name="blend_linear" qualifiers="static">
@@ -101,6 +105,8 @@
 			<param index="1" name="ksize" type="Vector2" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Blurs an image using the normalized box filter.
+[u]Additional parameters:[/u] border_type: Int, anchor: Vector2
 			</description>
 		</method>
 		<method name="bounding_rect" qualifiers="static">
@@ -233,6 +239,8 @@
 			<param index="1" name="code" type="int" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Converts an image from one color space to another.
+[u]Additional parameters:[/u] dst_cn: Int
 			</description>
 		</method>
 		<method name="demosaicing" qualifiers="static">
@@ -249,6 +257,8 @@
 			<param index="1" name="kernel" type="CVMat" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Dilates an image by using a specific structuring element.
+[u]Additional parameters:[/u] border_type: Int, interactions: Int, anchor: Vector2, border_value: Vector2
 			</description>
 		</method>
 		<method name="distance_transform" qualifiers="static">
@@ -280,12 +290,15 @@
 			<param index="6" name="color" type="CVScalar" />
 			<param index="7" name="additional_parameters" type="Dictionary" />
 			<description>
+			Draws an ellipse in the mat with the specified information.
+[u]Additional parameters:[/u] color: Color, thickness: Int, line_type: Int, shift: Int
 			</description>
 		</method>
 		<method name="equalize_hist" qualifiers="static">
 			<return type="CVMat" />
 			<param index="0" name="src" type="CVMat" />
 			<description>
+			Equalizes the histogram of a grayscale image.
 			</description>
 		</method>
 		<method name="erode" qualifiers="static">
@@ -294,6 +307,8 @@
 			<param index="1" name="kernel" type="CVMat" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Erodes an image by using a specific structuring element.
+[u]Additional parameters:[/u] border_type: Int, interactions: Int, anchor: Vector2, border_value: Vector2
 			</description>
 		</method>
 		<method name="fill_convex_poly" qualifiers="static">
@@ -312,6 +327,8 @@
 			<param index="2" name="kernel" type="CVMat" />
 			<param index="3" name="additional_parameters" type="Dictionary" />
 			<description>
+			Convolves an image with the kernel.
+[u]Additional parameters:[/u] anchor: Vector2, delta: Float, border_type: Int
 			</description>
 		</method>
 		<method name="fit_line" qualifiers="static">
@@ -331,6 +348,8 @@
 			<param index="2" name="sigmaX" type="float" />
 			<param index="3" name="additional_parameters" type="Dictionary" />
 			<description>
+			Blurs an image using a Gaussian filter.
+[u]Additional parameters:[/u] sigma_y: Float, border_type: Int
 			</description>
 		</method>
 		<method name="get_affine_transform" qualifiers="static">
@@ -366,6 +385,8 @@
 			<param index="4" name="gamma" type="float" />
 			<param index="5" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns Gabor filter coefficients.
+[u]Additional parameters:[/u] ktype: Int, psi: Float
 			</description>
 		</method>
 		<method name="get_gaussian_kernel" qualifiers="static">
@@ -374,6 +395,8 @@
 			<param index="1" name="sigma" type="float" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns Gaussian filter coefficients.
+[u]Additional parameters:[/u] ktype: Int
 			</description>
 		</method>
 		<method name="get_perspective_transform" qualifiers="static">
@@ -407,6 +430,8 @@
 			<param index="1" name="ksize" type="Vector2" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns a structuring element of the specified size and shape for morphological operations.
+[u]Additional parameters:[/u] anchor: Vector2
 			</description>
 		</method>
 		<method name="good_features_to_track" qualifiers="static">
@@ -508,6 +533,8 @@
 			<param index="1" name="ddepth" type="int" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Calculates the Laplacian of an image.
+[u]Additional parameters:[/u] ksize: Int, border_type: Int, scale: Float, delta: Float
 			</description>
 		</method>
 		<method name="line" qualifiers="static">
@@ -518,6 +545,8 @@
 			<param index="3" name="color" type="CVScalar" />
 			<param index="4" name="additional_parameters" type="Dictionary" />
 			<description>
+			Draws a line in the image with the specified information.
+[u]Additional parameters:[/u] color: Color, thickness: Int, line_type: Int, shift: Int
 			</description>
 		</method>
 		<method name="linear_polar" qualifiers="static">
@@ -561,6 +590,7 @@
 			<param index="0" name="src" type="CVMat" />
 			<param index="1" name="ksize" type="int" />
 			<description>
+			Blurs an image using the median filter.
 			</description>
 		</method>
 		<method name="min_enclosing_triangle" qualifiers="static">
@@ -581,6 +611,8 @@
 			<param index="2" name="kernel" type="CVMat" />
 			<param index="3" name="additional_parameters" type="Dictionary" />
 			<description>
+			Performs advanced morphological transformations.
+[u]Additional parameters:[/u] border_type: Int, interactions: Int, anchor: Vector2, border_value: Vector2
 			</description>
 		</method>
 		<method name="point_polygon_test" qualifiers="static">
@@ -618,6 +650,8 @@
 			<param index="0" name="img" type="CVMat" />
 			<param index="1" name="additional_parameters" type="Dictionary" />
 			<description>
+			Draws a simple, thick, or filled up-right rectangle. You should either pass a Rect or two points to call the method correctly.
+[u]Additional parameters:[/u] rec: CVRect, pt1: Vector2, pt2: Vector2, color: Color, thickness: Int, line_type: Int, shift: Int
 			</description>
 		</method>
 		<method name="remap" qualifiers="static">
@@ -636,6 +670,10 @@
 			<param index="1" name="dsize" type="Vector2" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns an resized image.
+
+The function resize resizes the image src down to or up to the specified size. Note that the initial dst type or size are not taken into account. Instead, the size and type are derived from the src,dsize,fx, and fy
+[u]Additional parameters:[/u] fx: Float, fy: Float, interpolation: Int
 			</description>
 		</method>
 		<method name="scharr" qualifiers="static">
@@ -666,6 +704,8 @@
 			<param index="3" name="dy" type="int" />
 			<param index="4" name="additional_parameters" type="Dictionary" />
 			<description>
+			Calculates the first, second, third, or mixed image derivatives using an extended Sobel operator.
+[u]Additional parameters:[/u] ksize: Int, border_type: Int, scale: Float, delta: Float
 			</description>
 		</method>
 		<method name="spatial_gradient" qualifiers="static">
@@ -682,6 +722,7 @@
 			<param index="2" name="maxval" type="float" />
 			<param index="3" name="type" type="int" />
 			<description>
+			Applies a fixed-level threshold to each array element.
 			</description>
 		</method>
 		<method name="warp_affine" qualifiers="static">

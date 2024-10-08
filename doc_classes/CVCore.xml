@@ -3,6 +3,7 @@
 	<brief_description>
 	</brief_description>
 	<description>
+	This class contains most of the main matrix manipulation methods. [url=https://docs.opencv.org/4.x/d0/de1/group__core.html]More information here[/url].
 	</description>
 	<tutorials>
 	</tutorials>
@@ -12,6 +13,7 @@
 			<param index="0" name="src1" type="CVMat" />
 			<param index="1" name="src2" type="CVMat" />
 			<description>
+			Returns the per-element absolute difference between two mats.
 			</description>
 		</method>
 		<method name="add" qualifiers="static">
@@ -20,6 +22,8 @@
 			<param index="1" name="src2" type="CVMat" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns the per-element sum of two arrays value by value.
+[u]Additional parameters:[/u] mask: CVMat, dtype: Int
 			</description>
 		</method>
 		<method name="add_weighted" qualifiers="static">
@@ -31,6 +35,8 @@
 			<param index="4" name="gamma" type="float" />
 			<param index="5" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns the per-element weighted sum of two arrays.
+[u]Additional parameters:[/u] dtype: Int
 			</description>
 		</method>
 		<method name="batch_distance" qualifiers="static">
@@ -48,6 +54,8 @@
 			<param index="1" name="src2" type="CVMat" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns the per-element bit-wise conjunction of two arrays.
+[u]Additional parameters:[/u] mask: CVMat
 			</description>
 		</method>
 		<method name="bitwise_not" qualifiers="static">
@@ -55,6 +63,8 @@
 			<param index="0" name="src" type="CVMat" />
 			<param index="1" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns a mat with every bit of the input inverted.
+[u]Additional parameters:[/u] mask: CVMat
 			</description>
 		</method>
 		<method name="bitwise_or" qualifiers="static">
@@ -63,6 +73,8 @@
 			<param index="1" name="src2" type="CVMat" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns the per-element bit-wise disjunction of two arrays
+[u]Additional parameters:[/u] mask: CVMat
 			</description>
 		</method>
 		<method name="bitwise_xor" qualifiers="static">
@@ -71,6 +83,8 @@
 			<param index="1" name="src2" type="CVMat" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns the per-element bit-wise "exclusive or" operation on two arrays
+[u]Additional parameters:[/u] mask: CVMat
 			</description>
 		</method>
 		<method name="border_interpolate" qualifiers="static">
@@ -117,6 +131,7 @@
 			<return type="CVMat" />
 			<param index="0" name="src" type="CVMat" />
 			<description>
+			Deprecated method for matrix conversion, see CVMat.convert_to.
 			</description>
 		</method>
 		<method name="convert_scale_abs" qualifiers="static">
@@ -157,6 +172,8 @@
 			<param index="0" name="src" type="CVMat" />
 			<param index="1" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns a forward or inverse Discrete Fourier transform of a mat.
+[u]Additional parameters:[/u] flags: Int, non_zero_rows: Int
 			</description>
 		</method>
 		<method name="divide" qualifiers="static">
@@ -183,6 +200,7 @@
 			<return type="CVMat" />
 			<param index="0" name="src" type="CVMat" />
 			<description>
+			Returns the exponent of every element.
 			</description>
 		</method>
 		<method name="extract_channel" qualifiers="static">
@@ -220,6 +238,7 @@
 			<return type="int" />
 			<param index="0" name="vecsize" type="int" />
 			<description>
+			Returns the optimal DFT size for a given vector size.
 			</description>
 		</method>
 		<method name="hconcat" qualifiers="static">
@@ -227,6 +246,7 @@
 			<param index="0" name="src1" type="CVMat" />
 			<param index="1" name="src2" type="CVMat" />
 			<description>
+			Returns the horizontal concatenation of both matrices.
 			</description>
 		</method>
 		<method name="idct" qualifiers="static">
@@ -270,6 +290,7 @@
 			<return type="CVMat" />
 			<param index="0" name="src" type="CVMat" />
 			<description>
+			Returns a mat with the natural logarithm of every array element.
 			</description>
 		</method>
 		<method name="lut" qualifiers="static">
@@ -299,6 +320,7 @@
 			<param index="0" name="src1" type="CVMat" />
 			<param index="1" name="src2" type="CVMat" />
 			<description>
+			Calculates per-element maximum of two arrays.
 			</description>
 		</method>
 		<method name="mean" qualifiers="static">
@@ -320,6 +342,7 @@
 			<param index="0" name="src1" type="CVMat" />
 			<param index="1" name="src2" type="CVMat" />
 			<description>
+			Calculates per-element minimum of two arrays.
 			</description>
 		</method>
 		<method name="mul_spectrums" qualifiers="static">
@@ -360,6 +383,8 @@
 			<param index="1" name="dst" type="CVMat" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Normalizes the norm of the mat.
+[u]Additional parameters:[/u] alpha: Float, beta: Float, norm_type: Int, dtype: Int, mask: CVMat
 			</description>
 		</method>
 		<method name="patch_nans" qualifiers="static">
@@ -531,6 +556,7 @@
 			<return type="CVMat" />
 			<param index="0" name="src" type="CVMat" />
 			<description>
+			Returns the per-element square root of the input matrix.
 			</description>
 		</method>
 		<method name="subtract" qualifiers="static">
@@ -539,6 +565,8 @@
 			<param index="1" name="src2" type="CVMat" />
 			<param index="2" name="additional_parameters" type="Dictionary" />
 			<description>
+			Returns the subtraction of two arrays value by value.
+[u]Additional parameters:[/u] mask: CVMat, dtype: Int
 			</description>
 		</method>
 		<method name="sum" qualifiers="static">
@@ -580,6 +608,7 @@
 			<return type="CVMat" />
 			<param index="0" name="src" type="CVMat" />
 			<description>
+			Returns the transpose of the input matrix.
 			</description>
 		</method>
 		<method name="vconcat" qualifiers="static">
@@ -587,6 +616,7 @@
 			<param index="0" name="src1" type="CVMat" />
 			<param index="1" name="src2" type="CVMat" />
 			<description>
+			Returns the vertical concatenation of both matrices.
 			</description>
 		</method>
 	</methods>

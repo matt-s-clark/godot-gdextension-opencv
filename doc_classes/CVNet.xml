@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="CVNet" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
 	<brief_description>
+	Wrapper for cv::DNN::Net
 	</brief_description>
 	<description>
+	Used to create and manipulate comprehensive artificial neural networks. [url=https://docs.opencv.org/4.x/db/d30/classcv_1_1dnn_1_1Net.html]More information here[/url].
 	</description>
 	<tutorials>
 	</tutorials>
@@ -10,16 +12,19 @@
 		<method name="dump">
 			<return type="String" />
 			<description>
+			Outputs the net information to a string.
 			</description>
 		</method>
 		<method name="empty">
 			<return type="bool" />
 			<description>
+			Returns true if there are no layers in the network.
 			</description>
 		</method>
 		<method name="forward">
 			<return type="CVMat" />
 			<description>
+			Runs forward pass for the whole network.
 			</description>
 		</method>
 		<method name="setInput">
@@ -27,6 +32,9 @@
 			<param index="0" name="blob" type="CVMat" />
 			<param index="1" name="additional_parameters" type="Dictionary" />
 			<description>
+			Sets the new input value for the network.
+
+[u]Additional parameters:[/u] name: String, scale_factor: Float, mean: Vector3
 			</description>
 		</method>
 	</methods>

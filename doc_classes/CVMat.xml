@@ -62,6 +62,7 @@
 			<param index="1" name="columns" type="int" />
 			<param index="2" name="type" type="int" />
 			<description>
+			Helper method to create a mat from an Godot.Array data.
 			</description>
 		</method>
 		<method name="from_image" qualifiers="static">
@@ -81,6 +82,7 @@
 		<method name="get_array">
 			<return type="Array" />
 			<description>
+			Returns the data in the matrix as Godot.Array.
 			</description>
 		</method>
 		<method name="get_at">
@@ -132,6 +134,7 @@
 			<param index="1" name="columns" type="int" />
 			<param index="2" name="type" type="int" />
 			<description>
+			Sets the data in the matrix with Godot.Array.
 			</description>
 		</method>
 		<method name="set_at">

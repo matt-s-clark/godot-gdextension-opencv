@@ -3,6 +3,7 @@
 	<brief_description>
 	</brief_description>
 	<description>
+	Implementation of yunet face detection. [url=https://docs.opencv.org/4.x/df/d20/classcv_1_1FaceDetectorYN.html]More information here[/url].
 	</description>
 	<tutorials>
 	</tutorials>
@@ -14,62 +15,75 @@
 			<param index="2" name="input_size" type="Vector2" />
 			<param index="3" name="additional_parameters" type="Dictionary" />
 			<description>
+			Creates an instance of face detector class.
+
+[u]Additional parameters:[/u] score_threshold: Float, nms_threshold: Float, top_k: Int, backend_id: Int, target_id: Int
 			</description>
 		</method>
 		<method name="detect">
 			<return type="CVMat" />
 			<param index="0" name="image" type="CVMat" />
 			<description>
+			Returns mat of size [number of faces, 15] with face data
 			</description>
 		</method>
 		<method name="detect_simplified">
 			<return type="Array" />
 			<param index="0" name="image" type="CVMat" />
 			<description>
+			The same as detect, but returns an array of dictionaries.
 			</description>
 		</method>
 		<method name="get_input_size">
 			<return type="Vector2" />
 			<description>
+			Returns the size of the image the model expects. 
 			</description>
 		</method>
 		<method name="get_nms_threshold">
 			<return type="float" />
 			<description>
+			Returns the Non-maximum-suppression threshold to suppress bounding boxes that have IoU greater than the given value.
 			</description>
 		</method>
 		<method name="get_score_threshold">
 			<return type="float" />
 			<description>
+			Returns the score threshold to filter out bounding boxes of score less than the given value.
 			</description>
 		</method>
 		<method name="get_top_k">
 			<return type="int" />
 			<description>
+			Returns the number of bounding boxes preserved before NMS.
 			</description>
 		</method>
 		<method name="set_input_size">
 			<return type="void" />
 			<param index="0" name="input_size" type="Vector2" />
 			<description>
+			Set the size of the image the model expects. 
 			</description>
 		</method>
 		<method name="set_nms_threshold">
 			<return type="void" />
 			<param index="0" name="nms_threshold" type="float" />
 			<description>
+			Set the Non-maximum-suppression threshold to suppress bounding boxes that have IoU greater than the given value.
 			</description>
 		</method>
 		<method name="set_score_threshold">
 			<return type="void" />
 			<param index="0" name="score_threshold" type="float" />
 			<description>
+			Set the score threshold to filter out bounding boxes of score less than the given value.
 			</description>
 		</method>
 		<method name="set_top_k">
 			<return type="void" />
 			<param index="0" name="top_k" type="int" />
 			<description>
+			Set the number of bounding boxes preserved before NMS.
 			</description>
 		</method>
 	</methods>
