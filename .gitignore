@@ -1,10 +1,72 @@
-src/opencv2/
-.sconsign.dblite
+# Project folders
 .vscode/
-src/*.obj
-build/
-*.os
+.idea/
+
+# macOS
 .DS_Store
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.os
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Python generated files
+__pycache__
+*.pyc
+
+# SCons
+.sconf_temp
+.sconsign*.dblite
+.scons_env.json
+.scons_node_count
+
+# Scons generated
+/compile_commands.json
+/src/gen
+
+# Build
+/build/addons/gdopencv/**/*
+!/build/addons/gdopencv/*
+!/build/addons/gdopencv/**/
+!/build/addons/gdopencv/**/*.plist
+
+# Demo build
+/demo/addons/gdopencv/**/*
+!/demo/addons/gdopencv/*
+!/demo/addons/gdopencv/**/
+!/demo/addons/gdopencv/**/*.plist
+
+# Project specific
+src/opencv2/
+src/*.obj
 demo/Models/goturn.prototxt
 demo/Models/goturn.caffemodel
-
