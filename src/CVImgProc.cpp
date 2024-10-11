@@ -750,18 +750,32 @@ Dictionary CVImgProc::distance_transform(Ref<CVMat> src, int distanceType, int m
 	return output;
 }
 
-Ref<CVMat> CVImgProc::integral(Ref<CVMat> src, Dictionary additional_parameters){
-	Ref<CVMat> output;
-	output.instantiate();
+Dictionary CVImgProc::integral(Ref<CVMat> src, Dictionary additional_parameters){
+	Dictionary output;
+	Ref<CVMat> outsum;
+	outsum.instantiate();
+	Ref<CVMat> outsqsum;
+	outsqsum.instantiate();
+	Ref<CVMat> outtilted;
+	outtilted.instantiate();
 	Mat sum;
+	Mat sqsum;
+	Mat tilted;
 
 	ERR_FAIL_NULL_V_MSG(src, output, "src should not be null.");
 
 	GET_SIMPLE_PROPERTY(int, Variant::INT, sdepth, -1);
+	GET_SIMPLE_PROPERTY(int, Variant::INT, sqdepth, -1);
 
-	SAFE_CALL(cv::integral(src->get_pointer(), sum, sdepth));
+	SAFE_CALL(cv::integral(src->get_pointer(), sum, sqsum, tilted, sdepth, sqdepth));
 
-	output->set_pointer(sum);
+	outsum->set_pointer(sum);
+	outsqsum->set_pointer(sqsum);
+	outtilted->set_pointer(tilted);
+
+	output["sum"] = outsum;
+	output["sqsum"] = outsqsum;
+	output["tilted"] = outtilted;
 
 	return output;
 }

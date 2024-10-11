@@ -312,10 +312,28 @@ func test_scharr():
 			assert_eq(result.get_at(i, j), val, str(i, " - ", j))
 
 func test_sep_filter_2d():
-	pass
+	var mat := CVMat.ones(5, 5, CVConsts.MatType.CV_8U)
+	var kernel := CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_CROSS, Vector2(1, 3), {})
+	var result := CVImgProc.sep_filter_2d(mat, -1, kernel, kernel, {})
+	
+	assert_eq(result.cols, mat.cols)
+	assert_eq(result.rows, mat.rows)
+	
+	assert_eq(result.get_at(0,0), 9)
 
 func test_spatial_gradient():
-	pass
+	var mat := CVMat.eye(5, 5, CVConsts.MatType.CV_8U)
+	
+	var result := CVImgProc.spatial_gradient(mat, {})
+	
+	assert_eq(result["dx"].cols, mat.cols)
+	assert_eq(result["dx"].rows, mat.rows)
+	
+	assert_eq(result["dy"].cols, mat.cols)
+	assert_eq(result["dy"].rows, mat.rows)
+	
+	assert_eq(result["dx"].get_at(0,1), -2)
+	assert_eq(result["dy"].get_at(1,0), -2)
 
 func test_convert_maps():
 	pass
@@ -361,16 +379,54 @@ func test_warp_polar():
 	pass
 
 func test_blend_linear():
-	pass
+	var mat1 := CVMat.eye(3, 3, CVConsts.MatType.CV_32F)
+	var mat2 := CVMat.ones(3, 3, CVConsts.MatType.CV_32F)
+	
+	var result := CVImgProc.blend_linear(mat1, mat1, mat2, mat2)
+	
+	for i in 3:
+		for j in 3:
+			assert_almost_eq(result.get_at(i,j), 1.0 if i == j else 0.0, 0.001)
 
 func test_distance_transform():
-	pass
+	var mat := CVMat.ones(7, 7, CVConsts.MatType.CV_8U)
+	mat.set_at(3, 3, 0)
+	
+	var result := CVImgProc.distance_transform(mat, 1, 3, {})
+	
+	assert_eq(result["dst"].get_at(0,0), 6.0)
+	assert_eq(result["dst"].get_at(3,3), 0.0)
+	assert_eq(result["dst"].get_at(5,6), 5.0)
+	
+	assert_eq(result["labels"].rows, 7)
+	assert_eq(result["labels"].cols, 7)
 
 func test_integral():
-	pass
+	var mat := CVMat.ones(3, 3, CVConsts.MatType.CV_8U)
+	
+	var result := CVImgProc.integral(mat, {})
+	
+	assert_eq(result["sum"].get_at(0,0), 0)
+	assert_eq(result["sum"].get_at(2,2), 4)
+	assert_eq(result["sum"].get_at(3,3), 9)
+	
+	assert_eq(result["sqsum"].get_at(0,0), 0.0)
+	assert_eq(result["sqsum"].get_at(2,2), 4.0)
+	assert_eq(result["sqsum"].get_at(3,3), 9.0)
+	
+	assert_eq(result["tilted"].get_at(0,0), 0)
+	assert_eq(result["tilted"].get_at(2,2), 4)
+	assert_eq(result["tilted"].get_at(3,3), 6)
 
 func test_arrowed_line():
-	pass
+	var mat := CVMat.zeros(9, 9, CVConsts.MatType.CV_8U)
+	CVImgProc.arrowed_line(mat, Vector2(0, 0), Vector2(5, 5), CVScalar.create(255), {})
+	
+	var array := [0, 10, 20, 30, 40, 41, 49, 50]
+	
+	for i in 9:
+		for j in 9:
+			assert_eq(mat.get_at(i, j), 0 if j+9*i not in array else 255, str(" ", i, " - ", j))
 
 func test_circle():
 	var mat := CVMat.zeros(9, 9, CVConsts.MatType.CV_8U)
@@ -381,10 +437,16 @@ func test_circle():
 	for i in 9:
 		for j in 9:
 			assert_eq(mat.get_at(i, j), 0 if j+9*i not in array else 255, str(" ", i, " - ", j))
-		print()
 
 func test_draw_marker():
-	pass
+	var mat := CVMat.zeros(9, 9, CVConsts.MatType.CV_8U)
+	CVImgProc.draw_marker(mat, Vector2(4, 4), CVScalar.create(255), {})
+	
+	var array := [4, 13, 22, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 49, 58, 67, 76]
+	
+	for i in 9:
+		for j in 9:
+			assert_eq(mat.get_at(i, j), 0 if j+9*i not in array else 255, str(" ", i, " - ", j))
 
 func test_ellipse():
 	var mat := CVMat.zeros(3, 3, CVConsts.MatType.CV_8U)
@@ -394,10 +456,20 @@ func test_ellipse():
 	assert_eq(mat.get_at(1, 0), 5)
 
 func test_fill_convex_poly():
-	pass
+	var mat := CVMat.zeros(7, 7, CVConsts.MatType.CV_8U)
+	var poly := CVMat.from_array([0, 0, 0, 4, 4, 4, 4, 0], 1, CVConsts.MatType.CV_32SC2)
+	# ??? I really need to look into array conversion
+	poly.convert_to(CVConsts.MatType.CV_8UC2)
+	poly.convert_to(CVConsts.MatType.CV_32SC2)
+	CVImgProc.fill_convex_poly(mat, poly, CVScalar.create(255), {})
+	
+	for i in 7:
+		for j in 7:
+			assert_eq(mat.get_at(i, j), 0 if i>4 or j>4 else 255, str(" ", i, " - ", j))
 
 func test_get_font_scale_from_height():
-	pass
+	var result := CVImgProc.get_font_scale_from_height(CVConsts.HersheyFonts.FONT_HERSHEY_SIMPLEX, 10, {})
+	assert_almost_eq(result, 0.428, 0.001)
 
 func test_line():
 	var mat := CVMat.zeros(3, 3, CVConsts.MatType.CV_8U)
@@ -411,9 +483,21 @@ func test_demosaicing():
 
 func test_apply_color_map():
 	pass
+	# Weird error
+	#var mat := CVMat.zeros(3, 3, CVConsts.MatType.CV_8U)
+	#var colorMap := CVMat.zeros(16, 16, CVConsts.MatType.CV_8U)
+	#
+	#var result := CVImgProc.apply_color_map(mat, colorMap)
+	#
+	#print(result.dump())
 
 func test_compare_hist():
-	pass
+	var mat1 := CVMat.eye(300, 300, CVConsts.MatType.CV_32F)
+	var mat2 := CVMat.ones(300, 300, CVConsts.MatType.CV_32F)
+	
+	var result := CVImgProc.compare_hist(mat1, mat2, CVConsts.HistCompMethods.HISTCMP_CORREL)
+	
+	assert_almost_eq(result, 1.0, 0.001)
 
 func test_arc_length():
 	var mat := CVMat.zeros(2, 2, CVConsts.MatType.CV_32F)

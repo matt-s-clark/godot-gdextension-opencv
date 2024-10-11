@@ -64,7 +64,7 @@ public:
 	static Ref<CVMat> adaptive_threshold(Ref<CVMat> src, float maxValue, int adaptiveMethod, int thresholdType, int blockSize, float C);
 	static Ref<CVMat> blend_linear(Ref<CVMat> src1, Ref<CVMat> src2, Ref<CVMat> weights1, Ref<CVMat> weights2);
 	static Dictionary distance_transform(Ref<CVMat> src, int distanceType, int maskSize, Dictionary additional_parameters);
-	static Ref<CVMat> integral(Ref<CVMat> src, Dictionary additional_parameters);
+	static Dictionary integral(Ref<CVMat> src, Dictionary additional_parameters);
 	static Dictionary threshold(Ref<CVMat> src, float thresh, float maxval, int type);
 	static void arrowed_line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Ref<CVScalar> color, Dictionary additional_parameters);
 	static void circle(Ref<CVMat> img, Vector2 center, int radius, Ref<CVScalar> color, Dictionary additional_parameters);

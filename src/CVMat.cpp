@@ -656,13 +656,13 @@ Array CVMat::get_array() {
 void CVMat::set_array(Array array, int columns, int type) {
 	int channels = 1 + type / 8;
 
-	if (type % 8 == 4) {
+	if (type % 8 == CV_32S) {
 		PackedInt32Array data = PackedInt32Array(array);
 		rawMat = cv::Mat(array.size() / (columns * channels), columns, type, data.ptrw());
-	} else if (type % 8 == 5) {
+	} else if (type % 8 == CV_32F) {
 		PackedFloat32Array data = PackedFloat32Array(array);
 		rawMat = cv::Mat(array.size() / (columns * channels), columns, type, data.ptrw());
-	} else if (type % 8 == 6) {
+	} else if (type % 8 == CV_64F) {
 		PackedFloat64Array data = PackedFloat64Array(array);
 		rawMat = cv::Mat(array.size() / (columns * channels), columns, type, data.ptrw());
 	} else {
