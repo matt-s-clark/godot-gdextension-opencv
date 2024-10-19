@@ -68,6 +68,7 @@ public:
 	static Dictionary threshold(Ref<CVMat> src, float thresh, float maxval, int type);
 	static void arrowed_line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Ref<CVScalar> color, Dictionary additional_parameters);
 	static void circle(Ref<CVMat> img, Vector2 center, int radius, Ref<CVScalar> color, Dictionary additional_parameters);
+	static void draw_contours(Ref<CVMat> image, Array contours, int contourIdx, Ref<CVScalar> color, Dictionary additional_parameters);
 	static void draw_marker(Ref<CVMat> img, Vector2 position, Ref<CVScalar> color, Dictionary additional_parameters);
 	static void ellipse(Ref<CVMat> img, Vector2 center, Vector2 axes, float angle, float startAngle, float endAngle, Ref<CVScalar> color, Dictionary additional_parameters);
 	static void fill_convex_poly(Ref<CVMat> img, Ref<CVMat> points, Ref<CVScalar> color, Dictionary additional_parameters);
@@ -86,6 +87,7 @@ public:
 	static float contour_area(Ref<CVMat> contour, Dictionary additional_parameters);
 	static Ref<CVMat> convex_hull(Ref<CVMat> points, Dictionary additional_parameters);
 	static Ref<CVMat> convexity_defects(Ref<CVMat> contour, Ref<CVMat> convexhull);
+	static Dictionary find_contours(Ref<CVMat> image, int mode, int method, Dictionary additional_parameters);
 	static Ref<CVMat> fit_line(Ref<CVMat> points, int distType, float param, float reps, float aeps);
 	static Dictionary intersect_convex_convex(Ref<CVMat> p1, Ref<CVMat> p2, Dictionary additional_parameters);
 	static bool is_contour_convex(Ref<CVMat> contour);

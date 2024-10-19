@@ -45,6 +45,7 @@ void CVImgProc::_bind_methods() {
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("threshold", "src", "thresh", "maxval", "type"), &CVImgProc::threshold);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("arrowed_line", "img", "pt1", "pt2", "color", "additional_parameters"), &CVImgProc::arrowed_line);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("circle", "img", "center", "radius", "color", "additional_parameters"), &CVImgProc::circle);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("draw_contours", "image", "contours", "contourIdx", "color", "additional_parameters"), &CVImgProc::draw_contours);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("draw_marker", "img", "position", "color", "additional_parameters"), &CVImgProc::draw_marker);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("ellipse", "img", "center", "axes", "angle", "startAngle", "endAngle", "color", "additional_parameters"), &CVImgProc::ellipse);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("fill_convex_poly", "img", "points", "color", "additional_parameters"), &CVImgProc::fill_convex_poly);
@@ -63,6 +64,7 @@ void CVImgProc::_bind_methods() {
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("contour_area", "contour", "additional_parameters"), &CVImgProc::contour_area);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("convex_hull", "points", "additional_parameters"), &CVImgProc::convex_hull);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("convexity_defects", "contour", "convexhull"), &CVImgProc::convexity_defects);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("find_contours", "image", "mode", "method", "additional_parameters"), &CVImgProc::find_contours);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("fit_line", "points", "distType", "param", "reps", "aeps"), &CVImgProc::fit_line);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("intersect_convex_convex", "p1", "p2", "additional_parameters"), &CVImgProc::intersect_convex_convex);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("is_contour_convex", "contour"), &CVImgProc::is_contour_convex);
@@ -824,6 +826,36 @@ void CVImgProc::circle(Ref<CVMat> img, Vector2 center, int radius, Ref<CVScalar>
 	SAFE_CALL(cv::circle(img->get_pointer(), Point(center.x, center.y), radius, color->get_pointer(), thickness, lineType, shift));
 }
 
+// Custom Implementation
+
+void CVImgProc::draw_contours(Ref<CVMat> image, Array contours, int contourIdx, Ref<CVScalar> color, Dictionary additional_parameters){
+
+	ERR_FAIL_NULL_V_MSG(image, , "image should not be null.");
+	ERR_FAIL_NULL_V_MSG(color, , "color should not be null.");
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, thickness, 1);
+	GET_SIMPLE_PROPERTY(int, Variant::INT, lineType, LINE_8);
+	GET_OBJECT_PROPERTY(Ref<CVMat>, hierarchy, Mat());
+	GET_SIMPLE_PROPERTY(int, Variant::INT, maxLevel, INT_MAX);
+	GET_CONVERTIBLE_PROPERTY(Point, Variant::VECTOR2, offset, Point());
+
+	std::vector<std::vector<cv::Point>> incontours;
+
+	for (size_t i = 0; i < contours.size(); i++) {
+		std::vector<cv::Point> newContour;
+		Array contour = contours[i];
+		
+		for (size_t j = 0; j < contour.size(); j++) {
+			Vector2 p = contour[j];
+			newContour.push_back(cv::Point(p.x, p.y));
+		}
+
+		incontours.push_back(newContour);
+	}
+
+	cv::drawContours(image->get_pointer(), incontours, contourIdx, color->get_pointer(), thickness, lineType, hierarchy->get_pointer(), maxLevel, offset);
+}
+
 void CVImgProc::draw_marker(Ref<CVMat> img, Vector2 position, Ref<CVScalar> color, Dictionary additional_parameters){
 
 	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
@@ -1115,6 +1147,40 @@ Ref<CVMat> CVImgProc::convexity_defects(Ref<CVMat> contour, Ref<CVMat> convexhul
 	SAFE_CALL(cv::convexityDefects(contour->get_pointer(), convexhull->get_pointer(), convexityDefects));
 
 	output->set_pointer(convexityDefects);
+
+	return output;
+}
+
+// Custom Implementation
+
+Dictionary CVImgProc::find_contours(Ref<CVMat> image, int mode, int method, Dictionary additional_parameters) {
+	Dictionary output;
+	Ref<CVMat> outhierarchy;
+	Array outcontours;
+	outhierarchy.instantiate();
+	std::vector<std::vector<cv::Point>> contours;
+	Mat hierarchy;
+
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
+
+	GET_CONVERTIBLE_PROPERTY(Point, Variant::VECTOR2, offset, Point());
+
+	SAFE_CALL(cv::findContours(image->get_pointer(), contours, hierarchy, mode, method, offset));
+
+	for (std::vector<cv::Point> contour : contours) {
+		PackedVector2Array newContour = PackedVector2Array();
+
+		for (cv::Point p : contour) {
+			newContour.append(Vector2(p.x, p.y));
+		}
+
+		outcontours.push_back(newContour);
+	}
+
+	outhierarchy->set_pointer(hierarchy);
+
+	output["contours"] = outcontours;
+	output["hierarchy"] = outhierarchy;
 
 	return output;
 }

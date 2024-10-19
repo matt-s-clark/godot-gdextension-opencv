@@ -98,7 +98,38 @@ void 	cv::circle (InputOutputArray img, Point center, int radius, const Scalar &
 # References bool 	cv::clipLine (Rect imgRect, Point &pt1, Point &pt2)
 # Repeat bool 	cv::clipLine (Size imgSize, Point &pt1, Point &pt2)
 # Repeat bool 	cv::clipLine (Size2l imgSize, Point2l &pt1, Point2l &pt2)
-# Array void 	cv::drawContours (InputOutputArray image, InputArrayOfArrays contours, int contourIdx, const Scalar &color, int thickness=1, int lineType=LINE_8, InputArray hierarchy=noArray(), int maxLevel=INT_MAX, Point offset=Point())
+# Custom Array void 	cv::drawContours (InputOutputArray image, InputArrayOfArrays contours, int contourIdx, const Scalar &color, int thickness=1, int lineType=LINE_8, InputArray hierarchy=noArray(), int maxLevel=INT_MAX, Point offset=Point())
+>CustomImplementation
+static void draw_contours(Ref<CVMat> image, Array contours, int contourIdx, Ref<CVScalar> color, Dictionary additional_parameters);
+ClassDB::bind_static_method(get_class_static(), D_METHOD("draw_contours", "image", "contours", "contourIdx", "color", "additional_parameters"), &CVImgProc::draw_contours);
+void CVImgProc::draw_contours(Ref<CVMat> image, Array contours, int contourIdx, Ref<CVScalar> color, Dictionary additional_parameters){
+
+	ERR_FAIL_NULL_V_MSG(image, , "image should not be null.");
+	ERR_FAIL_NULL_V_MSG(color, , "color should not be null.");
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, thickness, 1);
+	GET_SIMPLE_PROPERTY(int, Variant::INT, lineType, LINE_8);
+	GET_OBJECT_PROPERTY(Ref<CVMat>, hierarchy, Mat());
+	GET_SIMPLE_PROPERTY(int, Variant::INT, maxLevel, INT_MAX);
+	GET_CONVERTIBLE_PROPERTY(Point, Variant::VECTOR2, offset, Point());
+
+	std::vector<std::vector<cv::Point>> incontours;
+
+	for (size_t i = 0; i < contours.size(); i++) {
+		std::vector<cv::Point> newContour;
+		Array contour = contours[i];
+		
+		for (size_t j = 0; j < contour.size(); j++) {
+			Vector2 p = contour[j];
+			newContour.push_back(cv::Point(p.x, p.y));
+		}
+
+		incontours.push_back(newContour);
+	}
+
+	cv::drawContours(image->get_pointer(), incontours, contourIdx, color->get_pointer(), thickness, lineType, hierarchy->get_pointer(), maxLevel, offset);
+}
+<CustomImplementation
 void 	cv::drawMarker (InputOutputArray img, Point position, const Scalar &color, int markerType=MARKER_CROSS, int markerSize=20, int thickness=1, int line_type=8)
 # Repeat void 	cv::ellipse (InputOutputArray img, const RotatedRect &box, const Scalar &color, int thickness=1, int lineType=LINE_8)
 void 	cv::ellipse (InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
@@ -114,7 +145,7 @@ void 	cv::line (InputOutputArray img, Point pt1, Point pt2, const Scalar &color,
 # References void 	cv::polylines (InputOutputArray img, const Point *const *pts, const int *npts, int ncontours, bool isClosed, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
 # Repeat void 	cv::polylines (InputOutputArray img, InputArrayOfArrays pts, bool isClosed, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
 # String and references void 	cv::putText (InputOutputArray img, const String &text, Point org, int fontFace, double fontScale, Scalar color, int thickness=1, int lineType=LINE_8, bool bottomLeftOrigin=false)
-# Custom Implementation void 	cv::rectangle (InputOutputArray img, Point pt1, Point pt2, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
+# Custom Multiple Implementation void 	cv::rectangle (InputOutputArray img, Point pt1, Point pt2, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
 >CustomImplementation
 static void rectangle(Ref<CVMat> img, Dictionary additional_parameters);
 ClassDB::bind_static_method(get_class_static(), D_METHOD("rectangle", "img", "additional_parameters"), &CVImgProc::rectangle);
@@ -210,7 +241,42 @@ void 	cv::convexityDefects (InputArray contour, InputArray convexhull, OutputArr
 # Ptr< GeneralizedHoughBallard > 	cv::createGeneralizedHoughBallard ()
 # Ptr< GeneralizedHoughGuil > 	cv::createGeneralizedHoughGuil ()
 # Uses Points void 	cv::findContours (InputArray image, OutputArrayOfArrays contours, int mode, int method, Point offset=Point())
-# Repeat void 	cv::findContours (InputArray image, OutputArrayOfArrays contours, OutputArray hierarchy, int mode, int method, Point offset=Point())
+# Custom Array void 	cv::findContours (InputArray image, OutputArrayOfArrays contours, OutputArray hierarchy, int mode, int method, Point offset=Point())
+>CustomImplementation
+static Dictionary find_contours(Ref<CVMat> image, int mode, int method, Dictionary additional_parameters);
+ClassDB::bind_static_method(get_class_static(), D_METHOD("find_contours", "image", "mode", "method", "additional_parameters"), &CVImgProc::find_contours);
+Dictionary CVImgProc::find_contours(Ref<CVMat> image, int mode, int method, Dictionary additional_parameters) {
+	Dictionary output;
+	Ref<CVMat> outhierarchy;
+	Array outcontours;
+	outhierarchy.instantiate();
+	std::vector<std::vector<cv::Point>> contours;
+	Mat hierarchy;
+
+	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
+
+	GET_CONVERTIBLE_PROPERTY(Point, Variant::VECTOR2, offset, Point());
+
+	SAFE_CALL(cv::findContours(image->get_pointer(), contours, hierarchy, mode, method, offset));
+
+	for (std::vector<cv::Point> contour : contours) {
+		PackedVector2Array newContour = PackedVector2Array();
+
+		for (cv::Point p : contour) {
+			newContour.append(Vector2(p.x, p.y));
+		}
+
+		outcontours.push_back(newContour);
+	}
+
+	outhierarchy->set_pointer(hierarchy);
+
+	output["contours"] = outcontours;
+	output["hierarchy"] = outhierarchy;
+
+	return output;
+}
+<CustomImplementation
 # Repeat void 	cv::findContoursLinkRuns (InputArray image, OutputArrayOfArrays contours)
 # Not in cv namespace void 	cv::findContoursLinkRuns (InputArray image, OutputArrayOfArrays contours, OutputArray hierarchy)
 # RotatedRect RotatedRect 	cv::fitEllipse (InputArray points)
