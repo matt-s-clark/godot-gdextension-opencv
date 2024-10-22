@@ -33,7 +33,7 @@ func _process(_delta):
 	var binaryImage : CVMat = thRes["dst"]
 	
 	var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel2_size, kernel2_size), {})
-	var processedBinary := CVImgProc.morphology_ex(binaryImage, CVConsts.MorphTypes.MORPH_CLOSE, kernel, {})
+	var processedBinary := CVImgProc.morphology_ex(binaryImage, CVConsts.MorphTypes.MORPH_OPEN, kernel, {})
 	
 	var result := CVImgProc.find_contours(processedBinary, 2, 1,{})
 	var contoursDraw := mat.copy()
@@ -45,18 +45,20 @@ func _process(_delta):
 	for con in result["contours"]:
 		var m = CVImgProc.moments(con, {})
 		var area = CVImgProc.contour_area(con, {})
+		var centroid = Vector2i(m.m10/m.m00, m.m01/m.m00)
 		if area > maxArea and area > 0:
 			maxArea = area
-			areas.push_back([con, area])
+			areas.push_back([con, area, centroid])
 	
 	areas.sort_custom(func(a, b): return a[1] > b[1])
-	print("area: ", areas.size())
+	
 	if maxArea > 0:
 		for i in range(areas.size()):
 			var data = areas[i]
 			var color := Color.from_hsv((i+0.0)/areas.size(), 1, 1)
-			print("color: ", color)
+			
 			CVImgProc.draw_contours(contoursColor, [data[0]], -1, CVScalar.create(color), {"thickness": 3})
+			CVImgProc.put_text(contoursColor, str(int(data[1]/1000), " Kp"), data[2], 0, 1, CVScalar.create(color), {})
 	
 	##print(maxArea)
 	

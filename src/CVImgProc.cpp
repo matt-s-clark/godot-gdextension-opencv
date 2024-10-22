@@ -51,6 +51,7 @@ void CVImgProc::_bind_methods() {
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("fill_convex_poly", "img", "points", "color", "additional_parameters"), &CVImgProc::fill_convex_poly);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("get_font_scale_from_height", "fontFace", "pixelHeight", "additional_parameters"), &CVImgProc::get_font_scale_from_height);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("line", "img", "pt1", "pt2", "color", "additional_parameters"), &CVImgProc::line);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("put_text", "img", "text", "org", "fontFace", "fontScale", "color", "additional_parameters"), &CVImgProc::put_text);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("rectangle", "img", "additional_parameters"), &CVImgProc::rectangle);
 	ClassDB::bind_static_method( get_class_static(), D_METHOD("cvt_color", "src", "code", "additional_parameters"), &CVImgProc::cvt_color);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("demosaicing", "src", "code", "additional_parameters"), &CVImgProc::demosaicing);
@@ -915,6 +916,20 @@ void CVImgProc::line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Ref<CVScalar> col
 	GET_SIMPLE_PROPERTY(int, Variant::INT, shift, 0);
 
 	SAFE_CALL(cv::line(img->get_pointer(), Point(pt1.x, pt1.y), Point(pt2.x, pt2.y), color->get_pointer(), thickness, lineType, shift));
+}
+
+void CVImgProc::put_text(Ref<CVMat> img, String text, Vector2 org, int fontFace, float fontScale, Ref<CVScalar> color, Dictionary additional_parameters){
+
+	cv::String textIn(text.utf8());
+
+	ERR_FAIL_NULL_V_MSG(img, , "img should not be null.");
+	ERR_FAIL_NULL_V_MSG(color, , "color should not be null.");
+
+	GET_SIMPLE_PROPERTY(int, Variant::INT, thickness, 1);
+	GET_SIMPLE_PROPERTY(int, Variant::INT, lineType, LINE_8);
+	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, bottomLeftOrigin, false);
+
+	SAFE_CALL(cv::putText(img->get_pointer(), textIn, Point(org.x, org.y), fontFace, fontScale, color->get_pointer(), thickness, lineType, bottomLeftOrigin));
 }
 
 // Custom Implementation
