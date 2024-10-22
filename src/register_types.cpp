@@ -30,6 +30,7 @@ void initialize_opencv_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<CVBackgroundSubtractorMOG2>();
 	ClassDB::register_class<CVFileStorage>();
 	ClassDB::register_class<CVScalar>();
+	ClassDB::register_class<CVMoments>();
 }
 
 void uninitialize_opencv_module(ModuleInitializationLevel p_level) {

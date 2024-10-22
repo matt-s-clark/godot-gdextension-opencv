@@ -235,7 +235,36 @@ int 	cv::connectedComponents (InputArray image, OutputArray labels, int connecti
 # Repeat int 	cv::connectedComponents (InputArray image, OutputArray labels, int connectivity=8, int ltype=CV_32S)
 int 	cv::connectedComponentsWithStats (InputArray image, OutputArray labels, OutputArray stats, OutputArray centroids, int connectivity, int ltype, int ccltype)
 # Repeat int 	cv::connectedComponentsWithStats (InputArray image, OutputArray labels, OutputArray stats, OutputArray centroids, int connectivity=8, int ltype=CV_32S)
-double 	cv::contourArea (InputArray contour, bool oriented=false)
+# Custom std::Vector double 	cv::contourArea (InputArray contour, bool oriented=false)
+>CustomImplementation
+static float contour_area(Variant contour, Dictionary additional_parameters);
+ClassDB::bind_static_method(get_class_static(), D_METHOD("contour_area", "contour", "additional_parameters"), &CVImgProc::contour_area);
+float CVImgProc::contour_area(Variant contour, Dictionary additional_parameters) {
+	float output;
+
+	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, oriented, false);
+
+	if (contour.get_type() == Variant::PACKED_VECTOR2_ARRAY) {
+		std::vector<Point> contourIn;
+		PackedVector2Array contourCast = contour;
+		for (size_t i = 0; i < contourCast.size(); i++) {
+			contourIn.push_back(Point(contourCast[i].x, contourCast[i].y));
+		}
+
+		SAFE_CALL(output = cv::contourArea(contourIn, oriented));
+	} else if (contour.get_type() == Variant::OBJECT) {
+		Ref<CVMat> contourIn = contour;
+
+		ERR_FAIL_NULL_V_MSG(contourIn, output, "array should not be null.");
+
+		SAFE_CALL(output = cv::contourArea(contourIn->get_pointer(), oriented));
+	} else {
+		UtilityFunctions::push_error("Type not supported, contour should be Mat or PackedVector2Array.");
+	}
+
+	return output;
+}
+<CustomImplementation
 void 	cv::convexHull (InputArray points, OutputArray hull, bool clockwise=false, bool returnPoints=true)
 void 	cv::convexityDefects (InputArray contour, InputArray convexhull, OutputArray convexityDefects)
 # Ptr< GeneralizedHoughBallard > 	cv::createGeneralizedHoughBallard ()
@@ -291,7 +320,40 @@ double 	cv::matchShapes (InputArray contour1, InputArray contour2, int method, d
 # # RotatedRect RotatedRect 	cv::minAreaRect (InputArray points)
 # Reference void 	cv::minEnclosingCircle (InputArray points, Point2f &center, float &radius)
 double 	cv::minEnclosingTriangle (InputArray points, OutputArray triangle)
-# Moments 	cv::moments (InputArray array, bool binaryImage=false)
+# Custom Moments cv::moments (InputArray array, bool binaryImage=false)
+>CustomImplementation
+static Ref<CVMoments> moments(Variant array, Dictionary additional_parameters);
+ClassDB::bind_static_method(get_class_static(), D_METHOD("moments", "array", "additional_parameters"), &CVImgProc::moments);
+Ref<CVMoments> CVImgProc::moments(Variant array, Dictionary additional_parameters) {
+	Moments outMoment;
+	Ref<CVMoments> output;
+	output.instantiate();
+
+	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, binaryImage, false);
+
+	if (array.get_type() == Variant::PACKED_VECTOR2_ARRAY) {
+		std::vector<Point> arrayIn;
+		PackedVector2Array arrayCast = array;
+		for (size_t i = 0; i < arrayCast.size(); i++) {
+			arrayIn.push_back(Point(arrayCast[i].x, arrayCast[i].y));
+		}
+
+		SAFE_CALL(outMoment = cv::moments(arrayIn, binaryImage));
+	} else if (array.get_type() == Variant::OBJECT) {
+		Ref<CVMat> arrayIn = array;
+
+		ERR_FAIL_NULL_V_MSG(arrayIn, output, "array should not be null.");
+
+		SAFE_CALL(outMoment = cv::moments(arrayIn->get_pointer(), binaryImage));
+	} else {
+		UtilityFunctions::push_error("Type not supported, array should be Mat or PackedVector2Array.");
+	}
+
+	output->set_pointer(outMoment);
+
+	return output;
+}
+<CustomImplementation
 double 	cv::pointPolygonTest (InputArray contour, Point2f pt, bool measureDist)
 # RotatedRect int 	cv::rotatedRectangleIntersection (const RotatedRect &rect1, const RotatedRect &rect2, OutputArray intersectingRegion)
 void 	cv::accumulate (InputArray src, InputOutputArray dst, InputArray mask=noArray())

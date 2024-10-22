@@ -291,6 +291,7 @@ if __name__ == "__main__":
 #include <opencv2/imgproc.hpp>
 #include \"CVRect.h\"
 #include \"CVScalar.h\"
+#include \"CVMoments.h\"
 #include \"HelperFunctions.h\""""
 
 	inputPath = "automation/inputs/"

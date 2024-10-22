@@ -12,6 +12,7 @@
 #include "CVImgCodecs.h"
 #include "CVImgProc.h"
 #include "CVMat.h"
+#include "CVMoments.h"
 #include "CVNet.h"
 #include "CVRect.h"
 #include "CVScalar.h"

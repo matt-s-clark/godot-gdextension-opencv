@@ -28,26 +28,42 @@ func _process(_delta):
 		
 	var gray := CVImgProc.cvt_color(mat, CVConsts.ColorConversionCodes.COLOR_BGR2GRAY, {})
 	gray = CVImgProc.gaussian_blur(gray, Vector2(3, 3), 0, {})
-	var th : CVMat
 	
-	if use_adaptative:
-		th = CVImgProc.adaptive_threshold(gray, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV, CVConsts.AdaptiveThresholdTypes.ADAPTIVE_THRESH_GAUSSIAN_C, 501, 4)
-	else:
-		var result = CVImgProc.threshold(gray, thresh, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
-		th = result["dst"]
+	var thRes = CVImgProc.threshold(gray, thresh, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
+	var binaryImage : CVMat = thRes["dst"]
 	
-	var kernel2 = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel2_size, kernel2_size), {})
-	var cl := CVImgProc.morphology_ex(th, CVConsts.MorphTypes.MORPH_CLOSE, kernel2, {})
-	var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel_size, kernel_size), {})
-	var gr := CVImgProc.morphology_ex(cl, CVConsts.MorphTypes.MORPH_GRADIENT, kernel, {})
+	var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel2_size, kernel2_size), {})
+	var processedBinary := CVImgProc.morphology_ex(binaryImage, CVConsts.MorphTypes.MORPH_CLOSE, kernel, {})
 	
-	var result := CVImgProc.find_contours(cl, 2, 1,{})
-	CVImgProc.draw_contours(mat, result["contours"], -1, CVScalar.create(Vector3(0,255,0)), {})
+	var result := CVImgProc.find_contours(processedBinary, 2, 1,{})
+	var contoursDraw := mat.copy()
+	var contoursColor := mat.copy()
+	CVImgProc.draw_contours(contoursDraw, result["contours"], -1, CVScalar.create(Vector3(0,255,0)), {"thickness": 3})
+	
+	var maxArea := -1.0
+	var areas := []
+	for con in result["contours"]:
+		var m = CVImgProc.moments(con, {})
+		var area = CVImgProc.contour_area(con, {})
+		if area > maxArea and area > 0:
+			maxArea = area
+			areas.push_back([con, area])
+	
+	areas.sort_custom(func(a, b): return a[1] > b[1])
+	print("area: ", areas.size())
+	if maxArea > 0:
+		for i in range(areas.size()):
+			var data = areas[i]
+			var color := Color.from_hsv((i+0.0)/areas.size(), 1, 1)
+			print("color: ", color)
+			CVImgProc.draw_contours(contoursColor, [data[0]], -1, CVScalar.create(color), {"thickness": 3})
+	
+	##print(maxArea)
 	
 	video_feed.texture = mat.get_texture()
-	video_feed_2.texture = th.get_texture()
-	video_feed_3.texture = cl.get_texture()
-	video_feed_4.texture = gr.get_texture()
+	video_feed_2.texture = processedBinary.get_texture()
+	video_feed_3.texture = contoursDraw.get_texture()
+	video_feed_4.texture = contoursColor.get_texture()
 
 
 func _on_thresh_value_value_changed(value):

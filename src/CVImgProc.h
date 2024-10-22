@@ -10,6 +10,7 @@
 #include <opencv2/imgproc.hpp>
 #include "CVRect.h"
 #include "CVScalar.h"
+#include "CVMoments.h"
 #include "HelperFunctions.h"
 
 namespace godot {
@@ -84,7 +85,7 @@ public:
 	static Ref<CVRect> bounding_rect(Ref<CVMat> array);
 	static Dictionary connected_components(Ref<CVMat> image, int connectivity, int ltype, int ccltype);
 	static Dictionary connected_components_with_stats(Ref<CVMat> image, int connectivity, int ltype, int ccltype);
-	static float contour_area(Ref<CVMat> contour, Dictionary additional_parameters);
+	static float contour_area(Variant contour, Dictionary additional_parameters);
 	static Ref<CVMat> convex_hull(Ref<CVMat> points, Dictionary additional_parameters);
 	static Ref<CVMat> convexity_defects(Ref<CVMat> contour, Ref<CVMat> convexhull);
 	static Dictionary find_contours(Ref<CVMat> image, int mode, int method, Dictionary additional_parameters);
@@ -93,6 +94,7 @@ public:
 	static bool is_contour_convex(Ref<CVMat> contour);
 	static float match_shapes(Ref<CVMat> contour1, Ref<CVMat> contour2, int method, float parameter);
 	static Dictionary min_enclosing_triangle(Ref<CVMat> points);
+	static Ref<CVMoments> moments(Variant array, Dictionary additional_parameters);
 	static float point_polygon_test(Ref<CVMat> contour, Vector2 pt, bool measureDist);
 	static void accumulate(Ref<CVMat> src, Ref<CVMat> dst, Dictionary additional_parameters);
 	static void accumulate_product(Ref<CVMat> src1, Ref<CVMat> src2, Ref<CVMat> dst, Dictionary additional_parameters);

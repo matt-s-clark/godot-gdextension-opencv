@@ -70,6 +70,7 @@ void CVImgProc::_bind_methods() {
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("is_contour_convex", "contour"), &CVImgProc::is_contour_convex);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("match_shapes", "contour1", "contour2", "method", "parameter"), &CVImgProc::match_shapes);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("min_enclosing_triangle", "points"), &CVImgProc::min_enclosing_triangle);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("moments", "array", "additional_parameters"), &CVImgProc::moments);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("point_polygon_test", "contour", "pt", "measureDist"), &CVImgProc::point_polygon_test);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("accumulate", "src", "dst", "additional_parameters"), &CVImgProc::accumulate);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("accumulate_product", "src1", "src2", "dst", "additional_parameters"), &CVImgProc::accumulate_product);
@@ -1106,15 +1107,30 @@ Dictionary CVImgProc::connected_components_with_stats(Ref<CVMat> image, int conn
 	return output;
 }
 
-float CVImgProc::contour_area(Ref<CVMat> contour, Dictionary additional_parameters){
-	float output;
-	double defReturn;
+// Custom Implementation
 
-	ERR_FAIL_NULL_V_MSG(contour, output, "contour should not be null.");
+float CVImgProc::contour_area(Variant contour, Dictionary additional_parameters) {
+	float output;
 
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, oriented, false);
 
-	SAFE_CALL(output = cv::contourArea(contour->get_pointer(), oriented));
+	if (contour.get_type() == Variant::PACKED_VECTOR2_ARRAY) {
+		std::vector<Point> contourIn;
+		PackedVector2Array contourCast = contour;
+		for (size_t i = 0; i < contourCast.size(); i++) {
+			contourIn.push_back(Point(contourCast[i].x, contourCast[i].y));
+		}
+
+		SAFE_CALL(output = cv::contourArea(contourIn, oriented));
+	} else if (contour.get_type() == Variant::OBJECT) {
+		Ref<CVMat> contourIn = contour;
+
+		ERR_FAIL_NULL_V_MSG(contourIn, output, "array should not be null.");
+
+		SAFE_CALL(output = cv::contourArea(contourIn->get_pointer(), oriented));
+	} else {
+		UtilityFunctions::push_error("Type not supported, contour should be Mat or PackedVector2Array.");
+	}
 
 	return output;
 }
@@ -1259,6 +1275,38 @@ Dictionary CVImgProc::min_enclosing_triangle(Ref<CVMat> points){
 
 	output["defReturn"] = defReturn;
 	output["triangle"] = outtriangle;
+
+	return output;
+}
+
+// Custom Implementation
+
+Ref<CVMoments> CVImgProc::moments(Variant array, Dictionary additional_parameters) {
+	Moments outMoment;
+	Ref<CVMoments> output;
+	output.instantiate();
+
+	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, binaryImage, false);
+
+	if (array.get_type() == Variant::PACKED_VECTOR2_ARRAY) {
+		std::vector<Point> arrayIn;
+		PackedVector2Array arrayCast = array;
+		for (size_t i = 0; i < arrayCast.size(); i++) {
+			arrayIn.push_back(Point(arrayCast[i].x, arrayCast[i].y));
+		}
+
+		SAFE_CALL(outMoment = cv::moments(arrayIn, binaryImage));
+	} else if (array.get_type() == Variant::OBJECT) {
+		Ref<CVMat> arrayIn = array;
+
+		ERR_FAIL_NULL_V_MSG(arrayIn, output, "array should not be null.");
+
+		SAFE_CALL(outMoment = cv::moments(arrayIn->get_pointer(), binaryImage));
+	} else {
+		UtilityFunctions::push_error("Type not supported, array should be Mat or PackedVector2Array.");
+	}
+
+	output->set_pointer(outMoment);
 
 	return output;
 }

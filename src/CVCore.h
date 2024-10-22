@@ -10,6 +10,7 @@
 #include <opencv2/imgproc.hpp>
 #include "CVRect.h"
 #include "CVScalar.h"
+#include "CVMoments.h"
 #include "HelperFunctions.h"
 
 namespace godot {
