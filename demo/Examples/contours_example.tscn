@@ -97,7 +97,7 @@ alignment = 1
 
 [node name="KernelSizeValueLabel" type="Label" parent="Interface/KernelSizeContainer/KernelSizeValueVBoxContainer"]
 layout_mode = 2
-text = "Closing kernel size"
+text = "Opening kernel size"
 
 [node name="KernelSizeValue" type="HSlider" parent="Interface/KernelSizeContainer/KernelSizeValueVBoxContainer"]
 layout_mode = 2

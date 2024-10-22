@@ -33,6 +33,7 @@ processingLine = {
 	"Point": "Point({0}.x, {0}.y)",
 	"Point2f": "Point2f({0}.x, {0}.y)",
 	"Size": "Size({0}.x, {0}.y)",
+	"String": "{0}In",
 }
 initializingType = {
 	"Mat":"Mat",
@@ -172,6 +173,14 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 		else:
 			codeLinesList.append(f"	GET_SIMPLE_PROPERTY({ad[0]}, Variant::{ad[0].upper()}, {ad[1]}, {ad[2]});")
 
+	# Strings conversion
+	stringInputs = [inp for inp in inputs if inp[0] == "String"]
+
+	if stringInputs:
+		codeLinesList.append("")
+
+	for inp in stringInputs:
+		codeLinesList.append(f"	cv::String {inp[1]}In({inp[1]}.utf8());")
 
 	codeLinesList.append("")
 

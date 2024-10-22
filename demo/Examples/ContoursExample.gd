@@ -10,8 +10,6 @@ extends Control
 var cap:CVVideoCapture
 var thresh := 120
 var kernel_size := 5 
-var kernel2_size := 5 
-var use_adaptative := false
 
 func _ready():
 	cap = CVVideoCapture.new()
@@ -32,7 +30,7 @@ func _process(_delta):
 	var thRes = CVImgProc.threshold(gray, thresh, 255, CVConsts.ThresholdTypes.THRESH_BINARY_INV)
 	var binaryImage : CVMat = thRes["dst"]
 	
-	var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel2_size, kernel2_size), {})
+	var kernel = CVImgProc.get_structuring_element(CVConsts.MorphShapes.MORPH_ELLIPSE, Vector2(kernel_size, kernel_size), {})
 	var processedBinary := CVImgProc.morphology_ex(binaryImage, CVConsts.MorphTypes.MORPH_OPEN, kernel, {})
 	
 	var result := CVImgProc.find_contours(processedBinary, 2, 1,{})
@@ -71,19 +69,8 @@ func _process(_delta):
 func _on_thresh_value_value_changed(value):
 	thresh = value
 
-
-func _on_kernel_size_value_value_changed(value):
-	kernel_size = value
-
-
 func _on_kernel_size_value_2_value_changed(value):
-	kernel2_size = value
-
-
-func _on_use_adaptative_toggled(toggled_on):
-	use_adaptative = toggled_on
-	thresh_value_container.visible = !toggled_on
-
+	kernel_size = value
 
 func _on_open_pressed():
 	cap.open(0, CVConsts.VideoCaptureAPIs.CAP_ANY, null)

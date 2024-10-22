@@ -140,7 +140,7 @@ void 	cv::fillConvexPoly (InputOutputArray img, InputArray points, const Scalar 
 # Repeat void 	cv::fillPoly (InputOutputArray img, const Point **pts, const int *npts, int ncontours, const Scalar &color, int lineType=LINE_8, int shift=0, Point offset=Point())
 # Array void 	cv::fillPoly (InputOutputArray img, InputArrayOfArrays pts, const Scalar &color, int lineType=LINE_8, int shift=0, Point offset=Point())
 double 	cv::getFontScaleFromHeight (const int fontFace, const int pixelHeight, const int thickness=1)
-# String Size 	cv::getTextSize (const String &text, int fontFace, double fontScale, int thickness, int *baseLine)
+Size 	cv::getTextSize (const String &text, int fontFace, double fontScale, int thickness, int *baseLine)
 void 	cv::line (InputOutputArray img, Point pt1, Point pt2, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
 # References void 	cv::polylines (InputOutputArray img, const Point *const *pts, const int *npts, int ncontours, bool isClosed, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
 # Repeat void 	cv::polylines (InputOutputArray img, InputArrayOfArrays pts, bool isClosed, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
