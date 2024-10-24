@@ -74,7 +74,7 @@ public:
 	static void ellipse(Ref<CVMat> img, Vector2 center, Vector2 axes, float angle, float startAngle, float endAngle, Ref<CVScalar> color, Dictionary additional_parameters);
 	static void fill_convex_poly(Ref<CVMat> img, Ref<CVMat> points, Ref<CVScalar> color, Dictionary additional_parameters);
 	static float get_font_scale_from_height(int fontFace, int pixelHeight, Dictionary additional_parameters);
-	static Vector2 get_text_size(String text, int fontFace, float fontScale, int thickness, int baseLine);
+	static Dictionary get_text_size(String text, int fontFace, float fontScale, int thickness);
 	static void line(Ref<CVMat> img, Vector2 pt1, Vector2 pt2, Ref<CVScalar> color, Dictionary additional_parameters);
 	static void put_text(Ref<CVMat> img, String text, Vector2 org, int fontFace, float fontScale, Ref<CVScalar> color, Dictionary additional_parameters);
 	static void rectangle(Ref<CVMat> img, Dictionary additional_parameters);

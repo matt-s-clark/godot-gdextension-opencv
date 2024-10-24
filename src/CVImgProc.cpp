@@ -50,7 +50,7 @@ void CVImgProc::_bind_methods() {
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("ellipse", "img", "center", "axes", "angle", "startAngle", "endAngle", "color", "additional_parameters"), &CVImgProc::ellipse);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("fill_convex_poly", "img", "points", "color", "additional_parameters"), &CVImgProc::fill_convex_poly);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("get_font_scale_from_height", "fontFace", "pixelHeight", "additional_parameters"), &CVImgProc::get_font_scale_from_height);
-	ClassDB::bind_static_method(get_class_static(), D_METHOD("get_text_size", "text", "fontFace", "fontScale", "thickness", "baseLine"), &CVImgProc::get_text_size);
+	ClassDB::bind_static_method(get_class_static(), D_METHOD("get_text_size", "text", "fontFace", "fontScale", "thickness"), &CVImgProc::get_text_size);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("line", "img", "pt1", "pt2", "color", "additional_parameters"), &CVImgProc::line);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("put_text", "img", "text", "org", "fontFace", "fontScale", "color", "additional_parameters"), &CVImgProc::put_text);
 	ClassDB::bind_static_method(get_class_static(), D_METHOD("rectangle", "img", "additional_parameters"), &CVImgProc::rectangle);
@@ -907,13 +907,19 @@ float CVImgProc::get_font_scale_from_height(int fontFace, int pixelHeight, Dicti
 	return output;
 }
 
-Vector2 CVImgProc::get_text_size(String text, int fontFace, float fontScale, int thickness, int baseLine){
-	Vector2 output;
+// Custom Implementation
+
+Dictionary CVImgProc::get_text_size(String text, int fontFace, float fontScale, int thickness){
+	Dictionary output;
 	Size defReturn;
+	int baseLine;
 
 	cv::String textIn(text.utf8());
 
-	SAFE_CALL(defReturn = cv::getTextSize(textIn, fontFace, fontScale, thickness, baseLine));
+	SAFE_CALL(defReturn = cv::getTextSize(textIn, fontFace, fontScale, thickness, &baseLine));
+
+	output["defReturn"] = Vector2(defReturn.width, defReturn.height);
+	output["baseLine"] = baseLine;
 
 	return output;
 }

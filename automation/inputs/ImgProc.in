@@ -140,7 +140,25 @@ void 	cv::fillConvexPoly (InputOutputArray img, InputArray points, const Scalar 
 # Repeat void 	cv::fillPoly (InputOutputArray img, const Point **pts, const int *npts, int ncontours, const Scalar &color, int lineType=LINE_8, int shift=0, Point offset=Point())
 # Array void 	cv::fillPoly (InputOutputArray img, InputArrayOfArrays pts, const Scalar &color, int lineType=LINE_8, int shift=0, Point offset=Point())
 double 	cv::getFontScaleFromHeight (const int fontFace, const int pixelHeight, const int thickness=1)
-Size 	cv::getTextSize (const String &text, int fontFace, double fontScale, int thickness, int *baseLine)
+# Custom output int and output Size Size 	cv::getTextSize (const String &text, int fontFace, double fontScale, int thickness, int *baseLine)
+>CustomImplementation
+static Dictionary get_text_size(String text, int fontFace, float fontScale, int thickness);
+ClassDB::bind_static_method(get_class_static(), D_METHOD("get_text_size", "text", "fontFace", "fontScale", "thickness"), &CVImgProc::get_text_size);
+Dictionary CVImgProc::get_text_size(String text, int fontFace, float fontScale, int thickness){
+	Dictionary output;
+	Size defReturn;
+	int baseLine;
+
+	cv::String textIn(text.utf8());
+
+	SAFE_CALL(defReturn = cv::getTextSize(textIn, fontFace, fontScale, thickness, &baseLine));
+
+	output["defReturn"] = Vector2(defReturn.width, defReturn.height);
+	output["baseLine"] = baseLine;
+
+	return output;
+}
+<CustomImplementation
 void 	cv::line (InputOutputArray img, Point pt1, Point pt2, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
 # References void 	cv::polylines (InputOutputArray img, const Point *const *pts, const int *npts, int ncontours, bool isClosed, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)
 # Repeat void 	cv::polylines (InputOutputArray img, InputArrayOfArrays pts, bool isClosed, const Scalar &color, int thickness=1, int lineType=LINE_8, int shift=0)

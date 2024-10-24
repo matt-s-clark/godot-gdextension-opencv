@@ -670,3 +670,45 @@ func test_grab_cut():
 
 func test_watershed():
 	pass
+
+func test_find_contours():
+	var mat1 := CVMat.zeros(3, 5, CVConsts.MatType.CV_8U)
+	var mat2 := CVMat.ones(2, 5, CVConsts.MatType.CV_8U)
+	
+	var mat = CVCore.vconcat(mat1, mat2)
+	
+	var result := CVImgProc.find_contours(mat, CVConsts.RetrievalModes.RETR_EXTERNAL, CVConsts.ContourApproximationModes.CHAIN_APPROX_SIMPLE, {})
+
+	assert_eq_deep(result["contours"], [PackedVector2Array([Vector2(0, 3), Vector2(0, 4), Vector2(4, 4), Vector2(4, 3)])])
+
+func test_draw_contours():
+	var mat := CVMat.zeros(5, 5, CVConsts.MatType.CV_8U)
+	
+	CVImgProc.draw_contours(mat, [PackedVector2Array([Vector2(0,0), Vector2(4,4)]), PackedVector2Array([Vector2(2,0), Vector2(2,4)])], -1, CVScalar.create(7), {})
+	
+	for i in 5:
+		for j in 5:
+			assert_eq(mat.get_at(i, j), 7 if i==j or j == 2 else 0)
+	
+func test_put_text():
+	var mat := CVMat.zeros(5, 5, CVConsts.MatType.CV_8U)
+	
+	CVImgProc.put_text(mat, "A", Vector2(0, 5), CVConsts.HersheyFonts.FONT_HERSHEY_SIMPLEX, .25, CVScalar.create(255), {})
+	
+	assert_almost_eq(CVCore.mean(mat, {}).get_float(), 112.2, 0.001)
+
+func test_moments():
+	var contour := PackedVector2Array([Vector2(0, 3), Vector2(0, 4), Vector2(4, 4), Vector2(4, 3)])
+	
+	var result = CVImgProc.moments(contour, {})
+	
+	print(result)
+	assert_eq(result.m00, 4.0)
+	assert_eq(result.m10, 8.0)
+	assert_eq(result.m01, 14.0)
+	
+func test_get_text_size():
+	var size = CVImgProc.get_text_size("Rice", 0, 1, 1)
+	
+	assert_eq(size["defReturn"], Vector2(66, 22))
+	assert_eq(size["baseLine"], 10)
