@@ -593,9 +593,12 @@ func test_create_hanning_window():
 	pass
 
 func test_canny():
-	var mat := CVMat.from_array([0, 0, 0, 15, 15, 15, 0, 0, 0], 3, CVConsts.MatType.CV_32F)
-	mat.convert_to(CVConsts.MatType.CV_8U)
-	var result := CVImgProc.canny(mat, 10, 20, {})
+	var mat0 := CVMat.zeros(1, 3, CVConsts.MatType.CV_8U)
+	var mat1 := CVMat.ones(1, 3, CVConsts.MatType.CV_8U)
+	var mat := CVCore.vconcat(mat0, mat1)
+	mat = CVCore.vconcat(mat, mat0)
+	
+	var result := CVImgProc.canny(mat, 0, 1, {})
 	
 	for i in mat.rows:
 		for j in mat.cols:

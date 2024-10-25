@@ -93,13 +93,26 @@ func test_bitwise_xor():
 	assert_eq(mat3.get_at(0,0) as int, 1)
 	
 func test_border_interpolate():
-	pass
+	var result := CVCore.border_interpolate(-5, 680, CVConsts.BorderTypes.BORDER_CONSTANT)
+	assert_eq(result, -1)
 	
 func test_calc_covar_matrix():
 	pass
 	
 func test_cart_to_polar():
-	pass
+	var x := CVMat.ones(1, 3, CVConsts.MatType.CV_32F)
+	var y := CVMat.zeros(1, 3, CVConsts.MatType.CV_32F)
+	y.set_at(0,1,1)
+	y.set_at(0,2,2)
+	var result := CVCore.cart_to_polar(x, y, {})
+	
+	assert_almost_eq(result["magnitude"].get_at(0,0), 1.0, .001)
+	assert_almost_eq(result["magnitude"].get_at(0,1), 1.414, .001)
+	assert_almost_eq(result["magnitude"].get_at(0,2), 2.236, .001)
+	
+	assert_almost_eq(result["angle"].get_at(0,0), 0.0, .001)
+	assert_almost_eq(result["angle"].get_at(0,1), 0.785, .001)
+	assert_almost_eq(result["angle"].get_at(0,2), 1.107, .001)
 	
 func test_compare():
 	var mat1 := CVMat.ones(3, 3, CVConsts.MatType.CV_8U)
@@ -109,10 +122,7 @@ func test_compare():
 	
 	for i in result.rows:
 		for j in result.cols:
-			if i == j:
-				assert_eq(result.get_at(i,j), 255)
-			else:
-				assert_eq(result.get_at(i,j), 0)
+			assert_eq(result.get_at(i,j), 255 if i == j else 0)
 	
 func test_complete_symm():
 	var mat := CVMat.zeros(3, 3, CVConsts.MatType.CV_8U)
@@ -132,8 +142,15 @@ func test_convert_fp_16():
 	assert_eq(result.type(), 3)
 	
 func test_convert_scale_abs():
-	pass
+	var mat := CVMat.eye(3, 3, CVConsts.MatType.CV_32F)
+	mat.set_at(0, 0, -1)
+	mat.set_at(2, 2, -1)
+	var result := CVCore.convert_scale_abs(mat, {})
 	
+	for i in result.rows:
+		for j in result.cols:
+			assert_eq(result.get_at(i,j), 1 if i == j else 0)
+
 func test_copy_to():
 	var mat := CVMat.zeros(3, 3, CVConsts.MatType.CV_32F)
 	mat.set_at(0, 0, 42)
@@ -490,7 +507,21 @@ func test_phase():
 	pass
 	
 func test_polar_to_cart():
-	pass
+	var mag := CVMat.ones(1, 3, CVConsts.MatType.CV_32F)
+	mag.set_at(0,1,1.414)
+	mag.set_at(0,2,2.236)
+	var ang := CVMat.zeros(1, 3, CVConsts.MatType.CV_32F)
+	ang.set_at(0,1,0.785)
+	ang.set_at(0,2,1.107)
+	var result := CVCore.polar_to_cart(mag, ang, {})
+	
+	assert_almost_eq(result["x"].get_at(0,0), 1.0, .001)
+	assert_almost_eq(result["x"].get_at(0,1), 1.0, .001)
+	assert_almost_eq(result["x"].get_at(0,2), 1.0, .001)
+	
+	assert_almost_eq(result["y"].get_at(0,0), 0.0, .001)
+	assert_almost_eq(result["y"].get_at(0,1), 1.0, .001)
+	assert_almost_eq(result["y"].get_at(0,2), 2.0, .001)
 	
 func test_pow():
 	var mat := CVMat.eye(3, 3, CVConsts.MatType.CV_8U)
