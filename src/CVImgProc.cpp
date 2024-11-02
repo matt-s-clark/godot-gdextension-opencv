@@ -1078,14 +1078,14 @@ float CVImgProc::arc_length(Ref<CVMat> curve, bool closed){
 	return output;
 }
 
-Ref<CVRect> CVImgProc::bounding_rect(Ref<CVMat> array){
+Ref<CVRect> CVImgProc::bounding_rect(Variant array){
 	Ref<CVRect> output;
 	output.instantiate();
 	Rect defReturn;
 
-	ERR_FAIL_NULL_V_MSG(array, output, "array should not be null.");
+	GET_INPUT_ARRAY(array);
 
-	SAFE_CALL(defReturn = cv::boundingRect(array->get_pointer()));
+	SAFE_CALL(defReturn = cv::boundingRect(arrayIn));
 
 	output->set_pointer(defReturn);
 
@@ -1140,60 +1140,46 @@ Dictionary CVImgProc::connected_components_with_stats(Ref<CVMat> image, int conn
 	return output;
 }
 
-// Custom Implementation
-
-float CVImgProc::contour_area(Variant contour, Dictionary additional_parameters) {
+float CVImgProc::contour_area(Variant contour, Dictionary additional_parameters){
 	float output;
+	double defReturn;
 
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, oriented, false);
 
-	if (contour.get_type() == Variant::PACKED_VECTOR2_ARRAY) {
-		std::vector<Point> contourIn;
-		PackedVector2Array contourCast = contour;
-		for (size_t i = 0; i < contourCast.size(); i++) {
-			contourIn.push_back(Point(contourCast[i].x, contourCast[i].y));
-		}
+	GET_INPUT_ARRAY(contour);
 
-		SAFE_CALL(output = cv::contourArea(contourIn, oriented));
-	} else if (contour.get_type() == Variant::OBJECT) {
-		Ref<CVMat> contourIn = contour;
-
-		ERR_FAIL_NULL_V_MSG(contourIn, output, "array should not be null.");
-
-		SAFE_CALL(output = cv::contourArea(contourIn->get_pointer(), oriented));
-	} else {
-		UtilityFunctions::push_error("Type not supported, contour should be Mat or PackedVector2Array.");
-	}
+	SAFE_CALL(output = cv::contourArea(contourIn, oriented));
 
 	return output;
 }
 
-Ref<CVMat> CVImgProc::convex_hull(Ref<CVMat> points, Dictionary additional_parameters){
+Ref<CVMat> CVImgProc::convex_hull(Variant points, Dictionary additional_parameters){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat hull;
 
-	ERR_FAIL_NULL_V_MSG(points, output, "points should not be null.");
-
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, clockwise, false);
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, returnPoints, true);
 
-	SAFE_CALL(cv::convexHull(points->get_pointer(), hull, clockwise, returnPoints));
+	GET_INPUT_ARRAY(points);
+
+	SAFE_CALL(cv::convexHull(pointsIn, hull, clockwise, returnPoints));
 
 	output->set_pointer(hull);
 
 	return output;
 }
 
-Ref<CVMat> CVImgProc::convexity_defects(Ref<CVMat> contour, Ref<CVMat> convexhull){
+Ref<CVMat> CVImgProc::convexity_defects(Variant contour, Ref<CVMat> convexhull){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat convexityDefects;
 
-	ERR_FAIL_NULL_V_MSG(contour, output, "contour should not be null.");
 	ERR_FAIL_NULL_V_MSG(convexhull, output, "convexhull should not be null.");
 
-	SAFE_CALL(cv::convexityDefects(contour->get_pointer(), convexhull->get_pointer(), convexityDefects));
+	GET_INPUT_ARRAY(contour);
+
+	SAFE_CALL(cv::convexityDefects(contourIn, convexhull->get_pointer(), convexityDefects));
 
 	output->set_pointer(convexityDefects);
 
@@ -1234,14 +1220,14 @@ Dictionary CVImgProc::find_contours(Ref<CVMat> image, int mode, int method, Dict
 	return output;
 }
 
-Ref<CVMat> CVImgProc::fit_line(Ref<CVMat> points, int distType, float param, float reps, float aeps){
+Ref<CVMat> CVImgProc::fit_line(Variant points, int distType, float param, float reps, float aeps){
 	Ref<CVMat> output;
 	output.instantiate();
 	Mat line;
 
-	ERR_FAIL_NULL_V_MSG(points, output, "points should not be null.");
+	GET_INPUT_ARRAY(points);
 
-	SAFE_CALL(cv::fitLine(points->get_pointer(), line, distType, param, reps, aeps));
+	SAFE_CALL(cv::fitLine(pointsIn, line, distType, param, reps, aeps));
 
 	output->set_pointer(line);
 
@@ -1270,13 +1256,13 @@ Dictionary CVImgProc::intersect_convex_convex(Ref<CVMat> p1, Ref<CVMat> p2, Dict
 	return output;
 }
 
-bool CVImgProc::is_contour_convex(Ref<CVMat> contour){
+bool CVImgProc::is_contour_convex(Variant contour){
 	bool output;
 	bool defReturn;
 
-	ERR_FAIL_NULL_V_MSG(contour, output, "contour should not be null.");
+	GET_INPUT_ARRAY(contour);
 
-	SAFE_CALL(output = cv::isContourConvex(contour->get_pointer()));
+	SAFE_CALL(output = cv::isContourConvex(contourIn));
 
 	return output;
 }

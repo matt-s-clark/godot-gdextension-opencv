@@ -509,13 +509,11 @@ func test_arc_length():
 	assert_almost_eq(result, 1.414, 0.001)
 
 func test_bounding_rect():
-	var mat := CVMat.zeros(4, 2, CVConsts.MatType.CV_32F)
-	mat.set_at(1, 0, 3)
-	mat.set_at(1, 1, 5)
-	mat.set_at(2, 0, 2)
-	mat.set_at(2, 1, 3)
-	mat.set_at(3, 0, 4)
-	mat.set_at(3, 1, 1)
+	var mat := PackedVector2Array([
+		Vector2(0, 0), 
+		Vector2(3, 5), 
+		Vector2(2, 3), 
+		Vector2(4, 1)])
 	
 	var result := CVImgProc.bounding_rect(mat)
 	
@@ -529,28 +527,24 @@ func test_connected_components_with_stats():
 	pass
 
 func test_contour_area():
-	var mat := CVMat.zeros(4, 2, CVConsts.MatType.CV_32F)
-	mat.set_at(1, 0, 3)
-	mat.set_at(1, 1, 5)
-	mat.set_at(2, 0, 2)
-	mat.set_at(2, 1, 3)
-	mat.set_at(3, 0, 4)
-	mat.set_at(3, 1, 1)
+	var contour := PackedVector2Array([
+		Vector2(0, 0), 
+		Vector2(3, 5), 
+		Vector2(2, 3), 
+		Vector2(4, 1)])
 	
-	var result := CVImgProc.contour_area(mat, {})
+	var result := CVImgProc.contour_area(contour, {})
 	
 	assert_almost_eq(result, 5.5, .001)
 
 func test_convex_hull():
-	var mat := CVMat.zeros(4, 2, CVConsts.MatType.CV_32F)
-	mat.set_at(1, 0, 3)
-	mat.set_at(1, 1, 5)
-	mat.set_at(2, 0, 2)
-	mat.set_at(2, 1, 3)
-	mat.set_at(3, 0, 4)
-	mat.set_at(3, 1, 1)
+	var contour := PackedVector2Array([
+		Vector2(0, 0), 
+		Vector2(3, 5), 
+		Vector2(2, 3), 
+		Vector2(4, 1)])
 	
-	var result := CVImgProc.convex_hull(mat, {})
+	var result := CVImgProc.convex_hull(contour, {})
 	
 	assert_eq(result.get_at(0,0), Vector2(4,1))
 	assert_eq(result.get_at(1,0), Vector2(3,5))
@@ -558,15 +552,34 @@ func test_convex_hull():
 
 func test_convexity_defects():
 	pass
+	##var mat := PackedVector2Array([
+	##	Vector2(0, 0), 
+	##	Vector2(3, 5), 
+	##	Vector2(2, 3), 
+	##	Vector2(4, 1)])
+		
+	##var hull := CVImgProc.convex_hull(mat, {})
+	##var result := CVImgProc.convexity_defects(mat, hull)
+	
 
 func test_fit_line():
-	pass
+	var contour = PackedVector2Array([Vector2(0, 0), Vector2(0, 4), Vector2(4, 4), Vector2(1, 3)])
+	var result := CVImgProc.fit_line(contour, CVConsts.DistanceTypes.DIST_L1, 0, 1, .1)
+	
+	assert_almost_eq(result.get_at(0,0), 0.707, 0.001)
+	assert_almost_eq(result.get_at(1,0), 0.707, 0.001)
+	assert_almost_eq(result.get_at(2,0), 1.25, 0.001)
+	assert_almost_eq(result.get_at(3,0), 2.75, 0.001)
 
 func test_intersect_convex_convex():
 	pass
 
 func test_is_contour_convex():
-	pass
+	var result1 := CVImgProc.is_contour_convex(PackedVector2Array([Vector2(0, 0), Vector2(0, 4), Vector2(4, 4), Vector2(1, 3)]))
+	var result2 := CVImgProc.is_contour_convex(PackedVector2Array([Vector2(0, 0), Vector2(0, 4), Vector2(4, 4), Vector2(4, 3)]))
+	
+	assert_eq(result1, false)
+	assert_eq(result2, true)
 
 func test_match_shapes():
 	pass

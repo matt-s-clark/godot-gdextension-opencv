@@ -11,7 +11,8 @@ openCVInputTypes = {
 	"InputArray":"Ref<CVMat>",
 	"InputOutputArray":"Ref<CVMat>",
 	"Rect":"Ref<CVRect>",
-	"InputArrayOfArrays":"Array"
+	"InputArrayOfArrays":"Array",
+	"AcceptVector": "Variant",
 }
 openCVOutputTypes = {
 	"OutputArray": "Ref<CVMat>",
@@ -34,6 +35,7 @@ processingLine = {
 	"Point2f": "Point2f({0}.x, {0}.y)",
 	"Size": "Size({0}.x, {0}.y)",
 	"String": "{0}In",
+	"AcceptVector": "{0}In",
 }
 initializingType = {
 	"Mat":"Mat",
@@ -56,6 +58,7 @@ def ProcessTokens(line : str):
 	isStatic = bool(re.match(r"static ", line))
 	line = re.sub(r"([\w\d]+::)|const |&|static |(?<=<) | (?=>)|\*", "", line)
 	inputs = re.search(r"(?<=\()[\w\d ,_()=\-&*\.<>+\[\]]+(?=\))", line)
+	lineConfig = re.search(r">( \w+ \w+)+", line)
 	split = line.split()
 	methodOutputType = split[0]
 	methodName = split[1]
@@ -73,6 +76,18 @@ def ProcessTokens(line : str):
 	else:
 		inputs = []
 		print("No inputs ", line)
+
+	if lineConfig:
+		lineConfig = lineConfig.group().split()[1:]
+
+		while lineConfig:
+			if lineConfig[0] == "AcceptVector":
+				index = list(map(lambda inp: inp[1], inputs)).index(lineConfig[1])
+				inputs[index] = ["AcceptVector", lineConfig[1]]
+				lineConfig = lineConfig[2:]
+			else:
+				print(f"Unprocessed config: ", lineConfig[0])
+				lineConfig.pop(0)
 
 	for input in inputs:
 		if input[0] in openCVOutputTypes:
@@ -130,7 +145,6 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 	codeLinesList = []
 	methodCall = f"cv::{methodName}" if isStatic else "---- Not Implemented ----"
 	methodInputs = ", ".join([processingLine[i[0]].format(i[1]) if i[0] in processingLine and (i[0] in initializingType or i[1] not in map(lambda ad : ad[1], addtionalParameters)) else i[1] for i in inputs])
-		
 	returnName = "output" if len(outputs) == 1 and outputs[0][0] not in openCVInputTypes else "defReturn"
 	callReturn = "" if methodOutputType ==  "void" else f"{returnName} = "
 	first = re.sub(re.escape(newMethodName) + r"\(", f"{className}::{newMethodName}(",headerLine[:-1]) + "{"
@@ -182,8 +196,19 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 	for inp in stringInputs:
 		codeLinesList.append(f"	cv::String {inp[1]}In({inp[1]}.utf8());")
 
-	codeLinesList.append("")
 
+	# Vector/mat input and function call
+	VectorMatInputs = [inp for inp in inputs if inp[0] == "AcceptVector"]
+
+	if VectorMatInputs:
+		codeLinesList.append("")
+
+	for inp in VectorMatInputs:
+		codeLinesList.append(f"	GET_INPUT_ARRAY({inp[1]});")
+
+	codeLinesList.append("")
+	
+	# Method Call
 	codeLinesList.append(f"	SAFE_CALL({callReturn}{methodCall}({methodInputs}));")
 
 	## convertOutput

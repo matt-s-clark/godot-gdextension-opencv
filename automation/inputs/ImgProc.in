@@ -247,44 +247,15 @@ void 	cv::equalizeHist (InputArray src, OutputArray dst)
 # Not in cv namespace void 	cv::approxPolyDP (InputArray curve, OutputArray approxCurve, double epsilon, bool closed)
 # Not in cv namespace void 	cv::approxPolyN (InputArray curve, OutputArray approxCurve, int nsides, float epsilon_percentage=-1.0, bool ensure_convex=true)
 double 	cv::arcLength (InputArray curve, bool closed)
-Rect 	cv::boundingRect (InputArray array)
+Rect 	cv::boundingRect (InputArray array) > AcceptVector array
 # RotatedRect void 	cv::boxPoints (RotatedRect box, OutputArray points)
 int 	cv::connectedComponents (InputArray image, OutputArray labels, int connectivity, int ltype, int ccltype)
 # Repeat int 	cv::connectedComponents (InputArray image, OutputArray labels, int connectivity=8, int ltype=CV_32S)
 int 	cv::connectedComponentsWithStats (InputArray image, OutputArray labels, OutputArray stats, OutputArray centroids, int connectivity, int ltype, int ccltype)
 # Repeat int 	cv::connectedComponentsWithStats (InputArray image, OutputArray labels, OutputArray stats, OutputArray centroids, int connectivity=8, int ltype=CV_32S)
-# Custom std::Vector double 	cv::contourArea (InputArray contour, bool oriented=false)
->CustomImplementation
-static float contour_area(Variant contour, Dictionary additional_parameters);
-ClassDB::bind_static_method(get_class_static(), D_METHOD("contour_area", "contour", "additional_parameters"), &CVImgProc::contour_area);
-float CVImgProc::contour_area(Variant contour, Dictionary additional_parameters) {
-	float output;
-
-	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, oriented, false);
-
-	if (contour.get_type() == Variant::PACKED_VECTOR2_ARRAY) {
-		std::vector<Point> contourIn;
-		PackedVector2Array contourCast = contour;
-		for (size_t i = 0; i < contourCast.size(); i++) {
-			contourIn.push_back(Point(contourCast[i].x, contourCast[i].y));
-		}
-
-		SAFE_CALL(output = cv::contourArea(contourIn, oriented));
-	} else if (contour.get_type() == Variant::OBJECT) {
-		Ref<CVMat> contourIn = contour;
-
-		ERR_FAIL_NULL_V_MSG(contourIn, output, "array should not be null.");
-
-		SAFE_CALL(output = cv::contourArea(contourIn->get_pointer(), oriented));
-	} else {
-		UtilityFunctions::push_error("Type not supported, contour should be Mat or PackedVector2Array.");
-	}
-
-	return output;
-}
-<CustomImplementation
-void 	cv::convexHull (InputArray points, OutputArray hull, bool clockwise=false, bool returnPoints=true)
-void 	cv::convexityDefects (InputArray contour, InputArray convexhull, OutputArray convexityDefects)
+double 	cv::contourArea (InputArray contour, bool oriented=false) > AcceptVector contour
+void 	cv::convexHull (InputArray points, OutputArray hull, bool clockwise=false, bool returnPoints=true) > AcceptVector points
+void 	cv::convexityDefects (InputArray contour, InputArray convexhull, OutputArray convexityDefects) > AcceptVector contour
 # Ptr< GeneralizedHoughBallard > 	cv::createGeneralizedHoughBallard ()
 # Ptr< GeneralizedHoughGuil > 	cv::createGeneralizedHoughGuil ()
 # Uses Points void 	cv::findContours (InputArray image, OutputArrayOfArrays contours, int mode, int method, Point offset=Point())
@@ -329,11 +300,11 @@ Dictionary CVImgProc::find_contours(Ref<CVMat> image, int mode, int method, Dict
 # RotatedRect RotatedRect 	cv::fitEllipse (InputArray points)
 # RotatedRect RotatedRect 	cv::fitEllipseAMS (InputArray points)
 # RotatedRect RotatedRect 	cv::fitEllipseDirect (InputArray points)
-void 	cv::fitLine (InputArray points, OutputArray line, int distType, double param, double reps, double aeps)
+void 	cv::fitLine (InputArray points, OutputArray line, int distType, double param, double reps, double aeps) > AcceptVector points
 # Moments void 	cv::HuMoments (const Moments &m, OutputArray hu)
 # Repeat void 	cv::HuMoments (const Moments &moments, double hu[7])
 float 	cv::intersectConvexConvex (InputArray p1, InputArray p2, OutputArray p12, bool handleNested=true)
-bool 	cv::isContourConvex (InputArray contour)
+bool 	cv::isContourConvex (InputArray contour) > AcceptVector contour
 double 	cv::matchShapes (InputArray contour1, InputArray contour2, int method, double parameter)
 # # RotatedRect RotatedRect 	cv::minAreaRect (InputArray points)
 # Reference void 	cv::minEnclosingCircle (InputArray points, Point2f &center, float &radius)
