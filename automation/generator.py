@@ -204,7 +204,7 @@ def GenerateCode(className, headerLine, methodName, newMethodName, isStatic, inp
 		codeLinesList.append("")
 
 	for inp in VectorMatInputs:
-		codeLinesList.append(f"	GET_INPUT_ARRAY({inp[1]});")
+		codeLinesList.append(f"	GET_INPUT_ARRAY({inp[1]}, { "" if len(outputs) == 0 else "output"});")
 
 	codeLinesList.append("")
 	

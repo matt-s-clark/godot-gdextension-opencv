@@ -39,8 +39,8 @@ public:
 	void set_image(Ref<Image> image); // <Helper>
 	void set_read_only(int input);
 	void set_texture(Ref<Texture2D> texture); // <Helper>
-	Array get_array(); // <Helper>
-	void set_array(Array array, int columns, int type); // <Helper>
+	//Array get_array(); // <Helper>  Currently instable
+	//void set_array(Array array, int columns, int type); // <Helper>  Currently instable
 	String dump(); // <Helper>
 	int type() const;
 
@@ -50,7 +50,7 @@ public:
 	static Ref<CVMat> eye(int rows, int cols, int type);
 	static Ref<CVMat> from_image(Ref<Image> image); // <Helper>
 	static Ref<CVMat> from_texture(Ref<Texture2D> texture); // <Helper>
-	static Ref<CVMat> from_array(Array array, int columns, int type); // <Helper>
+	//static Ref<CVMat> from_array(Array array, int columns, int type); // <Helper> Currently instable
 	static Ref<CVMat> ones(int rows, int cols, int type);
 	static Ref<CVMat> zeros(int rows, int cols, int type);
 };

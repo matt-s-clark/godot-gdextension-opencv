@@ -1083,7 +1083,7 @@ Ref<CVRect> CVImgProc::bounding_rect(Variant array){
 	output.instantiate();
 	Rect defReturn;
 
-	GET_INPUT_ARRAY(array);
+	GET_INPUT_ARRAY(array, output);
 
 	SAFE_CALL(defReturn = cv::boundingRect(arrayIn));
 
@@ -1146,7 +1146,7 @@ float CVImgProc::contour_area(Variant contour, Dictionary additional_parameters)
 
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, oriented, false);
 
-	GET_INPUT_ARRAY(contour);
+	GET_INPUT_ARRAY(contour, output);
 
 	SAFE_CALL(output = cv::contourArea(contourIn, oriented));
 
@@ -1161,7 +1161,7 @@ Ref<CVMat> CVImgProc::convex_hull(Variant points, Dictionary additional_paramete
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, clockwise, false);
 	GET_SIMPLE_PROPERTY(bool, Variant::BOOL, returnPoints, true);
 
-	GET_INPUT_ARRAY(points);
+	GET_INPUT_ARRAY(points, output);
 
 	SAFE_CALL(cv::convexHull(pointsIn, hull, clockwise, returnPoints));
 
@@ -1177,7 +1177,7 @@ Ref<CVMat> CVImgProc::convexity_defects(Variant contour, Ref<CVMat> convexhull){
 
 	ERR_FAIL_NULL_V_MSG(convexhull, output, "convexhull should not be null.");
 
-	GET_INPUT_ARRAY(contour);
+	GET_INPUT_ARRAY(contour, output);
 
 	SAFE_CALL(cv::convexityDefects(contourIn, convexhull->get_pointer(), convexityDefects));
 
@@ -1225,7 +1225,7 @@ Ref<CVMat> CVImgProc::fit_line(Variant points, int distType, float param, float 
 	output.instantiate();
 	Mat line;
 
-	GET_INPUT_ARRAY(points);
+	GET_INPUT_ARRAY(points, output);
 
 	SAFE_CALL(cv::fitLine(pointsIn, line, distType, param, reps, aeps));
 
@@ -1260,7 +1260,7 @@ bool CVImgProc::is_contour_convex(Variant contour){
 	bool output;
 	bool defReturn;
 
-	GET_INPUT_ARRAY(contour);
+	GET_INPUT_ARRAY(contour, output);
 
 	SAFE_CALL(output = cv::isContourConvex(contourIn));
 

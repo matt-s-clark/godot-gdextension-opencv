@@ -58,7 +58,7 @@
 		}                                                                                          \
 	}
 
-#define GET_INPUT_ARRAY(variable)                                                                                                        \
+#define GET_INPUT_ARRAY(variable, output)                                                                                                \
 	Mat variable##In = Mat();                                                                                                            \
 	if (variable.get_type() == Variant::PACKED_VECTOR2_ARRAY) {                                                                          \
 		PackedVector2Array variable##Cast = variable;                                                                                    \

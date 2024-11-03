@@ -58,12 +58,12 @@ void CVMat::_bind_methods() {
 	ClassDB::bind_method(
 			D_METHOD("get_texture"),
 			&CVMat::get_texture);
-	ClassDB::bind_method(
-			D_METHOD("get_array"),
-			&CVMat::get_array);
-	ClassDB::bind_method(
-			D_METHOD("set_array", "array", "columns", "type"),
-			&CVMat::set_array);
+	//ClassDB::bind_method(
+	//		D_METHOD("get_array"),
+	//		&CVMat::get_array);
+	//ClassDB::bind_method(
+	//		D_METHOD("set_array", "array", "columns", "type"),
+	//		&CVMat::set_array);
 	ClassDB::bind_method(
 			D_METHOD("dump"),
 			&CVMat::dump);
@@ -93,10 +93,10 @@ void CVMat::_bind_methods() {
 			get_class_static(),
 			D_METHOD("from_texture", "image"),
 			&CVMat::from_texture);
-	ClassDB::bind_static_method(
-			get_class_static(),
-			D_METHOD("from_array", "array", "columns", "type"),
-			&CVMat::from_array);
+	//ClassDB::bind_static_method(
+	//		get_class_static(),
+	//		D_METHOD("from_array", "array", "columns", "type"),
+	//		&CVMat::from_array);
 }
 
 CVMat::CVMat() {
@@ -629,7 +629,7 @@ void CVMat::set_texture(Ref<Texture2D> texture) {
 
 	set_image(im);
 }
-
+/*
 Ref<CVMat> CVMat::from_array(Array array, int columns, int type) {
 	Ref<CVMat> output;
 	output.instantiate();
@@ -669,7 +669,7 @@ void CVMat::set_array(Array array, int columns, int type) {
 		UtilityFunctions::push_error("Type is not supported by godot Variant.");
 	}
 }
-
+*/
 String CVMat::dump() {
 	String output = "";
 

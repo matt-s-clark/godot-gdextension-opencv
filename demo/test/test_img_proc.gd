@@ -457,10 +457,12 @@ func test_ellipse():
 
 func test_fill_convex_poly():
 	var mat := CVMat.zeros(7, 7, CVConsts.MatType.CV_8U)
-	var poly := CVMat.from_array([0, 0, 0, 4, 4, 4, 4, 0], 1, CVConsts.MatType.CV_32SC2)
-	# ??? I really need to look into array conversion
-	poly.convert_to(CVConsts.MatType.CV_8UC2)
-	poly.convert_to(CVConsts.MatType.CV_32SC2)
+	var poly := CVMat.zeros(4, 2, CVConsts.MatType.CV_32S)
+	poly.set_at(1, 1, 4)
+	poly.set_at(2, 0, 4)
+	poly.set_at(2, 1, 4)
+	poly.set_at(3, 0, 4)
+	
 	CVImgProc.fill_convex_poly(mat, poly, CVScalar.create(255), {})
 	
 	for i in 7:
@@ -621,8 +623,14 @@ func test_corner_eigen_vals_and_vecs():
 	pass
 
 func test_corner_harris():
-	var mat := CVMat.from_array([0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0,0,0, 0, 0, 0,0,0, 0, 0, 0,0,0], 5, CVConsts.MatType.CV_32F)
+	var mat := CVMat.zeros(5, 5, CVConsts.MatType.CV_8U)
+	mat.set_at(2, 0, 255)
+	mat.set_at(2, 1, 255)
+	mat.set_at(2, 2, 255)
+	mat.set_at(2, 3, 255)
+	mat.set_at(2, 4, 255)
 	mat.convert_to(CVConsts.MatType.CV_8U)
+	
 	var result := CVImgProc.corner_harris(mat, 3, 3, 0, {})
 	
 	for i in mat.rows:
