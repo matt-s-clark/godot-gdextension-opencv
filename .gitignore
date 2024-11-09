@@ -71,3 +71,4 @@ src/opencv2/
 demo/Models/goturn.prototxt
 demo/Models/goturn.caffemodel
 
+/opencv/install
