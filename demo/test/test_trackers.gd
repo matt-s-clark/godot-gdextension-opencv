@@ -34,6 +34,10 @@ func basic_trcker(tracker, comp_rect):
 		output = tracker.update(mat)
 		mat = cap.read()
 	
+	if not output:
+		fail_test("Tracker output is Null")
+		return
+	
 	assert_eq(output.x, comp_rect.x)
 	assert_eq(output.y, comp_rect.y)
 	assert_eq(output.width, comp_rect.width)

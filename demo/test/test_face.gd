@@ -24,6 +24,10 @@ func test_face_YN_SF():
 	
 	var result := detector.detect_simplified(frame)
 	
+	if result.is_empty():
+		fail_test("Detector failed to return result")
+		return
+	
 	var croped:= recognizer.align_crop(frame, result[0]["face_mat"])
 	assert_eq(croped.rows, 112)
 	assert_eq(croped.cols, 112)
