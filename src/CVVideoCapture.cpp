@@ -67,7 +67,7 @@ void CVVideoCapture::open(Variant source, int api_preference, Variant params) {
 	}
 
 	if (source.get_type() == Variant::Type::INT) {
-		SAFE_CALL(rawCap.open(source, api_preference, p));
+		SAFE_CALL(rawCap.open((int)source, api_preference, p));
 	} else if ((source.get_type() == Variant::Type::STRING)) {
 		const cv::String path(((String)source).utf8());
 		SAFE_CALL(rawCap.open(path, api_preference, p));
