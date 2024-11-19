@@ -72,3 +72,4 @@ demo/Models/goturn.prototxt
 demo/Models/goturn.caffemodel
 
 /opencv/install
+*.zip
