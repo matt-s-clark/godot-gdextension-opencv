@@ -1,5 +1,5 @@
 #Change version here
-version="4.9.0"
+version="4.10.0"
 
 linkToOpenCVDownload="https://github.com/opencv/opencv/archive/refs/tags/${version}.zip"
 linkToContribDownload="https://github.com/opencv/opencv_contrib/archive/refs/tags/${version}.zip"
