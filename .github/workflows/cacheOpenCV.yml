@@ -15,28 +15,28 @@ jobs:
             os: ubuntu-22.04
             platform: linux
 
-          - name: 🏁 Windows (x86_64, MSVC)
-            os: windows-2019
-            platform: windows
+        #   - name: 🏁 Windows (x86_64, MSVC)
+        #     os: windows-2019
+        #     platform: windows
 
-          - name: 🍎 macOS (universal)
-            os: macos-latest
-            platform: macos
-            flags: arch=universal
+        #   - name: 🍎 macOS (universal)
+        #     os: macos-latest
+        #     platform: macos
+        #     flags: arch=universal
 
-          - name: 🤖 Android (arm64)
-            os: ubuntu-22.04
-            platform: android
-            flags: arch=arm64
+        #   - name: 🤖 Android (arm64)
+        #     os: ubuntu-22.04
+        #     platform: android
+        #     flags: arch=arm64
 
-          - name: 🍏 iOS (arm64)
-            os: macos-latest
-            platform: ios
-            flags: arch=arm64
+        #   - name: 🍏 iOS (arm64)
+        #     os: macos-latest
+        #     platform: ios
+        #     flags: arch=arm64
 
-          - name: 🌐 Web (wasm32)
-            os: ubuntu-22.04
-            platform: web
+        #   - name: 🌐 Web (wasm32)
+        #     os: ubuntu-22.04
+        #     platform: web
 
     steps:
       - name: Checkout
@@ -51,10 +51,10 @@ jobs:
           opencv-version: '4.10.0'
           opencv-extra-modules: true
           install-deps: false
-          CMAKE_INSTALL_PREFIX: opt/opencv/
+          CMAKE_INSTALL_PREFIX: ${{ github.workspace }}/opencv/install
 
       - name: Cache OpenCV
         uses: actions/cache/save@v4
         with:
-          path: opt/opencv/
+          path: ${{ github.workspace }}/opencv/install
           key: opencv4.10-${{ matrix.platform }}
