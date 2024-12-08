@@ -51,10 +51,10 @@ jobs:
           opencv-version: '4.10.0'
           opencv-extra-modules: true
           install-deps: false
-          CMAKE_INSTALL_PREFIX: ${{ github.workspace }}/opencv/install
+          CMAKE_INSTALL_PREFIX: opt/opencv/
 
       - name: Cache OpenCV
         uses: actions/cache/save@v4
         with:
-          path: ${{ github.workspace }}/opencv/install
+          path: opt/opencv/
           key: opencv4.10-${{ matrix.platform }}
