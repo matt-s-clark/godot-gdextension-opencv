@@ -58,7 +58,7 @@ jobs:
       - name: Restore OpenCV
         uses: actions/cache/restore@v4
         with:
-          path: ${{ github.workspace }}/opencv/install
+          path: opt/opencv/
           key: opencv4.10-${{ matrix.platform }}
           fail-on-cache-miss: true
 
