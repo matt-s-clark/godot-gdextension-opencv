@@ -1,0 +1,60 @@
+name: Cache OpenCV
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 🐧 Linux (GCC)
+            os: ubuntu-22.04
+            platform: linux
+
+          - name: 🏁 Windows (x86_64, MSVC)
+            os: windows-2019
+            platform: windows
+
+          - name: 🍎 macOS (universal)
+            os: macos-latest
+            platform: macos
+            flags: arch=universal
+
+          - name: 🤖 Android (arm64)
+            os: ubuntu-22.04
+            platform: android
+            flags: arch=arm64
+
+          - name: 🍏 iOS (arm64)
+            os: macos-latest
+            platform: ios
+            flags: arch=arm64
+
+          - name: 🌐 Web (wasm32)
+            os: ubuntu-22.04
+            platform: web
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup OpenCV
+        uses: TralahM/setup-opencv-action@v1.2
+        with:
+          opencv-version: '4.10.0'
+          opencv-extra-modules: true
+          install-deps: false
+          CMAKE_INSTALL_PREFIX: opt/opencv/
+
+      - name: Cache OpenCV
+        uses: actions/cache/save@v4
+        with:
+          path: opt/opencv/
+          key: opencv4.10-${{ matrix.platform }}

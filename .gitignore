@@ -70,3 +70,4 @@ src/opencv2/
 src/*.obj
 demo/Models/goturn.prototxt
 demo/Models/goturn.caffemodel
+/opencv
