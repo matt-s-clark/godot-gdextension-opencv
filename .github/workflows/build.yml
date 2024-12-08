@@ -1,80 +1,87 @@
-name: Build GDExtension
+name: Build Extension
 on:
   workflow_call:
   workflow_dispatch:
 
 jobs:
   build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - platform: linux
-            arch: x86_64
-            os: ubuntu-20.04
-          - platform: windows
-            arch: x86_32
-            os: windows-latest
-          - platform: windows
-            arch: x86_64
-            os: windows-latest
-          - platform: macos
-            arch: universal
-            os: macos-latest
-          - platform: android
-            arch: arm64
-            os: ubuntu-20.04
-          - platform: android
-            arch: arm32
-            os: ubuntu-20.04
-          - platform: android
-            arch: x86_64
-            os: ubuntu-20.04
-          - platform: android
-            arch: x86_32
-            os: ubuntu-20.04
-          - platform: ios
-            arch: arm64
-            os: macos-latest
-          - platform: web
-            arch: wasm32
-            os: ubuntu-20.04
+          - name: 🐧 Linux (GCC)
+            os: ubuntu-22.04
+            platform: linux
 
-    runs-on: ${{ matrix.os }}
+        #   - name: 🐧 Linux (GCC, Double Precision)
+        #     os: ubuntu-22.04
+        #     platform: linux
+        #     flags: precision=double
+
+        #   - name: 🏁 Windows (x86_64, MSVC)
+        #     os: windows-2019
+        #     platform: windows
+
+        #   - name: 🏁 Windows (x86_64, MinGW)
+        #     os: windows-2019
+        #     platform: windows
+        #     flags: use_mingw=yes
+
+        #   - name: 🍎 macOS (universal)
+        #     os: macos-latest
+        #     platform: macos
+        #     flags: arch=universal
+
+        #   - name: 🤖 Android (arm64)
+        #     os: ubuntu-22.04
+        #     platform: android
+        #     flags: arch=arm64
+
+        #   - name: 🍏 iOS (arm64)
+        #     os: macos-latest
+        #     platform: ios
+        #     flags: arch=arm64
+
+        #   - name: 🌐 Web (wasm32)
+        #     os: ubuntu-22.04
+        #     platform: web
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
-      - name: 🔗 GDExtension Build
-        uses: Ivorforce/godot-cpp-template/.github/actions/build@Ivorforce-patch-action
+
+      - name: Restore OpenCV
+        uses: actions/cache/restore@v4
         with:
-          platform: ${{ matrix.platform }}
-          arch: ${{ matrix.arch }}
-          float-precision: single
-          build-target-type: template_release
-          godot-cpp_folder: 'godot-cpp/'
-          gdextension_folder: ''
-      - name: Mac Sign
-        if: ${{ matrix.platform == 'macos' && env.APPLE_CERT_BASE64 }}
-        env:
-          APPLE_CERT_BASE64: ${{ secrets.APPLE_CERT_BASE64 }}
-        uses: godotengine/godot-cpp-template/.github/actions/sign@main
-        with:
-          FRAMEWORK_PATH: build/addons/gdopencv/macos/gdopencv-macos.framework
-          APPLE_CERT_BASE64: ${{ secrets.APPLE_CERT_BASE64 }}
-          APPLE_CERT_PASSWORD: ${{ secrets.APPLE_CERT_PASSWORD }}
-          APPLE_DEV_PASSWORD: ${{ secrets.APPLE_DEV_PASSWORD }}
-          APPLE_DEV_ID: ${{ secrets.APPLE_DEV_ID }}
-          APPLE_DEV_TEAM_ID: ${{ secrets.APPLE_DEV_TEAM_ID }}
-          APPLE_DEV_APP_ID: ${{ secrets.APPLE_DEV_APP_ID }}
+          path: ${{ github.workspace }}/opencv/install
+          key: opencv4.10-${{ matrix.platform }}
+          fail-on-cache-miss: true
+
+      - name: Install scons
+        run: python -m pip install scons==4.0.0
+
+      - name: Update submodule
+        run: git submodule update --init
+  
+      - name: Build godot-cpp (debug)
+        run: |
+            scons platform=${{ matrix.platform }} disable_exceptions=false verbose=yes target=template_debug ${{ matrix.flags }}
+
+      - name: Build godot-cpp (release)
+        run: |
+            scons platform=${{ matrix.platform }} disable_exceptions=false verbose=yes target=template_release ${{ matrix.flags }}
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: GDExtension-${{ matrix.platform }}-${{ matrix.arch }}
+          name: GDOpenCV-${{ matrix.platform }}
           path: |
-            ${{ github.workspace }}/build/**
+            ${{ github.workspace }}/demo/bin/**
   merge:
     runs-on: ubuntu-latest
     needs: build
@@ -82,6 +89,6 @@ jobs:
       - name: Merge Artifacts
         uses: actions/upload-artifact/merge@v4
         with:
-          name: GDExtension-all
-          pattern: GDExtension-*
+          name: GDOpenCV-all
+          pattern: GDOpenCV-*
           delete-merged: true
