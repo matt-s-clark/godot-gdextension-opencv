@@ -37,10 +37,10 @@ func _process(_delta):
 
 func draw_face(mat, face):
 	CVImgProc.rectangle(mat, {"rec": face["rect"]})
-	CVImgProc.ellipse(mat, face["right_eye"], Vector2(3, 3), 0, 0, 360, {"color":Color.REBECCA_PURPLE, "thickness":3})
-	CVImgProc.ellipse(mat, face["left_eye"], Vector2(3, 3), 0, 0, 360, {"color":Color.REBECCA_PURPLE, "thickness":3})
-	CVImgProc.ellipse(mat, face["nose_tip"], Vector2(3, 3), 0, 0, 360, {"color":Color.REBECCA_PURPLE, "thickness":3})
-	CVImgProc.line(mat, face["right_mouth"], face["left_mouth"], {"color":Color.REBECCA_PURPLE, "thickness":3})
+	CVImgProc.ellipse(mat, face["right_eye"], Vector2(3, 3), 0, 0, 360, CVScalar.create(Color.REBECCA_PURPLE), {"thickness":3})
+	CVImgProc.ellipse(mat, face["left_eye"], Vector2(3, 3), 0, 0, 360, CVScalar.create(Color.REBECCA_PURPLE), {"thickness":3})
+	CVImgProc.ellipse(mat, face["nose_tip"], Vector2(3, 3), 0, 0, 360, CVScalar.create(Color.REBECCA_PURPLE), {"thickness":3})
+	CVImgProc.line(mat, face["right_mouth"], face["left_mouth"], CVScalar.create(Color.REBECCA_PURPLE), {"thickness":3})
 
 func recognize_face(result, mat):
 	for i in result:

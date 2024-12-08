@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVBackgroundSubtractorKNN" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	K nearest neighbors background subtractor.
+	</brief_description>
+	<description>
+	Used for video motion analysis foreground/background segmentation. [url=https://docs.opencv.org/4.x/de/de1/group__video__motion.html]More information here[/url].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="apply">
+			<return type="CVMat" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			Updates the background and returns a mask of the foreground.
+			[u]Additional parameters:[/u] learning_rate: Float
+			</description>
+		</method>
+		<method name="create" qualifiers="static">
+			<return type="CVBackgroundSubtractorKNN" />
+			<param index="0" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns a background subtractor object.
+			[u]Additional parameters:[/u] history: Float, dist2_threshold: Int, detect_shadows: Bool
+			</description>
+		</method>
+		<method name="get_background_image">
+			<return type="CVMat" />
+			<description>
+			Returns the current calculated background image.
+			</description>
+		</method>
+	</methods>
+</class>

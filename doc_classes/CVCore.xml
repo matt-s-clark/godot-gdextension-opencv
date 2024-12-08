@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVCore" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	This class contains most of the main matrix manipulation methods. [url=https://docs.opencv.org/4.x/d0/de1/group__core.html]More information here[/url].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="absdiff" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<description>
+			Returns the per-element absolute difference between two mats.
+			</description>
+		</method>
+		<method name="add" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns the per-element sum of two arrays value by value.
+[u]Additional parameters:[/u] mask: CVMat, dtype: Int
+			</description>
+		</method>
+		<method name="add_weighted" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="alpha" type="float" />
+			<param index="2" name="src2" type="CVMat" />
+			<param index="3" name="beta" type="float" />
+			<param index="4" name="gamma" type="float" />
+			<param index="5" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns the per-element weighted sum of two arrays.
+[u]Additional parameters:[/u] dtype: Int
+			</description>
+		</method>
+		<method name="batch_distance" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="dtype" type="int" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="bitwise_and" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns the per-element bit-wise conjunction of two arrays.
+[u]Additional parameters:[/u] mask: CVMat
+			</description>
+		</method>
+		<method name="bitwise_not" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns a mat with every bit of the input inverted.
+[u]Additional parameters:[/u] mask: CVMat
+			</description>
+		</method>
+		<method name="bitwise_or" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns the per-element bit-wise disjunction of two arrays
+[u]Additional parameters:[/u] mask: CVMat
+			</description>
+		</method>
+		<method name="bitwise_xor" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns the per-element bit-wise "exclusive or" operation on two arrays
+[u]Additional parameters:[/u] mask: CVMat
+			</description>
+		</method>
+		<method name="border_interpolate" qualifiers="static">
+			<return type="int" />
+			<param index="0" name="p" type="int" />
+			<param index="1" name="len" type="int" />
+			<param index="2" name="borderType" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="calc_covar_matrix" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="samples" type="CVMat" />
+			<param index="1" name="mean" type="CVMat" />
+			<param index="2" name="flags" type="int" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="cart_to_polar" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="x" type="CVMat" />
+			<param index="1" name="y" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="compare" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="cmpop" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="complete_symm" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="m" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="convert_fp_16" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			Deprecated method for matrix conversion, see CVMat.convert_to.
+			</description>
+		</method>
+		<method name="convert_scale_abs" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="copy_to" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="mask" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="count_non_zero" qualifiers="static">
+			<return type="int" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="dct" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="determinant" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="mtx" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="dft" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns a forward or inverse Discrete Fourier transform of a mat.
+[u]Additional parameters:[/u] flags: Int, non_zero_rows: Int
+			</description>
+		</method>
+		<method name="divide" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="eigen" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="eigen_non_symmetric" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="exp" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			Returns the exponent of every element.
+			</description>
+		</method>
+		<method name="extract_channel" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="coi" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="find_non_zero" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="flip" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="flipCode" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="gemm" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="alpha" type="float" />
+			<param index="3" name="src3" type="CVMat" />
+			<param index="4" name="beta" type="float" />
+			<param index="5" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="get_optimal_dft_size" qualifiers="static">
+			<return type="int" />
+			<param index="0" name="vecsize" type="int" />
+			<description>
+			Returns the optimal DFT size for a given vector size.
+			</description>
+		</method>
+		<method name="hconcat" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<description>
+			Returns the horizontal concatenation of both matrices.
+			</description>
+		</method>
+		<method name="idct" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="idft" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="in_range" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="lowerb" type="CVMat" />
+			<param index="2" name="upperb" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="insert_channel" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dst" type="CVMat" />
+			<param index="2" name="coi" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="invert" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="log" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			Returns a mat with the natural logarithm of every array element.
+			</description>
+		</method>
+		<method name="lut" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="lut" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="magnitude" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="x" type="CVMat" />
+			<param index="1" name="y" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="mahalanobis" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="v1" type="CVMat" />
+			<param index="1" name="v2" type="CVMat" />
+			<param index="2" name="icovar" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="max" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<description>
+			Calculates per-element maximum of two arrays.
+			</description>
+		</method>
+		<method name="mean" qualifiers="static">
+			<return type="CVScalar" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="mean_std_dev" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="min" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<description>
+			Calculates per-element minimum of two arrays.
+			</description>
+		</method>
+		<method name="mul_spectrums" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="a" type="CVMat" />
+			<param index="1" name="b" type="CVMat" />
+			<param index="2" name="flags" type="int" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="mul_transposed" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="aTa" type="bool" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="multiply" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="norm" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="normalize" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dst" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			Normalizes the norm of the mat.
+[u]Additional parameters:[/u] alpha: Float, beta: Float, norm_type: Int, dtype: Int, mask: CVMat
+			</description>
+		</method>
+		<method name="patch_nans" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="a" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="pca_back_project" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="data" type="CVMat" />
+			<param index="1" name="mean" type="CVMat" />
+			<param index="2" name="eigenvectors" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="pca_compute" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="data" type="CVMat" />
+			<param index="1" name="mean" type="CVMat" />
+			<param index="2" name="retainedVariance" type="float" />
+			<description>
+			</description>
+		</method>
+		<method name="pca_project" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="data" type="CVMat" />
+			<param index="1" name="mean" type="CVMat" />
+			<param index="2" name="eigenvectors" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="perspective_transform" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="m" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="phase" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="x" type="CVMat" />
+			<param index="1" name="y" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="polar_to_cart" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="magnitude" type="CVMat" />
+			<param index="1" name="angle" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="pow" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="power" type="float" />
+			<description>
+			</description>
+		</method>
+		<method name="psnr" qualifiers="static">
+			<return type="float" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="randn" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="dst" type="CVMat" />
+			<param index="1" name="mean" type="CVMat" />
+			<param index="2" name="stddev" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="randu" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="dst" type="CVMat" />
+			<param index="1" name="low" type="CVMat" />
+			<param index="2" name="high" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="reduce" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="dim" type="int" />
+			<param index="2" name="rtype" type="int" />
+			<param index="3" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="repeat" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="ny" type="int" />
+			<param index="2" name="nx" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="rotate" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="rotateCode" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="scale_add" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="alpha" type="float" />
+			<param index="2" name="src2" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="set_identity" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="mtx" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="set_rng_seed" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="seed" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="solve" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="solve_cubic" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="coeffs" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="solve_poly" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="coeffs" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="sort" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="flags" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="sort_idx" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="flags" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="sqrt" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			Returns the per-element square root of the input matrix.
+			</description>
+		</method>
+		<method name="subtract" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns the subtraction of two arrays value by value.
+[u]Additional parameters:[/u] mask: CVMat, dtype: Int
+			</description>
+		</method>
+		<method name="sum" qualifiers="static">
+			<return type="CVScalar" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="sv_back_subst" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="w" type="CVMat" />
+			<param index="1" name="u" type="CVMat" />
+			<param index="2" name="vt" type="CVMat" />
+			<param index="3" name="rhs" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="sv_decomp" qualifiers="static">
+			<return type="Dictionary" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			</description>
+		</method>
+		<method name="trace" qualifiers="static">
+			<return type="CVScalar" />
+			<param index="0" name="mtx" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="transform" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<param index="1" name="m" type="CVMat" />
+			<description>
+			</description>
+		</method>
+		<method name="transpose" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src" type="CVMat" />
+			<description>
+			Returns the transpose of the input matrix.
+			</description>
+		</method>
+		<method name="vconcat" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="src1" type="CVMat" />
+			<param index="1" name="src2" type="CVMat" />
+			<description>
+			Returns the vertical concatenation of both matrices.
+			</description>
+		</method>
+	</methods>
+</class>

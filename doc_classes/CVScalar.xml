@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVScalar" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	Wrapper for Scalar type.
+	</brief_description>
+	<description>
+	The cv::Scalar is a common type used to represent a 1 to 4 channel pixel. [url=https://docs.opencv.org/4.x/d1/da0/classcv_1_1Scalar__.html]More information here[/url].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="create" qualifiers="static">
+			<return type="CVScalar" />
+			<param index="0" name="value" type="Variant" />
+			<description>
+			Creates a Scalar with a Variant of type int, float, Vector2, Vector2i, Vector3, Vector3i, Vector4 or Vector4i.
+			</description>
+		</method>
+		<method name="get_float">
+			<return type="float" />
+			<description>
+			Returns Scalar as a float.
+			</description>
+		</method>
+		<method name="get_int">
+			<return type="int" />
+			<description>
+			Returns Scalar as an integer.
+			</description>
+		</method>
+		<method name="get_vector2">
+			<return type="Vector2" />
+			<description>
+			Returns Scalar as a Vector2.
+			</description>
+		</method>
+		<method name="get_vector2i">
+			<return type="Vector2i" />
+			<description>
+			Returns Scalar as a Vector2i.
+			</description>
+		</method>
+		<method name="get_vector3">
+			<return type="Vector3" />
+			<description>
+			Returns Scalar as a Vector3.
+			</description>
+		</method>
+		<method name="get_vector3i">
+			<return type="Vector3i" />
+			<description>
+			Returns Scalar as a Vector3i.
+			</description>
+		</method>
+		<method name="get_vector4">
+			<return type="Vector4" />
+			<description>
+			Returns Scalar as a Vector4.
+			</description>
+		</method>
+		<method name="get_vector4i">
+			<return type="Vector4i" />
+			<description>
+			Returns Scalar as a Vector4i.
+			</description>
+		</method>
+	</methods>
+</class>

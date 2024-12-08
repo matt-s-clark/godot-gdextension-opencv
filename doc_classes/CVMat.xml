@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVMat" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	Wrapper for Mat type.
+	</brief_description>
+	<description>
+	This class wraps a cv::mat, the main class OpenCV uses to represent images and data. [url=https://docs.opencv.org/4.x/d3/d63/classcv_1_1Mat.html]More information here[/url].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="channels">
+			<return type="int" />
+			<description>
+			Returns the number of channels (colors) in the mat.
+			</description>
+		</method>
+		<method name="col">
+			<return type="CVMat" />
+			<param index="0" name="x" type="int" />
+			<description>
+			This method returns a reference for the specified matrix column and returns it. This is an O(1) operation, regardless of the matrix size. The underlying data of the new matrix is shared with the original matrix.
+			</description>
+		</method>
+		<method name="convert_to">
+			<return type="void" />
+			<param index="0" name="rtype" type="int" />
+			<description>
+			Converts the type used to represent the elements in the mat.
+			</description>
+		</method>
+		<method name="copy">
+			<return type="CVMat" />
+			<description>
+			Returns a copy of the specified matrix.
+			</description>
+		</method>
+		<method name="depth">
+			<return type="int" />
+			<description>
+			Returns the identifier of the matrix element depth (the type of each individual channel). For example, for a 16-bit signed element array, the method returns the integer value of the CV_16S constant.
+			</description>
+		</method>
+		<method name="dump">
+			<return type="String" />
+			<description>
+			Helper method that returns the data in the Mat organized with tabulation and newline. The output is limited to 10 x 10.
+			</description>
+		</method>
+		<method name="eye" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="rows" type="int" />
+			<param index="1" name="cols" type="int" />
+			<param index="2" name="type" type="int" />
+			<description>
+			Returns an identity matrix of the specified size and type.
+			</description>
+		</method>
+		<method name="from_array" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="array" type="Array" />
+			<param index="1" name="columns" type="int" />
+			<param index="2" name="type" type="int" />
+			<description>
+			Helper method to create a mat from an Godot.Array data.
+			</description>
+		</method>
+		<method name="from_image" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="Image" />
+			<description>
+			Helper method to create a mat from an Godot.Image data.
+			</description>
+		</method>
+		<method name="from_texture" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="image" type="Texture2D" />
+			<description>
+			Helper method to create a mat from an Godot.Texture2D data.
+			</description>
+		</method>
+		<method name="get_array">
+			<return type="Array" />
+			<description>
+			Returns the data in the matrix as Godot.Array.
+			</description>
+		</method>
+		<method name="get_at">
+			<return type="Variant" />
+			<param index="0" name="row" type="int" />
+			<param index="1" name="col" type="int" />
+			<description>
+			Returns the value at a specific point in a two dimensional matrix, similar to at() in the c++ reference.
+			</description>
+		</method>
+		<method name="get_image">
+			<return type="Image" />
+			<description>
+			This is a helper method to convert a CVMat to a Godot.Image.
+			</description>
+		</method>
+		<method name="get_texture">
+			<return type="Texture" />
+			<description>
+			This is a helper method to convert a CVMat to a Godot.Texture.
+			</description>
+		</method>
+		<method name="multiply">
+			<return type="void" />
+			<param index="0" name="value" type="Variant" />
+			<description>
+			Modifies the mat by multiplying it by an integer or float, it's equivalent to mat *= value. Remember to observe the current type of the mat since the result will be cast to this type.
+			</description>
+		</method>
+		<method name="ones" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="rows" type="int" />
+			<param index="1" name="cols" type="int" />
+			<param index="2" name="type" type="int" />
+			<description>
+			Returns an array of all 1's of the specified size and type.
+			</description>
+		</method>
+		<method name="row">
+			<return type="CVMat" />
+			<param index="0" name="y" type="int" />
+			<description>
+			This method returns a reference for the specified matrix row and returns it. This is an O(1) operation, regardless of the matrix size. The underlying data of the new matrix is shared with the original matrix.
+			</description>
+		</method>
+		<method name="set_array">
+			<return type="void" />
+			<param index="0" name="array" type="Array" />
+			<param index="1" name="columns" type="int" />
+			<param index="2" name="type" type="int" />
+			<description>
+			Sets the data in the matrix with Godot.Array.
+			</description>
+		</method>
+		<method name="set_at">
+			<return type="void" />
+			<param index="0" name="row" type="int" />
+			<param index="1" name="col" type="int" />
+			<param index="2" name="value" type="Variant" />
+			<description>
+			Sets the value at a specific point in a two dimensional matrix, similar to at() in the c++ reference.
+			</description>
+		</method>
+		<method name="set_image">
+			<return type="void" />
+			<param index="0" name="image" type="Image" />
+			<description>
+			Helper method to set the mat data from an Godot.Image.
+			</description>
+		</method>
+		<method name="set_texture">
+			<return type="void" />
+			<param index="0" name="texture" type="Texture2D" />
+			<description>
+			Helper method to set the mat data from an Godot.Texture2D.
+			</description>
+		</method>
+		<method name="type">
+			<return type="int" />
+			<description>
+			Returns an integer representing the current type of the mat, see CVConsts.MatType.
+			</description>
+		</method>
+		<method name="zeros" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="rows" type="int" />
+			<param index="1" name="cols" type="int" />
+			<param index="2" name="type" type="int" />
+			<description>
+			Returns an array of all 0's of the specified size and type.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="cols" type="int" setter="set_read_only" getter="get_cols" default="0">
+		Read only property, number of columns in the mat.
+		</member>
+		<member name="rows" type="int" setter="set_read_only" getter="get_rows" default="0">
+		Read only property, number of rows in the mat.
+		</member>
+	</members>
+</class>

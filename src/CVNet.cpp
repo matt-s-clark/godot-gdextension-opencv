@@ -46,7 +46,7 @@ Ref<CVMat> CVNet::forward() {
 
 	SAFE_CALL(outMat = rawNet.forward());
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }
@@ -64,7 +64,7 @@ void CVNet::setInput(Ref<CVMat> blob, Dictionary additional_parameters) {
 
 	cv::String nameIn(name.utf8());
 
-	SAFE_CALL(rawNet.setInput(blob->get_mat(), nameIn, scaleFactor, cv::Scalar(mean.x, mean.y)));
+	SAFE_CALL(rawNet.setInput(blob->get_pointer(), nameIn, scaleFactor, cv::Scalar(mean.x, mean.y)));
 }
 
 cv::dnn::Net CVNet::get_net() {

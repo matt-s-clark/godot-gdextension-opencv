@@ -75,7 +75,7 @@ void CVFileStorage::write(const String name, Variant val) {
 			break;
 		case Variant::OBJECT:
 			if (!mat.is_null()) {
-				rawFile.write(nameIn, mat->get_mat());
+				rawFile.write(nameIn, mat->get_pointer());
 			} else {
 				UtilityFunctions::printerr("Type not supported");
 			}
@@ -91,32 +91,35 @@ Variant CVFileStorage::read(const String name) {
 	cv::String nameIn(name.utf8());
 	cv::FileNode filenode = rawFile[nameIn];
 
-	int tmpInt;
-	float tmpFloat;
-	cv::String tmpStr;
-	Ref<CVMat> tmpMat;
-	tmpMat.instantiate();
-
 	switch (filenode.type()) {
 		case cv::FileNode::NONE:
 		case cv::FileNode::EMPTY:
 			break;
-		case cv::FileNode::INT:
+		case cv::FileNode::INT: {
+			int tmpInt;
 			filenode >> tmpInt;
 			output = tmpInt;
 			break;
-		case cv::FileNode::FLOAT:
+		}
+		case cv::FileNode::FLOAT: {
+			float tmpFloat;
 			filenode >> tmpFloat;
 			output = tmpFloat;
 			break;
-		case cv::FileNode::STRING:
+		}
+		case cv::FileNode::STRING: {
+			cv::String tmpStr;
 			filenode >> tmpStr;
 			output = tmpStr.c_str();
 			break;
-		case cv::FileNode::MAP:
-			tmpMat->set_mat(filenode.mat());
+		}
+		case cv::FileNode::MAP: {
+			Ref<CVMat> tmpMat;
+			tmpMat.instantiate();
+			tmpMat->set_pointer(filenode.mat());
 			output = tmpMat;
 			break;
+		}
 		default:
 			UtilityFunctions::print(filenode.type());
 			UtilityFunctions::printerr("Type not supported");

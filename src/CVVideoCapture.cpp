@@ -87,7 +87,7 @@ Ref<CVMat> CVVideoCapture::retrieve(Dictionary additional_parameters) {
 
 	SAFE_CALL(rawCap.retrieve(outMat, flag));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }
@@ -99,7 +99,7 @@ Ref<CVMat> CVVideoCapture::read() {
 
 	SAFE_CALL(rawCap.read(outMat));
 
-	output->set_mat(outMat);
+	output->set_pointer(outMat);
 
 	return output;
 }

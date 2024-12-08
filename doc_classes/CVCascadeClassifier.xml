@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVCascadeClassifier" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	Class used to load and apply a resizable feature detector based on shape. [url=https://docs.opencv.org/4.x/de/d37/group__objdetect__cascade__classifier.html]More information here[/url].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="detect_multi_scale">
+			<return type="Dictionary" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			Detects objects of different sizes in the input image. Returns a dictionary with the following keys: objects – Array of CVRects, num_detections (Only when output_reject_levels is false) – Array of integers, reject_levels (Only when output_reject_levels is true) – Array of Integers, level_weights (Only when output_reject_levels is true) – Array of floats.
+			[u]Additional parameters:[/u] scale_factor:Float, min_neighbors: Int, flags: Int, min_size: Vector2, max_size: Vector2, output_reject_levels: Bool
+			</description>
+		</method>
+		<method name="empty">
+			<return type="bool" />
+			<description>
+			Returns false if the classifier has been loaded.
+			</description>
+		</method>
+		<method name="get_feature_type">
+			<return type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="load">
+			<return type="bool" />
+			<param index="0" name="filename" type="String" />
+			<description>
+			Loads a classifier from a file.
+			</description>
+		</method>
+	</methods>
+</class>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVVideoCapture" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	Video Capture module.
+	</brief_description>
+	<description>
+	Used to read video files and camera streams. [url=https://docs.opencv.org/4.x/d8/dfe/classcv_1_1VideoCapture.html]More information here[/url].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get">
+			<return type="float" />
+			<param index="0" name="propId" type="int" />
+			<description>
+			Returns the value of an specific property. See CVConsts.VideoCaptureProperties.
+			</description>
+		</method>
+		<method name="get_backend_name">
+			<return type="String" />
+			<description>
+			Returns used backend API name.
+			</description>
+		</method>
+		<method name="get_exception_mode">
+			<return type="bool" />
+			<description>
+			Returns true if exception mode is active.
+			</description>
+		</method>
+		<method name="grab">
+			<return type="bool" />
+			<description>
+			Grabs the next frame from video capture device, returns true in case of success. You can use retrieve to get the mat.
+			</description>
+		</method>
+		<method name="is_opened">
+			<return type="bool" />
+			<description>
+			Returns true if video capturing has been initialized correctly.
+			</description>
+		</method>
+		<method name="open">
+			<return type="void" />
+			<param index="0" name="source" type="Variant" />
+			<param index="1" name="api_preference" type="int" />
+			<param index="2" name="params" type="Variant" />
+			<description>
+			Opens a video file or a capturing device or an IP video stream for video capturing if a string is passed or a camera if it's integer index is passed. Parameters should be either null or an array of integers. Parameters are sent as pairs of numbers according to [this](https://docs.opencv.org/4.x/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d).
+			</description>
+		</method>
+		<method name="read">
+			<return type="CVMat" />
+			<description>
+			Returns the current frame of the video capture as a mat.
+			</description>
+		</method>
+		<method name="release">
+			<return type="void" />
+			<description>
+			Closes video file or capturing device.
+			</description>
+		</method>
+		<method name="retrieve">
+			<return type="CVMat" />
+			<param index="0" name="flag" type="Dictionary" />
+			<description>
+			Returns the grabbed video frame, should be used in conjunction with grab.
+[u]Additional parameters:[/u] flag : Int
+			</description>
+		</method>
+		<method name="set">
+			<return type="bool" />
+			<param index="0" name="propId" type="int" />
+			<param index="1" name="value" type="float" />
+			<description>
+			Sets the value of an specific property. See CVConsts.VideoCaptureProperties.
+			</description>
+		</method>
+		<method name="set_exception_mode">
+			<return type="void" />
+			<param index="0" name="enable" type="bool" />
+			<description>
+			Switches exceptions mode.
+			</description>
+		</method>
+	</methods>
+</class>

@@ -1,5 +1,6 @@
 # Project folders
 .vscode/
+build/
 .idea/
 
 # macOS
@@ -67,7 +68,6 @@ __pycache__
 
 # Project specific
 src/opencv2/
-src/*.obj
 demo/Models/goturn.prototxt
 demo/Models/goturn.caffemodel
 /opencv

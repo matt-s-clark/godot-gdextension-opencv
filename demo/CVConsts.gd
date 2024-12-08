@@ -562,7 +562,353 @@ enum SortFlags {
   SORT_DESCENDING = 16
 }
 
+enum  	BorderTypes {
+  BORDER_CONSTANT = 0,
+  BORDER_REPLICATE = 1,
+  BORDER_REFLECT = 2,
+  BORDER_WRAP = 3,
+  BORDER_REFLECT_101 = 4,
+  BORDER_TRANSPARENT = 5,
+  BORDER_REFLECT101 = BORDER_REFLECT_101,
+  BORDER_DEFAULT = BORDER_REFLECT_101,
+  BORDER_ISOLATED = 16
+}
+ 
+enum  	CmpTypes {
+  CMP_EQ = 0,
+  CMP_GT = 1,
+  CMP_GE = 2,
+  CMP_LT = 3,
+  CMP_LE = 4,
+  CMP_NE = 5
+}
+ 
+enum  	ErrorCode {
+  ErrorStsOk = 0,
+  ErrorStsBackTrace = -1,
+  ErrorStsError = -2,
+  ErrorStsInternal = -3,
+  ErrorStsNoMem = -4,
+  ErrorStsBadArg = -5,
+  ErrorStsBadFunc = -6,
+  ErrorStsNoConv = -7,
+  ErrorStsAutoTrace = -8,
+  ErrorHeaderIsNull = -9,
+  ErrorBadImageSize = -10,
+  ErrorBadOffset = -11,
+  ErrorBadDataPtr = -12,
+  ErrorBadStep = -13,
+  ErrorBadModelOrChSeq = -14,
+  ErrorBadNumChannels = -15,
+  ErrorBadNumChannel1U = -16,
+  ErrorBadDepth = -17,
+  ErrorBadAlphaChannel = -18,
+  ErrorBadOrder = -19,
+  ErrorBadOrigin = -20,
+  ErrorBadAlign = -21,
+  ErrorBadCallBack = -22,
+  ErrorBadTileSize = -23,
+  ErrorBadCOI = -24,
+  ErrorBadROISize = -25,
+  ErrorMaskIsTiled = -26,
+  ErrorStsNullPtr = -27,
+  ErrorStsVecLengthErr = -28,
+  ErrorStsFilterStructContentErr = -29,
+  ErrorStsKernelStructContentErr = -30,
+  ErrorStsFilterOffsetErr = -31,
+  ErrorStsBadSize = -201,
+  ErrorStsDivByZero = -202,
+  ErrorStsInplaceNotSupported = -203,
+  ErrorStsObjectNotFound = -204,
+  ErrorStsUnmatchedFormats = -205,
+  ErrorStsBadFlag = -206,
+  ErrorStsBadPoint = -207,
+  ErrorStsBadMask = -208,
+  ErrorStsUnmatchedSizes = -209,
+  ErrorStsUnsupportedFormat = -210,
+  ErrorStsOutOfRange = -211,
+  ErrorStsParseError = -212,
+  ErrorStsNotImplemented = -213,
+  ErrorStsBadMemBlock = -214,
+  ErrorStsAssert = -215,
+  ErrorGpuNotSupported = -216,
+  ErrorGpuApiCallError = -217,
+  ErrorOpenGlNotSupported = -218,
+  ErrorOpenGlApiCallError = -219,
+  ErrorOpenCLApiCallError = -220,
+  ErrorOpenCLDoubleNotSupported = -221,
+  ErrorOpenCLInitError = -222,
+  ErrorOpenCLNoAMDBlasFft = -223
+}
+ 
+enum  	DecompTypes {
+  DECOMP_LU = 0,
+  DECOMP_SVD = 1,
+  DECOMP_EIG = 2,
+  DECOMP_CHOLESKY = 3,
+  DECOMP_QR = 4,
+  DECOMP_NORMAL = 16
+}
+ 
+enum  	DftFlags {
+  DFT_INVERSE = 1,
+  DFT_SCALE = 2,
+  DFT_ROWS = 4,
+  DFT_COMPLEX_OUTPUT = 16,
+  DFT_REAL_OUTPUT = 32,
+  DFT_COMPLEX_INPUT = 64,
+  DCT_INVERSE = DFT_INVERSE,
+  DCT_ROWS = DFT_ROWS
+}
+ 
+enum  	GemmFlags {
+  GEMM_1_T = 1,
+  GEMM_2_T = 2,
+  GEMM_3_T = 4
+}
+ 
+enum  	NormTypes {
+  NORM_INF = 1,
+  NORM_L1 = 2,
+  NORM_L2 = 4,
+  NORM_L2SQR = 5,
+  NORM_HAMMING = 6,
+  NORM_HAMMING2 = 7,
+  NORM_TYPE_MASK = 7,
+  NORM_RELATIVE = 8,
+  NORM_MINMAX = 32
+}
+
 #imgproc
+
+enum ColormapTypes {
+  COLORMAP_AUTUMN = 0 ,
+  COLORMAP_BONE = 1 ,
+  COLORMAP_JET = 2 ,
+  COLORMAP_WINTER = 3 ,
+  COLORMAP_RAINBOW = 4 ,
+  COLORMAP_OCEAN = 5 ,
+  COLORMAP_SUMMER = 6 ,
+  COLORMAP_SPRING = 7 ,
+  COLORMAP_COOL = 8 ,
+  COLORMAP_HSV = 9 ,
+  COLORMAP_PINK = 10 ,
+  COLORMAP_HOT = 11 ,
+  COLORMAP_PARULA = 12 ,
+  COLORMAP_MAGMA = 13 ,
+  COLORMAP_INFERNO = 14 ,
+  COLORMAP_PLASMA = 15 ,
+  COLORMAP_VIRIDIS = 16 ,
+  COLORMAP_CIVIDIS = 17 ,
+  COLORMAP_TWILIGHT = 18 ,
+  COLORMAP_TWILIGHT_SHIFTED = 19 ,
+  COLORMAP_TURBO = 20 ,
+  COLORMAP_DEEPGREEN = 21
+}
+ 
+enum ConnectedComponentsAlgorithmsTypes {
+  CCL_DEFAULT = -1 ,
+  CCL_WU = 0 ,
+  CCL_GRANA = 1 ,
+  CCL_BOLELLI = 2 ,
+  CCL_SAUF = 3 ,
+  CCL_BBDT = 4 ,
+  CCL_SPAGHETTI = 5
+}
+ 
+enum ConnectedComponentsTypes {
+  CC_STAT_LEFT = 0 ,
+  CC_STAT_TOP = 1 ,
+  CC_STAT_WIDTH = 2 ,
+  CC_STAT_HEIGHT = 3 ,
+  CC_STAT_AREA = 4
+}
+ 
+enum ContourApproximationModes {
+  CHAIN_APPROX_NONE = 1 ,
+  CHAIN_APPROX_SIMPLE = 2 ,
+  CHAIN_APPROX_TC89_L1 = 3 ,
+  CHAIN_APPROX_TC89_KCOS = 4
+}
+ 
+enum DistanceTransformLabelTypes {
+  DIST_LABEL_CCOMP = 0 ,
+  DIST_LABEL_PIXEL = 1
+}
+ 
+enum DistanceTransformMasks {
+  DIST_MASK_3 = 3 ,
+  DIST_MASK_5 = 5 ,
+  DIST_MASK_PRECISE = 0
+}
+ 
+enum DistanceTypes {
+  DIST_USER = -1 ,
+  DIST_L1 = 1 ,
+  DIST_L2 = 2 ,
+  DIST_C = 3 ,
+  DIST_L12 = 4 ,
+  DIST_FAIR = 5 ,
+  DIST_WELSCH = 6 ,
+  DIST_HUBER = 7
+}
+ 
+enum FloodFillFlags {
+  FLOODFILL_FIXED_RANGE = 1 << 16 ,
+  FLOODFILL_MASK_ONLY = 1 << 17
+}
+ 
+enum GrabCutClasses {
+  GC_BGD = 0 ,
+  GC_FGD = 1 ,
+  GC_PR_BGD = 2 ,
+  GC_PR_FGD = 3
+}
+ 
+enum GrabCutModes {
+  GC_INIT_WITH_RECT = 0 ,
+  GC_INIT_WITH_MASK = 1 ,
+  GC_EVAL = 2 ,
+  GC_EVAL_FREEZE_MODEL = 3
+}
+ 
+enum HersheyFonts {
+  FONT_HERSHEY_SIMPLEX = 0 ,
+  FONT_HERSHEY_PLAIN = 1 ,
+  FONT_HERSHEY_DUPLEX = 2 ,
+  FONT_HERSHEY_COMPLEX = 3 ,
+  FONT_HERSHEY_TRIPLEX = 4 ,
+  FONT_HERSHEY_COMPLEX_SMALL = 5 ,
+  FONT_HERSHEY_SCRIPT_SIMPLEX = 6 ,
+  FONT_HERSHEY_SCRIPT_COMPLEX = 7 ,
+  FONT_ITALIC = 16
+}
+ 
+enum HistCompMethods {
+  HISTCMP_CORREL = 0 ,
+  HISTCMP_CHISQR = 1 ,
+  HISTCMP_INTERSECT = 2 ,
+  HISTCMP_BHATTACHARYYA = 3 ,
+  HISTCMP_HELLINGER = HISTCMP_BHATTACHARYYA ,
+  HISTCMP_CHISQR_ALT = 4 ,
+  HISTCMP_KL_DIV = 5
+}
+ 
+enum HoughModes {
+  HOUGH_STANDARD = 0 ,
+  HOUGH_PROBABILISTIC = 1 ,
+  HOUGH_MULTI_SCALE = 2 ,
+  HOUGH_GRADIENT = 3 ,
+  HOUGH_GRADIENT_ALT = 4
+}
+ 
+enum InterpolationFlags {
+  INTER_NEAREST = 0 ,
+  INTER_LINEAR = 1 ,
+  INTER_CUBIC = 2 ,
+  INTER_AREA = 3 ,
+  INTER_LANCZOS4 = 4 ,
+  INTER_LINEAR_EXACT = 5 ,
+  INTER_NEAREST_EXACT = 6 ,
+  INTER_MAX = 7 ,
+  WARP_FILL_OUTLIERS = 8 ,
+  WARP_INVERSE_MAP = 16 ,
+  WARP_RELATIVE_MAP = 32
+}
+ 
+enum InterpolationMasks {
+  INTER_BITS = 5 ,
+  INTER_BITS2 = INTER_BITS * 2 ,
+  INTER_TAB_SIZE = 1 << INTER_BITS ,
+  INTER_TAB_SIZE2 = INTER_TAB_SIZE * INTER_TAB_SIZE
+}
+ 
+enum LineSegmentDetectorModes {
+  LSD_REFINE_NONE = 0 ,
+  LSD_REFINE_STD = 1 ,
+  LSD_REFINE_ADV = 2
+}
+ 
+enum LineTypes {
+  FILLED = -1 ,
+  LINE_4 = 4 ,
+  LINE_8 = 8 ,
+  LINE_AA = 16
+}
+ 
+enum MarkerTypes {
+  MARKER_CROSS = 0 ,
+  MARKER_TILTED_CROSS = 1 ,
+  MARKER_STAR = 2 ,
+  MARKER_DIAMOND = 3 ,
+  MARKER_SQUARE = 4 ,
+  MARKER_TRIANGLE_UP = 5 ,
+  MARKER_TRIANGLE_DOWN = 6
+}
+ 
+enum MorphShapes {
+  MORPH_RECT = 0 ,
+  MORPH_CROSS = 1 ,
+  MORPH_ELLIPSE = 2
+}
+ 
+enum MorphTypes {
+  MORPH_ERODE = 0 ,
+  MORPH_DILATE = 1 ,
+  MORPH_OPEN = 2 ,
+  MORPH_CLOSE = 3 ,
+  MORPH_GRADIENT = 4 ,
+  MORPH_TOPHAT = 5 ,
+  MORPH_BLACKHAT = 6 ,
+  MORPH_HITMISS = 7
+}
+ 
+enum RectanglesIntersectTypes {
+  INTERSECT_NONE = 0 ,
+  INTERSECT_PARTIAL = 1 ,
+  INTERSECT_FULL = 2
+}
+ 
+enum RetrievalModes {
+  RETR_EXTERNAL = 0 ,
+  RETR_LIST = 1 ,
+  RETR_CCOMP = 2 ,
+  RETR_TREE = 3 ,
+  RETR_FLOODFILL = 4
+}
+ 
+enum ShapeMatchModes {
+  CONTOURS_MATCH_I1 =1 ,
+  CONTOURS_MATCH_I2 =2 ,
+  CONTOURS_MATCH_I3 =3
+}
+ 
+enum SpecialFilter { FILTER_SCHARR = -1 }
+ 
+enum TemplateMatchModes {
+  TM_SQDIFF = 0 ,
+  TM_SQDIFF_NORMED = 1 ,
+  TM_CCORR = 2 ,
+  TM_CCORR_NORMED = 3 ,
+  TM_CCOEFF = 4 ,
+  TM_CCOEFF_NORMED = 5
+}
+ 
+enum ThresholdTypes {
+  THRESH_BINARY = 0 ,
+  THRESH_BINARY_INV = 1 ,
+  THRESH_TRUNC = 2 ,
+  THRESH_TOZERO = 3 ,
+  THRESH_TOZERO_INV = 4 ,
+  THRESH_MASK = 7 ,
+  THRESH_OTSU = 8 ,
+  THRESH_TRIANGLE = 16
+}
+ 
+enum WarpPolarMode {
+  WARP_POLAR_LINEAR = 0 ,
+  WARP_POLAR_LOG = 256
+}
 
 enum ColorConversionCodes {
   COLOR_BGR2BGRA = 0,
@@ -809,34 +1155,6 @@ enum ColorConversionCodes {
   COLOR_COLORCVT_MAX = 143
 }
 
-enum MorphShapes {
-  MORPH_RECT = 0 ,
-  MORPH_CROSS = 1 ,
-  MORPH_ELLIPSE = 2
-}
-
-enum MorphTypes {
-  MORPH_ERODE = 0 ,
-  MORPH_DILATE = 1 ,
-  MORPH_OPEN = 2 ,
-  MORPH_CLOSE = 3 ,
-  MORPH_GRADIENT = 4 ,
-  MORPH_TOPHAT = 5 ,
-  MORPH_BLACKHAT = 6 ,
-  MORPH_HITMISS = 7
-}
-
-enum  	ThresholdTypes {
-  THRESH_BINARY = 0 ,
-  THRESH_BINARY_INV = 1 ,
-  THRESH_TRUNC = 2 ,
-  THRESH_TOZERO = 3 ,
-  THRESH_TOZERO_INV = 4 ,
-  THRESH_MASK = 7 ,
-  THRESH_OTSU = 8 ,
-  THRESH_TRIANGLE = 16
-}
-
 enum AdaptiveThresholdTypes {
   ADAPTIVE_THRESH_MEAN_C = 0 ,
   ADAPTIVE_THRESH_GAUSSIAN_C = 1
@@ -873,7 +1191,7 @@ enum FileNodeType {
   NAMED = 64
 }
 
-## ImgCodecs
+# ImgCodecs
 enum  	ImreadModes {
   IMREAD_UNCHANGED = -1 ,
   IMREAD_GRAYSCALE = 0 ,

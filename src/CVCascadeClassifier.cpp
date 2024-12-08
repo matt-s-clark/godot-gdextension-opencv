@@ -61,7 +61,7 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 
 	if (outputRejectLevels) {
 		SAFE_CALL(rawClassifier.detectMultiScale(
-				image->get_mat(),
+				image->get_pointer(),
 				objects,
 				rejectLevels,
 				levelWeights,
@@ -73,7 +73,7 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 				outputRejectLevels));
 	} else {
 		SAFE_CALL(rawClassifier.detectMultiScale(
-				image->get_mat(),
+				image->get_pointer(),
 				objects,
 				numDetections,
 				scaleFactor,
@@ -87,7 +87,7 @@ Dictionary CVCascadeClassifier::detect_multi_scale(
 	for (cv::Rect obj : objects) {
 		Ref<CVRect> tempRect;
 		tempRect.instantiate();
-		tempRect->set_rect(obj);
+		tempRect->set_pointer(obj);
 		objectsOut.push_back(tempRect);
 	}
 

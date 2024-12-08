@@ -25,7 +25,7 @@ void CVTrackerGOTURN::init(Ref<CVMat> image, Ref<CVRect> boundingBox) {
 	ERR_FAIL_NULL_V_MSG(image, , "image should not be null.");
 	ERR_FAIL_NULL_V_MSG(boundingBox, , "boundingBox should not be null.");
 
-	SAFE_CALL(rawTracker->init(image->get_mat(), boundingBox->get_rect()));
+	SAFE_CALL(rawTracker->init(image->get_pointer(), boundingBox->get_pointer()));
 }
 
 Ref<CVRect> CVTrackerGOTURN::update(Ref<CVMat> image) {
@@ -35,9 +35,9 @@ Ref<CVRect> CVTrackerGOTURN::update(Ref<CVMat> image) {
 
 	ERR_FAIL_NULL_V_MSG(image, output, "image should not be null.");
 
-	SAFE_CALL(rawTracker->update(image->get_mat(), outRect));
+	SAFE_CALL(rawTracker->update(image->get_pointer(), outRect));
 
-	output->set_rect(outRect);
+	output->set_pointer(outRect);
 
 	return output;
 }

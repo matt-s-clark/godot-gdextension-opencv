@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVTrackerDaSiamRPN" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	Updates the position of a bounding box in order to track an object in a video. [url=https://docs.opencv.org/4.x/d9/df8/group__tracking.html]More information here[/url].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="create" qualifiers="static">
+			<return type="CVTrackerDaSiamRPN" />
+			<param index="0" name="additional_parameters" type="Dictionary" />
+			<description>
+			Creates an instance of the tracker.
+
+[u]Additional parameters:[/u] backend: Int, kernel_cls1: String, kernel_r1: String, model: String, target: Int
+			</description>
+		</method>
+		<method name="init">
+			<return type="void" />
+			<param index="0" name="image" type="CVMat" />
+			<param index="1" name="bounding_box" type="CVRect" />
+			<description>
+			Initialize the tracker with a known bounding box that surrounded the target.
+			</description>
+		</method>
+		<method name="update">
+			<return type="CVRect" />
+			<param index="0" name="image" type="CVMat" />
+			<description>
+			Updates the tracker, find the new most likely bounding box for the target.
+			</description>
+		</method>
+	</methods>
+</class>

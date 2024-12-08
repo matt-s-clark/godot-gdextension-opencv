@@ -1,4 +1,10 @@
 [submodule "godot-cpp"]
 	path = godot-cpp
 	url = https://github.com/godotengine/godot-cpp
-	branch = 4.1
+	branch = 4.3
+[submodule "opencv/opencv"]
+	path = opencv/opencv
+	url = https://github.com/opencv/opencv
+[submodule "opencv/contrib"]
+	path = opencv/contrib
+	url = https://github.com/opencv/opencv_contrib

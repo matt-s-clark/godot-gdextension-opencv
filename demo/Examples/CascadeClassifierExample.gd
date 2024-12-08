@@ -32,7 +32,7 @@ func _process(_delta):
 		})
 		
 		for i in result["objects"]:
-			CVImgProc.rectangle(mat, {"rec":i, "thickness":2, "color":Color.REBECCA_PURPLE})
+			CVImgProc.rectangle(mat, {"rec":i, "thickness":2, "color":CVScalar.create(Color.REBECCA_PURPLE)})
 	
 	video_feed.texture = mat.get_texture()
 

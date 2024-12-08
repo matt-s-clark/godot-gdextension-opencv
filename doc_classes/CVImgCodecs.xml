@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVImgCodecs" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	Used to read and write image files. [url=https://docs.opencv.org/4.x/d4/da8/group__imgcodecs.html]More information here[/url].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="imread" qualifiers="static">
+			<return type="CVMat" />
+			<param index="0" name="filename" type="String" />
+			<param index="1" name="additional_parameters" type="Dictionary" />
+			<description>
+			Returns a mat with the image at the specified path. See CVConsts.ImreadModes for configuration options.
+[u]Additional parameters:[/u] flags: Int
+			</description>
+		</method>
+		<method name="imwrite" qualifiers="static">
+			<return type="bool" />
+			<param index="0" name="filename" type="String" />
+			<param index="1" name="img" type="CVMat" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			Saves an image to a specified file.
+[u]Additional parameters:[/u] params: Array
+			</description>
+		</method>
+	</methods>
+</class>

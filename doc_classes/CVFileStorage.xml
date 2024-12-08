@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CVFileStorage" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="isOpened">
+			<return type="bool" />
+			<description>
+			Checks whether the file is opened.
+			</description>
+		</method>
+		<method name="open">
+			<return type="bool" />
+			<param index="0" name="filename" type="String" />
+			<param index="1" name="flags" type="int" />
+			<param index="2" name="additional_parameters" type="Dictionary" />
+			<description>
+			Opens a file. Refer to the const FileStorageMode.
+
+[u]Additional parameters:[/u] encoding: String
+			</description>
+		</method>
+		<method name="read">
+			<return type="Variant" />
+			<param index="0" name="name" type="String" />
+			<description>
+			Returns the specified element.
+			</description>
+		</method>
+		<method name="release">
+			<return type="void" />
+			<description>
+			Closes the file and releases all the memory buffers.
+			</description>
+		</method>
+		<method name="write">
+			<return type="void" />
+			<param index="0" name="name" type="String" />
+			<param index="1" name="val" type="Variant" />
+			<description>
+			Writes data to an specific node. Currently supports integers, floats, booleans, strings and mats.
+			</description>
+		</method>
+	</methods>
+</class>
