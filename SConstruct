@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import os
-import sys
+from os import listdir
+from os.path import isfile, join
 import shutil
 
 env = SConscript("godot-cpp/SConstruct")
@@ -88,11 +88,18 @@ else:
 Default(library)
 
 
-# Copy gdextension file
+# Copy gdextension file and OpenCV libraries
 
 def copy_extension(target, source, env):
     print(f"Copying {source[0]} to {target[0]}")
     shutil.copy(str(source[0]), str(target[0]))
+    
+    print(f"Copying OpenCV libs:")
+    libs = [f for f in listdir("opencv/install/lib") if f.endswith(".so") and isfile(join("opencv/install/lib", f))]
+    print("----- Libs: ", libs)
+    for lib in libs:
+          print(f"	Copying {lib}")
+          shutil.copy(f"opencv/install/lib/{lib}", f"demo/bin/{lib}")
 
 
 source_path = 'opencv.gdextension'
