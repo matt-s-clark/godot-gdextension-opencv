@@ -95,7 +95,7 @@ def copy_extension(target, source, env):
     shutil.copy(str(source[0]), str(target[0]))
     
     print(f"Copying OpenCV libs:")
-    libs = [f for f in listdir("opencv/install/lib") if f.endswith(".so") and isfile(join("opencv/install/lib", f))]
+    libs = [f for f in listdir("opencv/install/lib") if isfile(join("opencv/install/lib", f))]
     print("----- Libs: ", libs)
     for lib in libs:
           print(f"	Copying {lib}")
